@@ -22,5 +22,5 @@ Source Code
 .. toctree::
    :maxdepth: 2
 
-   _source/fem
+   fem
    fortran

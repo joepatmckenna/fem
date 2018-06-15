@@ -6,9 +6,13 @@ Examples
 .. toctree::
     :maxdepth: 2
 
-    _notebooks/msa
-    _notebooks/currency
-    _notebooks/sim_time_series
-    _notebooks/words
-    _notebooks/second_order
+    notebooks/msa
+    notebooks/currency
+    notebooks/sim_time_series
+    notebooks/words
+    notebooks/second_order
+    notebooks/higher_order_sim
+    notebooks/sim_mutation
+
+
 

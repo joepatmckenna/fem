@@ -6,13 +6,6 @@ setup.py
 version
 ./fem/fortran_module.f90
 ./fem/fortran_module.pyf
-doc/_notebooks/currency.ipynb
-doc/_notebooks/higher_order_sim.ipynb
-doc/_notebooks/msa.ipynb
-doc/_notebooks/second_order.ipynb
-doc/_notebooks/sim_mutation.ipynb
-doc/_notebooks/sim_time_series.ipynb
-doc/_notebooks/words.ipynb
 fem/__init__.py
 fem/combinatorics.py
 fem/fit.py
