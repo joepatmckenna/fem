@@ -16,13 +16,14 @@ Quick Start
 
      import fem
 
-Online documentation:
-    http://lbm.niddk.nih.gov/mckennajp/fem
 
-Python package index:
-    https://pypi.python.org/pypi/fem
+Online documentation:
+    http://joepatmckenna.github.io/fem
 
 Source code repository:
     https://github.com/joepatmckenna/fem
+
+Python package index:
+    https://pypi.python.org/pypi/fem
 
 

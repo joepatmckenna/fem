@@ -2,7 +2,7 @@
 *.ipynb_checkpoints
 *.so
 README
-build/
-data/
+/build/
+/data/
 fem.egg-info/
 .trash

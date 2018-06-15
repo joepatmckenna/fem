@@ -4,21 +4,26 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 n = 20
-dt, T = 1, int(1e4)
+dt, T = 1., int(1e4)
 
 l = np.int(np.ceil(T / dt))
 sqrt_dt = np.sqrt(dt)
 sqrt_2 = np.sqrt(2)
+rat = sqrt_dt / sqrt_2
 
-f = np.random.uniform(-0.5, 0.5, size=(n, n))
-f[np.diag_indices_from(f)] -= 2.0
-f /= np.sqrt(n)
+w = np.random.uniform(-0.5, 0.5, size=(n, n))
+w[np.diag_indices_from(w)] -= 2.0
+w /= np.sqrt(n)
 
 x = np.zeros((n, l))
 x[:, 0] = np.random.uniform(-1, 1, size=n)
 noise = np.random.normal(size=(n, l - 1))
 for t in range(1, l):
-    x[:, t] = x[:, t - 1] + f.dot(x[:, t - 1]) * dt + noise[:, t - 1] * sqrt_dt
+    x[:, t] = x[:, t - 1] + w.dot(x[:, t - 1]) * dt + noise[:, t - 1] * sqrt_dt
+
+plt.figure(figsize=(16, 4))
+plt.plot(x[:, -100:].T)
+plt.show()
 
 x1, x2 = x[:, :-1], x[:, 1:]
 y = np.sign(np.diff(x))
@@ -27,38 +32,50 @@ c_jk = np.cov(x)
 xc = x1 - c_j[:, np.newaxis]
 
 
-def fit(i, iters=10):
+def fit(i, iters=100):
 
-    fi = np.random.uniform(-0.5, 0.5, size=(1, n))
-    fi[0, i] -= 2
+    wi = np.zeros(n)
+    wi[i] = 1
 
-    sperf_last = sperf(fi.dot(x1) * sqrt_dt / sqrt_2)
+    # sperf_last = sperf(x1[i] * rat) + 1
+    sperf_last = sperf(x1[i]) + 1
+
+    e = []
 
     for it in range(iters):
 
-        h = fi.dot(x1)
+        h = wi.dot(x1)
 
-        h *= y[i] / sperf(h * sqrt_dt / sqrt_2)
-
-        print c_jk.shape, h.shape, xc.shape
-
-        fi = solve(c_jk, (h * xc).mean(1))
-
-        sperf_next = sperf(fi.dot(x1) * sqrt_dt / sqrt_2)
-        e = np.linalg.norm(sperf_next - sperf_last)
-        print i, it, e
-        if e * e < 1e-4:
+        # sperf_next = sperf(h * rat)
+        sperf_next = sperf(h)
+        ei = np.linalg.norm(sperf_next - sperf_last)
+        e.append(ei)
+        print i, it, ei
+        if ei * ei < 1e-5:
             break
         sperf_last = sperf_next.copy()
 
-    return fi
+        h *= y[i] / sperf_next
+
+        wi = solve(c_jk, xc.dot(h) / (l - 1))
+
+    return wi, e
 
 
-f_fit = np.empty((n, n))
+w_fit = np.empty((n, n))
+e = []
 for i in range(n):
-    f_fit[i] = fit(i)
+    res = fit(i)
+    w_fit[i] = res[0] / rat
+    e.append(res[1])
 
-f_flat = f.flatten()
-f_fit_flat = f_fit.flatten()
-plt.scatter(f_flat, f_fit_flat, c='k', s=0.1)
+w_flat = w.flatten()
+w_fit_flat = w_fit.flatten()
+plt.scatter(w_flat, w_fit_flat, c='k', s=0.1)
+grid = np.linspace(w_flat.min(), w_flat.max())
+plt.plot(grid, grid, 'r--', lw=0.5)
+plt.show()
+
+for ei in e:
+    plt.plot(ei)
 plt.show()

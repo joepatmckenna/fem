@@ -8,10 +8,29 @@
       integer num_threadsf2pywrap
       num_threadsf2pywrap = num_threads()
       end subroutine f2pywrap_fortran_module_num_threads
+      subroutine f2pywrap_fortran_module_multiindices (n, m, degs, n_deg&
+     &, n_idx, n_idx_by_deg, idx_ptr, idx, stratifier, f2py_idx_ptr_d0, &
+     &f2py_idx_d0, f2py_stratifier_d0)
+      use fortran_module, only : multiindices
+      integer n
+      integer n_deg
+      integer n_idx
+      integer f2py_idx_ptr_d0
+      integer f2py_idx_d0
+      integer f2py_stratifier_d0
+      integer m(n)
+      integer degs(n_deg)
+      integer n_idx_by_deg(n_deg)
+      integer idx_ptr(f2py_idx_ptr_d0)
+      integer idx(f2py_idx_d0)
+      integer stratifier(f2py_stratifier_d0)
+      call multiindices(n, m, degs, n_deg, n_idx, n_idx_by_deg, idx_ptr,&
+     & idx, stratifier)
+      end subroutine f2pywrap_fortran_module_multiindices
       
       subroutine f2pyinitfortran_module(f2pysetupfunc)
-      use fortran_module, only : simulate_mutations
       use fortran_module, only : simulate_time_series
+      use fortran_module, only : simulate_mutations
       use fortran_module, only : discrete_fit
       use fortran_module, only : discrete_fit_i
       interface 
@@ -19,11 +38,28 @@
      &p, num_threads)
       integer num_threads
       integer num_threadsf2pywrap
-      end subroutine f2pywrap_fortran_module_num_threads
+      end subroutine f2pywrap_fortran_module_num_threads 
+      subroutine f2pywrap_fortran_module_multiindices (n, m, degs, n_deg&
+     &, n_idx, n_idx_by_deg, idx_ptr, idx, stratifier, f2py_idx_ptr_d0, &
+     &f2py_idx_d0, f2py_stratifier_d0)
+      integer n
+      integer n_deg
+      integer n_idx
+      integer f2py_idx_ptr_d0
+      integer f2py_idx_d0
+      integer f2py_stratifier_d0
+      integer m(n)
+      integer degs(n_deg)
+      integer n_idx_by_deg(n_deg)
+      integer idx_ptr(f2py_idx_ptr_d0)
+      integer idx(f2py_idx_d0)
+      integer stratifier(f2py_stratifier_d0)
+      end subroutine f2pywrap_fortran_module_multiindices
       end interface
       external f2pysetupfunc
-      call f2pysetupfunc(f2pywrap_fortran_module_num_threads,simulate_mu&
-     &tations,simulate_time_series,discrete_fit,discrete_fit_i)
+      call f2pysetupfunc(f2pywrap_fortran_module_num_threads,f2pywrap_fo&
+     &rtran_module_multiindices,simulate_time_series,simulate_mutations,&
+     &discrete_fit,discrete_fit_i)
       end subroutine f2pyinitfortran_module
 
 

@@ -81,7 +81,7 @@
     "    start = time.time()\n",
     "    par, disc = [], []\n",
     "    for i in range(n):\n",
-    "        not_i = list(set(range(n)) - {i})\n",
+    "        not_i = np.delete(range(n), i)\n",
     "        x, y = msa[not_i], msa[i]\n",
     "        res = fem.fit.fit(x, y, degs=[1], iters=iters)\n",
     "        par.append(res[0])\n",

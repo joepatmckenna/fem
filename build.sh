@@ -1,4 +1,4 @@
-#!/bin/bash
+# #!/bin/bash
 (sudo ./uninstall.sh)
 (cd fem && f2py -m fortran_module --overwrite-signature -h fortran_module.pyf fortran_module.f90)
 (sudo pip install -e .)
@@ -7,6 +7,6 @@
 (twine upload dist/*) # joepatmckenna M@ybe1day
 (cd ./fem && sphinx-apidoc -o ../doc -f .)
 (cd ./doc && make html)
-(git add . && cat version | xargs git commit -m  && git push origin master --force --verbose) # joepatmckenna maybe1day
-(rsync -azv doc/_build/html/ mckennajp@lbm.niddk.nih.gov:/var/www/html/mckennajp/fem/) # Eat@peach
-# (cd ~/ && sudo -H pip install --upgrade fem --no-cache-dir)
+(git add . && cat version | xargs git commit -m  && git push origin master) # joepatmckenna maybe1day
+(git add doc/build/html && cat version | xargs git commit -m  && git subtree push --prefix doc/build/html origin gh-pages) # joepatmckenna maybe1day
+(rsync -azv doc/build/html/ mckennajp@lbm.niddk.nih.gov:/var/www/html/mckennajp/fem/) # Eat@peach

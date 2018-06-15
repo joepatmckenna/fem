@@ -4,10 +4,31 @@
 python module fortran_module ! in 
     interface  ! in :fortran_module
         module fortran_module ! in :fortran_module:fortran_module.f90
-            use omp_lib
             function num_threads() result (n) ! in :fortran_module:fortran_module.f90:fortran_module
                 integer :: n
             end function num_threads
+            subroutine multiindices(n,m,degs,n_deg,n_idx,n_idx_by_deg,idx_ptr,idx,stratifier) ! in :fortran_module:fortran_module.f90:fortran_module
+                integer, optional,intent(in),check(len(m)>=n),depend(m) :: n=len(m)
+                integer dimension(n),intent(in) :: m
+                integer dimension(n_deg),intent(in) :: degs
+                integer, optional,intent(in),check(len(degs)>=n_deg),depend(degs) :: n_deg=len(degs)
+                integer intent(in) :: n_idx
+                integer dimension(n_deg),intent(in),depend(n_deg) :: n_idx_by_deg
+                integer dimension(:),intent(out) :: idx_ptr
+                integer dimension(:),intent(out) :: idx
+                integer dimension(:),intent(out) :: stratifier
+            end subroutine multiindices
+            subroutine simulate_time_series(par,m_sum,n_s,n,m,l,degs,n_deg,x) ! in :fortran_module:fortran_module.f90:fortran_module
+                real*8 dimension(m_sum,n_s),intent(in) :: par
+                integer, optional,intent(hide),depend(par) :: m_sum=shape(par,0)
+                integer, optional,intent(hide),depend(par) :: n_s=shape(par,1)
+                integer, optional,intent(hide),depend(m) :: n=len(m)
+                integer dimension(n),intent(in) :: m
+                integer intent(in) :: l
+                integer dimension(n_deg),intent(in) :: degs
+                integer, optional,intent(hide),depend(degs) :: n_deg=len(degs)
+                integer dimension(n,l),intent(out),depend(n,l) :: x
+            end subroutine simulate_time_series
             subroutine simulate_mutations(par,m_sum,n_s,n,m,l,degs,n_deg,x,y) ! in :fortran_module:fortran_module.f90:fortran_module
                 real*8 dimension(m_sum,n_s),intent(in) :: par
                 integer, optional,intent(hide),depend(par) :: m_sum=shape(par,0)
@@ -20,17 +41,6 @@ python module fortran_module ! in
                 integer dimension(n,l),intent(out),depend(n,l) :: x
                 integer dimension(n,l),intent(out),depend(n,l) :: y
             end subroutine simulate_mutations
-            subroutine simulate_time_series(par,m_sum,n_s,n,m,l,degs,n_deg,x) ! in :fortran_module:fortran_module.f90:fortran_module
-                real*8 dimension(m_sum,n_s),intent(in) :: par
-                integer, optional,intent(hide),depend(par) :: m_sum=shape(par,0)
-                integer, optional,intent(hide),depend(par) :: n_s=shape(par,1)
-                integer, optional,intent(hide),depend(m) :: n=len(m)
-                integer dimension(n),intent(in) :: m
-                integer intent(in) :: l
-                integer dimension(n_deg),intent(in) :: degs
-                integer, optional,intent(hide),depend(degs) :: n_deg=len(degs)
-                integer dimension(n,l),intent(out),depend(n,l) :: x
-            end subroutine simulate_time_series
             subroutine discrete_fit(x,y,n_x,n_y,m_x,m_y,m_y_sum,l,degs,n_deg,x_oh_pinv1,x_oh_pinv2,x_oh_pinv3,x_oh_rank,n_s,iters,overfit,par,disc,iter) ! in :fortran_module:fortran_module.f90:fortran_module
                 integer dimension(n_x,l),intent(in) :: x
                 integer dimension(n_y,l),intent(in),depend(l) :: y

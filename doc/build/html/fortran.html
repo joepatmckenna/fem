@@ -105,20 +105,17 @@
 <h1>fortran_module extension<a class="headerlink" href="#fortran-module-extension" title="Permalink to this headline">¶</a></h1>
 <p class="rubric">Module</p>
 <span class="target" id="f/fortran_module"></span><p class="rubric">Description</p>
-<p>fortran_module description</p>
+<p>fortran_module description
+$ use omp_lib</p>
 <p class="rubric">Quick access</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Routines:</th><td class="field-body"><a class="reference internal" href="#f/fortran_module/simulate_time_series" title="f/fortran_module/simulate_time_series"><code class="xref f f-func docutils literal"><span class="pre">simulate_time_series()</span></code></a>, <a class="reference internal" href="#f/fortran_module/simulate_mutations" title="f/fortran_module/simulate_mutations"><code class="xref f f-func docutils literal"><span class="pre">simulate_mutations()</span></code></a>, <a class="reference internal" href="#f/fortran_module/num_threads" title="f/fortran_module/num_threads"><code class="xref f f-func docutils literal"><span class="pre">num_threads()</span></code></a>, <a class="reference internal" href="#f/fortran_module/discrete_fit_i" title="f/fortran_module/discrete_fit_i"><code class="xref f f-func docutils literal"><span class="pre">discrete_fit_i()</span></code></a>, <a class="reference internal" href="#f/fortran_module/discrete_fit" title="f/fortran_module/discrete_fit"><code class="xref f f-func docutils literal"><span class="pre">discrete_fit()</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Routines:</th><td class="field-body"><a class="reference internal" href="#f/fortran_module/simulate_time_series" title="f/fortran_module/simulate_time_series"><code class="xref f f-func docutils literal"><span class="pre">simulate_time_series()</span></code></a>, <a class="reference internal" href="#f/fortran_module/simulate_mutations" title="f/fortran_module/simulate_mutations"><code class="xref f f-func docutils literal"><span class="pre">simulate_mutations()</span></code></a>, <a class="reference internal" href="#f/fortran_module/num_threads" title="f/fortran_module/num_threads"><code class="xref f f-func docutils literal"><span class="pre">num_threads()</span></code></a>, <a class="reference internal" href="#f/fortran_module/multiindices" title="f/fortran_module/multiindices"><code class="xref f f-func docutils literal"><span class="pre">multiindices()</span></code></a>, <a class="reference internal" href="#f/fortran_module/discrete_fit_i" title="f/fortran_module/discrete_fit_i"><code class="xref f f-func docutils literal"><span class="pre">discrete_fit_i()</span></code></a>, <a class="reference internal" href="#f/fortran_module/discrete_fit" title="f/fortran_module/discrete_fit"><code class="xref f f-func docutils literal"><span class="pre">discrete_fit()</span></code></a></td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Needed modules</p>
-<ul class="simple">
-<li><code class="xref f f-mod docutils literal"><span class="pre">omp_lib</span></code></li>
-</ul>
 <p class="rubric">Variables</p>
 <p class="rubric">Subroutines and functions</p>
 <dl class="function">
@@ -136,25 +133,26 @@
 </dd></dl>
 
 <dl class="subroutine">
-<dt id="f/fortran_module/simulate_mutations">
-<em class="property">subroutine  </em><code class="descclassname">fortran_module/</code><code class="descname">simulate_mutations</code><span class="sig-paren">(</span><em>par</em>, <em>m_sum</em>, <em>n_s</em>, <em>n</em>, <em>m</em>, <em>l</em>, <em>degs</em>, <em>n_deg</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/simulate_mutations" title="Permalink to this definition">¶</a></dt>
-<dd><p>simulate_mutations description</p>
-<table class="docutils field-list" frame="void" rules="none">
+<dt id="f/fortran_module/multiindices">
+<em class="property">subroutine  </em><code class="descclassname">fortran_module/</code><code class="descname">multiindices</code><span class="sig-paren">(</span><em>n</em>, <em>m</em>, <em>degs</em>, <em>n_deg</em>, <em>n_idx</em>, <em>n_idx_by_deg</em>, <em>idx_ptr</em>, <em>idx</em>, <em>stratifier</em><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/multiindices" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>par</strong> (m_sum,n_s)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
-<li><strong>m_sum</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
-<li><strong>n_s</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
-<li><strong>n</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>n</strong><em> [</em><em>integer</em><em>,</em><em>in,</em><em>]</em></li>
 <li><strong>m</strong> (n)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
-<li><strong>l</strong><em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
 <li><strong>degs</strong> (n_deg)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
-<li><strong>n_deg</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
-<li><strong>x</strong> (n,l)<em> [</em><em>integer</em><em>,</em><em>out</em><em>]</em></li>
-<li><strong>y</strong> (n,l)<em> [</em><em>integer</em><em>,</em><em>out</em><em>]</em></li>
+<li><strong>n_deg</strong><em> [</em><em>integer</em><em>,</em><em>in,</em><em>]</em></li>
+<li><strong>n_idx</strong><em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>n_idx_by_deg</strong> (n_deg)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>idx_ptr</strong> (*)<em> [</em><em>integer</em><em>,</em><em>out</em><em>]</em></li>
+<li><strong>idx</strong> (*)<em> [</em><em>integer</em><em>,</em><em>out</em><em>]</em></li>
+<li><strong>stratifier</strong> (*)<em> [</em><em>integer</em><em>,</em><em>out</em><em>]</em></li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Called from:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#f/fortran_module/simulate_time_series" title="f/fortran_module/simulate_time_series"><code class="xref f f-func docutils literal"><span class="pre">simulate_time_series()</span></code></a>, <a class="reference internal" href="#f/fortran_module/simulate_mutations" title="f/fortran_module/simulate_mutations"><code class="xref f f-func docutils literal"><span class="pre">simulate_mutations()</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -169,7 +167,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>par</strong> (m_sum,n_s)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
 <li><strong>m_sum</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
 <li><strong>n_s</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
@@ -180,6 +178,38 @@
 <li><strong>n_deg</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
 <li><strong>x</strong> (n,l)<em> [</em><em>integer</em><em>,</em><em>out</em><em>]</em></li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Call to:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#f/fortran_module/multiindices" title="f/fortran_module/multiindices"><code class="xref f f-func docutils literal"><span class="pre">multiindices()</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="subroutine">
+<dt id="f/fortran_module/simulate_mutations">
+<em class="property">subroutine  </em><code class="descclassname">fortran_module/</code><code class="descname">simulate_mutations</code><span class="sig-paren">(</span><em>par</em>, <em>m_sum</em>, <em>n_s</em>, <em>n</em>, <em>m</em>, <em>l</em>, <em>degs</em>, <em>n_deg</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/simulate_mutations" title="Permalink to this definition">¶</a></dt>
+<dd><p>simulate_mutations description</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>par</strong> (m_sum,n_s)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>m_sum</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
+<li><strong>n_s</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
+<li><strong>n</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
+<li><strong>m</strong> (n)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>l</strong><em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>degs</strong> (n_deg)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>n_deg</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
+<li><strong>x</strong> (n,l)<em> [</em><em>integer</em><em>,</em><em>out</em><em>]</em></li>
+<li><strong>y</strong> (n,l)<em> [</em><em>integer</em><em>,</em><em>out</em><em>]</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Call to:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#f/fortran_module/multiindices" title="f/fortran_module/multiindices"><code class="xref f f-func docutils literal"><span class="pre">multiindices()</span></code></a></p>
 </td>
 </tr>
 </tbody>
