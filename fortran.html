@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>fortran_module extension &mdash; fem  documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="fem  documentation" href="index.html" >
+    <link rel="prev" title="fem package" href="fem.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://www.niddk.nih.gov/research-funding/at-niddk/labs-branches/LBM">LBM</a></li>
+        <li class="active"><a href="https://pypi.python.org/pypi/fem">fem</a></li>
+	
+        <li class="active"><a href="index.html">fem  documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="f-modindex.html" title="Fortran Module Index"
+           >fortran modules</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="fem.html" title="fem package"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="fem.html"
+                        title="previous chapter">fem package</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="fortran-module-extension">
+<h1>fortran_module extension<a class="headerlink" href="#fortran-module-extension" title="Permalink to this headline">¶</a></h1>
+<p class="rubric">Module</p>
+<span class="target" id="f/fortran_module"></span><p class="rubric">Description</p>
+<p>fortran_module description</p>
+<p class="rubric">Quick access</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Routines:</th><td class="field-body"><a class="reference internal" href="#f/fortran_module/simulate_time_series" title="f/fortran_module/simulate_time_series"><code class="xref f f-func docutils literal"><span class="pre">simulate_time_series()</span></code></a>, <a class="reference internal" href="#f/fortran_module/simulate_mutations" title="f/fortran_module/simulate_mutations"><code class="xref f f-func docutils literal"><span class="pre">simulate_mutations()</span></code></a>, <a class="reference internal" href="#f/fortran_module/num_threads" title="f/fortran_module/num_threads"><code class="xref f f-func docutils literal"><span class="pre">num_threads()</span></code></a>, <a class="reference internal" href="#f/fortran_module/discrete_fit_i" title="f/fortran_module/discrete_fit_i"><code class="xref f f-func docutils literal"><span class="pre">discrete_fit_i()</span></code></a>, <a class="reference internal" href="#f/fortran_module/discrete_fit" title="f/fortran_module/discrete_fit"><code class="xref f f-func docutils literal"><span class="pre">discrete_fit()</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Needed modules</p>
+<ul class="simple">
+<li><code class="xref f f-mod docutils literal"><span class="pre">omp_lib</span></code></li>
+</ul>
+<p class="rubric">Variables</p>
+<p class="rubric">Subroutines and functions</p>
+<dl class="function">
+<dt id="f/fortran_module/num_threads">
+<em class="property">function  </em><code class="descclassname">fortran_module/</code><code class="descname">num_threads</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/num_threads" title="Permalink to this definition">¶</a></dt>
+<dd><p>num_threads description</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return:</th><td class="field-body"><strong>n</strong><em> [</em><em>integer</em><em>]</em></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="subroutine">
+<dt id="f/fortran_module/simulate_mutations">
+<em class="property">subroutine  </em><code class="descclassname">fortran_module/</code><code class="descname">simulate_mutations</code><span class="sig-paren">(</span><em>par</em>, <em>m_sum</em>, <em>n_s</em>, <em>n</em>, <em>m</em>, <em>l</em>, <em>degs</em>, <em>n_deg</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/simulate_mutations" title="Permalink to this definition">¶</a></dt>
+<dd><p>simulate_mutations description</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>par</strong> (m_sum,n_s)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>m_sum</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
+<li><strong>n_s</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
+<li><strong>n</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
+<li><strong>m</strong> (n)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>l</strong><em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>degs</strong> (n_deg)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>n_deg</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
+<li><strong>x</strong> (n,l)<em> [</em><em>integer</em><em>,</em><em>out</em><em>]</em></li>
+<li><strong>y</strong> (n,l)<em> [</em><em>integer</em><em>,</em><em>out</em><em>]</em></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="subroutine">
+<dt id="f/fortran_module/simulate_time_series">
+<em class="property">subroutine  </em><code class="descclassname">fortran_module/</code><code class="descname">simulate_time_series</code><span class="sig-paren">(</span><em>par</em>, <em>m_sum</em>, <em>n_s</em>, <em>n</em>, <em>m</em>, <em>l</em>, <em>degs</em>, <em>n_deg</em>, <em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/simulate_time_series" title="Permalink to this definition">¶</a></dt>
+<dd><p>simulate_time_series description</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>par</strong> (m_sum,n_s)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>m_sum</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
+<li><strong>n_s</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
+<li><strong>n</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
+<li><strong>m</strong> (n)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>l</strong><em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>degs</strong> (n_deg)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>n_deg</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
+<li><strong>x</strong> (n,l)<em> [</em><em>integer</em><em>,</em><em>out</em><em>]</em></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="subroutine">
+<dt id="f/fortran_module/discrete_fit">
+<em class="property">subroutine  </em><code class="descclassname">fortran_module/</code><code class="descname">discrete_fit</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>n_x</em>, <em>n_y</em>, <em>m_x</em>, <em>m_y</em>, <em>m_y_sum</em>, <em>l</em>, <em>degs</em>, <em>n_deg</em>, <em>x_oh_pinv1</em>, <em>x_oh_pinv2</em>, <em>x_oh_pinv3</em>, <em>x_oh_rank</em>, <em>n_s</em>, <em>iters</em>, <em>overfit</em>, <em>par</em>, <em>disc</em>, <em>iter</em><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/discrete_fit" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (n_x,l)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>y</strong> (n_y,l)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>n_x</strong><em> [</em><em>integer</em><em>,</em><em>hide,</em><em>]</em></li>
+<li><strong>n_y</strong><em> [</em><em>integer</em><em>,</em><em>hide,</em><em>]</em></li>
+<li><strong>m_x</strong> (n_x)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>m_y</strong> (n_y)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>m_y_sum</strong><em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>l</strong><em> [</em><em>integer</em><em>,</em><em>hide,</em><em>]</em></li>
+<li><strong>degs</strong> (n_deg)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>n_deg</strong><em> [</em><em>integer</em><em>,</em><em>hide,</em><em>]</em></li>
+<li><strong>x_oh_pinv1</strong> (l,x_oh_rank)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>x_oh_pinv2</strong> (x_oh_rank)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>x_oh_pinv3</strong> (x_oh_rank,n_s)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>x_oh_rank</strong><em> [</em><em>integer</em><em>,</em><em>hide,</em><em>]</em></li>
+<li><strong>n_s</strong><em> [</em><em>integer</em><em>,</em><em>hide,</em><em>]</em></li>
+<li><strong>iters</strong><em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>overfit</strong><em> [</em><em>logical</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>par</strong> (m_y_sum,n_s)<em> [</em><em>real</em><em>,</em><em>out</em><em>]</em></li>
+<li><strong>disc</strong> (n_y,iters)<em> [</em><em>real</em><em>,</em><em>out</em><em>]</em></li>
+<li><strong>iter</strong> (n_y)<em> [</em><em>integer</em><em>,</em><em>out</em><em>]</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Call to:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#f/fortran_module/discrete_fit_i" title="f/fortran_module/discrete_fit_i"><code class="xref f f-func docutils literal"><span class="pre">discrete_fit_i()</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="subroutine">
+<dt id="f/fortran_module/discrete_fit_i">
+<em class="property">subroutine  </em><code class="descclassname">fortran_module/</code><code class="descname">discrete_fit_i</code><span class="sig-paren">(</span><em>s</em>, <em>n_idx</em>, <em>y</em>, <em>m_y</em>, <em>l</em>, <em>x_oh_pinv1</em>, <em>x_oh_pinv2</em>, <em>x_oh_pinv3</em>, <em>x_oh_rank</em>, <em>n_s</em>, <em>iters</em>, <em>overfit</em>, <em>par</em>, <em>disc</em>, <em>iter</em><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/discrete_fit_i" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s</strong> (n_idx,l)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>n_idx</strong><em> [</em><em>integer</em><em>,</em><em>in,</em><em>]</em></li>
+<li><strong>y</strong> (l)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>m_y</strong><em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>l</strong><em> [</em><em>integer</em><em>,</em><em>in,</em><em>]</em></li>
+<li><strong>x_oh_pinv1</strong> (l,x_oh_rank)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>x_oh_pinv2</strong> (x_oh_rank)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>x_oh_pinv3</strong> (x_oh_rank,n_s)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>x_oh_rank</strong><em> [</em><em>integer</em><em>,</em><em>in,</em><em>]</em></li>
+<li><strong>n_s</strong><em> [</em><em>integer</em><em>,</em><em>in,</em><em>]</em></li>
+<li><strong>iters</strong><em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>overfit</strong><em> [</em><em>logical</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>par</strong> (m_y,n_s)<em> [</em><em>real</em><em>,</em><em>out</em><em>]</em></li>
+<li><strong>disc</strong> (iters)<em> [</em><em>real</em><em>,</em><em>out</em><em>]</em></li>
+<li><strong>iter</strong><em> [</em><em>integer</em><em>,</em><em>out</em><em>]</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Called from:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#f/fortran_module/discrete_fit" title="f/fortran_module/discrete_fit"><code class="xref f f-func docutils literal"><span class="pre">discrete_fit()</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2018, Joe McKenna.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Free Energy Minimization &mdash; fem  documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="fem  documentation" href="#" >
+    <link rel="next" title="FEM for discrete data" href="discrete.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://www.niddk.nih.gov/research-funding/at-niddk/labs-branches/LBM">LBM</a></li>
+        <li class="active"><a href="https://pypi.python.org/pypi/fem">fem</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="f-modindex.html" title="Fortran Module Index"
+           >fortran modules</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="discrete.html" title="FEM for discrete data"
+           accesskey="N">next</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Next topic</h4>
+  <p class="topless"><a href="discrete.html"
+                        title="next chapter">FEM for discrete data</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="free-energy-minimization">
+<h1>Free Energy Minimization<a class="headerlink" href="#free-energy-minimization" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Install <code class="docutils literal"><span class="pre">fem</span></code>:</p>
+<div class="highlight-sh"><div class="highlight"><pre><span></span>pip install fem
+</pre></div>
+</div>
+</li>
+<li><p class="first">Load <code class="docutils literal"><span class="pre">fem</span></code> in your Python script:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">fem</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<dl class="docutils">
+<dt>Online documentation:</dt>
+<dd><a class="reference external" href="http://lbm.niddk.nih.gov/mckennajp/fem">http://lbm.niddk.nih.gov/mckennajp/fem</a></dd>
+<dt>Python package index:</dt>
+<dd><a class="reference external" href="https://pypi.python.org/pypi/fem">https://pypi.python.org/pypi/fem</a></dd>
+<dt>Source code repository:</dt>
+<dd><a class="reference external" href="https://github.com/joepatmckenna/fem">https://github.com/joepatmckenna/fem</a></dd>
+</dl>
+</div>
+</div>
+<div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>Free energy minimization (FEM) is a method for learning from data the probability distribution <span class="math">\(p\)</span>, with a form inspired by statistical physics, of an output variable <span class="math">\(y\)</span> given input variables <span class="math">\(x_i\)</span>. We use <span class="math">\(p\)</span> to both 1) understand the relations among the data variables <span class="math">\(x_i,y\)</span>, for example, to identify pairs or groups of variables that vary together and 2) to predict the output given new inputs. We are actively developing variations of the method that are conducive to modeling different types of data.</p>
+<div class="section" id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="discrete.html">FEM for discrete data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="discrete.html#model">Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="discrete.html#method">Method</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/msa.html">Multiple sequence alignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/currency.html">Currency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/sim_time_series.html">Simulated time series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/words.html">Six-letter words</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/second_order.html">Second order</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/higher_order_sim.html">higher order sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/sim_mutation.html">Simulated mutations</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="source-code">
+<h2>Source Code<a class="headerlink" href="#source-code" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="fem.html">fem package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fem.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fem.html#module-fem.combinatorics">fem.combinatorics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fem.html#module-fem.fit">fem.fit module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fem.html#module-fem.simulate">fem.simulate module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fem.html#module-fem">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fortran.html">fortran_module extension</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2018, Joe McKenna.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>
