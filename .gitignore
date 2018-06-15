@@ -1,0 +1,8 @@
+*.pyc
+*.ipynb_checkpoints
+*.so
+README
+build/
+data/
+fem.egg-info/
+.trash

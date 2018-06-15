@@ -1,0 +1,10 @@
+#!/bin/bash
+(sudo rm -f /usr/lib64/python2.7/site-packages/fortran_module.so)
+(sudo rm -f /usr/lib64/python2.7/site-packages/fem-*)
+(sudo rm -f /usr/lib64/python2.7/site-packages/fem.*)
+(sudo rm -rf /usr/lib64/python2.7/site-packages/fem/)
+(rm -rf fem.egg-info/)
+(rm -f fortran_module.so)
+(rm -f fem/*.pyc fem/*.pyf fem/*.c fem/fortran_module-f2pywrappers2.f90)
+(sudo rm -rf build/)
+(rm -rf dist/)
