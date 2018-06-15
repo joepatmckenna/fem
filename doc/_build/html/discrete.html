@@ -114,33 +114,33 @@
 <p>Here, we describe the version of FEM that requires discrete data, that is variables <span class="math">\(x_i,y\)</span> which take on values from a finite set of symbols. In biology, such data may occur naturally (the DNA sequences that form genes or the amino acid sequences that form proteins, for example) or may result from discretizing continuous variables (assigning neurons’ states to on or off, for example).</p>
 <div class="section" id="model">
 <h2>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h2>
-<p>The function <span class="math">\(f\)</span> that we wish to learn operates on the “one-hot” encodings of discrete variables defined as follows. Assume the variable <span class="math">\(x_i\)</span> takes on one of <span class="math">\(m_i\)</span> states symbolized by the first <span class="math">\(m_i\)</span> positive integers, i.e. <span class="math">\(x_i\in\{1,2,\ldots,m_i\}\)</span>. The one-hot encoding <span class="math">\(\sigma_i\in\{0,1\}^{m_i}\)</span> of <span class="math">\(x_i\)</span> is a vector of length <span class="math">\(m_i\)</span> whose <span class="math">\(j^{th}\)</span>, <span class="math">\(j=1,\ldots,m_i\)</span> component is</p>
+<p>The distribution <span class="math">\(p\)</span> that we wish to learn operates on the <em>one-hot</em> encodings of discrete variables defined as follows. Assume the variable <span class="math">\(x_i\)</span> takes on one of <span class="math">\(m_i\)</span> states symbolized by the first <span class="math">\(m_i\)</span> positive integers, i.e. <span class="math">\(x_i\in\{1,2,\ldots,m_i\}\)</span>. The one-hot encoding <span class="math">\(\sigma_i\in\{0,1\}^{m_i}\)</span> of <span class="math">\(x_i\)</span> is a vector of length <span class="math">\(m_i\)</span> whose <span class="math">\(j^{th}\)</span>, <span class="math">\(j=1,\ldots,m_i\)</span> component is</p>
 <div class="math">
 \[\begin{split}\sigma_{ij}(x_i) = \begin{cases} 1 &amp; \text{ if }x_i=j \\ 0 &amp; \text{otherwise}\end{cases}\end{split}\]</div>
-<p>Note that <span class="math">\(\sigma_i\)</span> is a boolean vector with exactly one 1 and the rest 0’s. Assume that we observe <span class="math">\(n\)</span> variables, then the state of the system is represented by the vector <span class="math">\(\sigma=\begin{pmatrix}\sigma_1&amp;\cdots&amp;\sigma_n\end{pmatrix}^T\)</span> formed from concatenating the one-hot encodings of each input variable. The set of valid <span class="math">\(\sigma\)</span> is <span class="math">\(\mathcal{S} = \{\sigma\in\{0,1\}^{M_{n+1}}:\sum_{j=M_i+1}^{M_{i+1}}\sigma_{ij}=1\text{ for each }i=1,\ldots,n\}\)</span> with <span class="math">\(M_i=\sum_{j&lt;i}m_j\)</span>.</p>
-<p>Assume the output variable <span class="math">\(y\)</span> takes on one of <span class="math">\(m\)</span> values, i.e. <span class="math">\(y\in\{1,\ldots,m\}\)</span>, then <span class="math">\(f:\mathcal{S}\rightarrow [0,1]^m\)</span> is defined as</p>
+<p>Note that <span class="math">\(\sigma_i\)</span> is a boolean vector with exactly one 1 and the rest 0’s. Assume that we observe <span class="math">\(n\)</span> variables, then the state of the input is represented by the vector <span class="math">\(\sigma=\sum_{i=1}^ne_i\otimes\sigma_i\)</span> where <span class="math">\(e_i\)</span> is the <span class="math">\(i^{th}\)</span> canonical basis vector of <span class="math">\(\mathbb{Z}^n\)</span>. In other words, the <span class="math">\(\sigma=\begin{pmatrix}\sigma_1&amp;\cdots&amp;\sigma_n\end{pmatrix}^T\)</span> is formed from concatenating the one-hot encodings of each input variable. Let <span class="math">\(\mathcal{S} = \{\sigma\in\{0,1\}^{M}:\sigma=\sum_{i=1}^ne_i\otimes\sigma_i\text{ where }\sigma_i\text{ is the one-hot encoding of }x_i, i=1,\ldots,n\}\)</span> with <span class="math">\(M=\sum_{j=1}^nm_j\)</span> denote the set of valid <span class="math">\(\sigma\)</span>.</p>
+<p>Assume the output variable <span class="math">\(y\)</span> takes on one of <span class="math">\(m\)</span> values, i.e. <span class="math">\(y\in\{1,\ldots,m\}\)</span>, then the probability distribution <span class="math">\(p:\mathcal{S}\rightarrow [0,1]\)</span> is defined by</p>
 <div class="math">
-\[f(\sigma) = {1 \over \sum_{i=1}^{m} e^{h_i(\sigma)}} \begin{pmatrix} e^{h_1(\sigma)} \cdots e^{h_m(\sigma)} \end{pmatrix}^T\]</div>
-<p>where <span class="math">\(h_i(\sigma)\)</span> is the negative energy of the <span class="math">\(i^{th}\)</span> state of <span class="math">\(y\)</span> when the system is in the state <span class="math">\(\sigma\)</span>. The <span class="math">\(i^{th}\)</span> component of <span class="math">\(f(\sigma)\)</span> is the probability according to the <a class="reference external" href="https://en.wikipedia.org/wiki/Boltzmann_distribution">Boltzmann distribution</a> that <span class="math">\(y\)</span> is in state <span class="math">\(i\)</span> given that the system is in the state <span class="math">\(\sigma\)</span>.</p>
+\[p(y=j~|~\sigma) = {e^{h_j(\sigma)} \over \sum_{i=1}^{m} e^{h_i(\sigma)}}\]</div>
+<p>where <span class="math">\(h_i(\sigma)\)</span> is the negative energy of the <span class="math">\(i^{th}\)</span> state of <span class="math">\(y\)</span> when the input state is <span class="math">\(\sigma\)</span>. <span class="math">\(p(y=j~|~\sigma)\)</span> is the probability according to the <a class="reference external" href="https://en.wikipedia.org/wiki/Boltzmann_distribution">Boltzmann distribution</a> that <span class="math">\(y\)</span> is in state <span class="math">\(j\)</span> given that the input is in the state <span class="math">\(\sigma\)</span>.</p>
 <p>Importantly, <span class="math">\(h:\mathcal{S}\rightarrow\mathbb{R}^m\)</span> maps <span class="math">\(\sigma\)</span> to the negative energies of states of <span class="math">\(y\)</span> in an interpretable manner:</p>
 <div class="math">
-\[h(\sigma) = \sum_{k=1}^KH^k\sigma^k.\]</div>
-<p>The primary objective of FEM is to determine the model parameters that make up the matrices <span class="math">\(H^k\)</span>. <span class="math">\(\sigma^k\)</span> is a vector of distinct powers of <span class="math">\(\sigma\)</span> components computed from the data.</p>
-<p>The shapes of <span class="math">\(H^k\)</span> and <span class="math">\(\sigma_k\)</span> are <span class="math">\(m\times p_k\)</span> and <span class="math">\(p_k\times1\)</span>, respectively, where <span class="math">\(p_k=\sum_{S\subseteq\{1,\ldots,n\}}\prod_{j\in S}m_j\)</span>. The number of terms in the sum defining <span class="math">\(p_k\)</span> is <span class="math">\({n \choose k}\)</span>, the number of ways of choosing <span class="math">\(k\)</span> out of the <span class="math">\(n\)</span> input variables. The products in the formula for <span class="math">\(p_k\)</span> reflect the fact that input variable <span class="math">\(x_j\)</span> can take <span class="math">\(m_j\)</span> states. Note that if all <span class="math">\(m_j=m\)</span>, then <span class="math">\(p_k={n\choose k}m^k\)</span>, the number ways of choosing <span class="math">\(k\)</span> input variables each of which may be in one of <span class="math">\(m\)</span> states.</p>
+\[h(\sigma) = \sum_{k=1}^KW^k\sigma^k.\]</div>
+<p>The primary objective of FEM is to determine the model parameters that make up the matrices <span class="math">\(W^k\)</span>. <span class="math">\(\sigma^k\)</span> is a vector of distinct powers of <span class="math">\(\sigma\)</span> components.</p>
+<p>The shapes of <span class="math">\(W^k\)</span> and <span class="math">\(\sigma^k\)</span> are <span class="math">\(m\times p_k\)</span> and <span class="math">\(p_k\times1\)</span>, respectively, where <span class="math">\(p_k=\sum_{S\subseteq\{1,\ldots,n\}, |S|=k}\prod_{j\in S}m_j\)</span>. The number of terms in the sum defining <span class="math">\(p_k\)</span> is <span class="math">\({n \choose k}\)</span>, the number of ways of choosing <span class="math">\(k\)</span> out of the <span class="math">\(n\)</span> input variables. The products in the formula for <span class="math">\(p_k\)</span> reflect the fact that input variable <span class="math">\(x_j\)</span> can take <span class="math">\(m_j\)</span> states. Note that if all <span class="math">\(m_j=m\)</span>, then <span class="math">\(p_k={n\choose k}m^k\)</span>, the number ways of choosing <span class="math">\(k\)</span> input variables each of which may be in one of <span class="math">\(m\)</span> states.</p>
 <p>For example, if <span class="math">\(n=2\)</span> and <span class="math">\(m_1=m_2=3\)</span>, then</p>
 <div class="math">
 \[\sigma^1 = \begin{pmatrix} \sigma_{11} &amp; \sigma_{12} &amp; \sigma_{13} &amp; \sigma_{21} &amp; \sigma_{22} &amp; \sigma_{23} \end{pmatrix}^T,\]</div>
 <p>which agrees with the definition of <span class="math">\(\sigma\)</span> above, and</p>
 <div class="math">
 \[\sigma^2 = \begin{pmatrix} \sigma_{11}\sigma_{21} &amp; \sigma_{11}\sigma_{22} &amp; \sigma_{11}\sigma_{23} &amp; \sigma_{12}\sigma_{21} &amp; \sigma_{12}\sigma_{22} &amp; \sigma_{12}\sigma_{23} &amp; \sigma_{13}\sigma_{21} &amp; \sigma_{13}\sigma_{22} &amp; \sigma_{13}\sigma_{23} \end{pmatrix}^T.\]</div>
-<p>Note that we exclude powers of the form <span class="math">\(\sigma_{ij_1}\sigma_{ij_2}\)</span> with <span class="math">\(j_1\neq j_2\)</span> since they are guaranteed to be 0. On the other hand, we exclude powers of the form <span class="math">\(\sigma_{ij}^k\)</span> for <span class="math">\(k&gt;1\)</span> since they are guaranteed to be 1 as long as <span class="math">\(\sigma_{ij}=1\)</span> and therefore would be redundant to the linear terms in <span class="math">\(h.\)</span> For those reasons, <span class="math">\(\sigma^k\)</span> for <span class="math">\(k&gt;2\)</span> is empty in the above example, and generally the greatest degree of <span class="math">\(h\)</span> must satisfy <span class="math">\(K\leq n\)</span>.</p>
-<p>We say that <span class="math">\(h\)</span> is interpretable because the effect of interactions between the input variables on the output variable is evident from the parameters <span class="math">\(H^k\)</span>. Consider the explicit formula for <span class="math">\(h\)</span> for the example above with <span class="math">\(m=2\)</span>:</p>
+<p>Note that we exclude powers of the form <span class="math">\(\sigma_{ij_1}\sigma_{ij_2}\)</span> with <span class="math">\(j_1\neq j_2\)</span> since they are guaranteed to be 0. On the other hand, we exclude powers of the form <span class="math">\(\sigma_{ij}^k\)</span> for <span class="math">\(k&gt;1\)</span> since they are guaranteed to be 1 as long as <span class="math">\(\sigma_{ij}=1\)</span> and therefore would be redundant to the linear terms in <span class="math">\(h.\)</span> For those reasons, <span class="math">\(\sigma^k\)</span> for <span class="math">\(k&gt;2\)</span> is empty in the above example, and generally the greatest degree of <span class="math">\(h\)</span> must satisfy <span class="math">\(K\leq n\)</span>, though this is hardly as restrictive as are computing abilities in real applications.</p>
+<p>We say that <span class="math">\(h\)</span> is interpretable because the effect of interactions between the input variables on the output variable is evident from the parameters <span class="math">\(W^k\)</span>. Consider the explicit formula for <span class="math">\(h\)</span> for the example above with <span class="math">\(m=2\)</span>:</p>
 <div class="math">
-\[\begin{split}\begin{pmatrix} h_1(\sigma) \\ h_2(\sigma) \end{pmatrix} = \underbrace{\begin{pmatrix} H^1_{11} &amp; H^1_{12} \\ H^1_{21} &amp; H^1_{22} \end{pmatrix}}_{H^1} \begin{pmatrix} \sigma_{11} \\ \sigma_{12} \\ \sigma_{13} \\ \sigma_{21} \\ \sigma_{22} \\ \sigma_{23}\end{pmatrix} + \underbrace{\begin{pmatrix} H^2_{1,(1,2)} \\ H^2_{2,(1,2)} \end{pmatrix}}_{H^2}\begin{pmatrix} \sigma_{11}\sigma_{21} \\ \sigma_{11}\sigma_{22} \\ \sigma_{11}\sigma_{23} \\ \sigma_{12}\sigma_{21} \\ \sigma_{12}\sigma_{22} \\ \sigma_{12}\sigma_{23} \\ \sigma_{13}\sigma_{21} \\ \sigma_{13}\sigma_{22} \\ \sigma_{13}\sigma_{23} \end{pmatrix}.\end{split}\]</div>
-<p>We’ve written <span class="math">\(H^1\)</span> as a block matrix with <span class="math">\(1\times m_j\)</span> row vector blocks <span class="math">\(H^1_{ij}=\begin{pmatrix}H^{11}_{ij}&amp;\cdots&amp;H^{1m_j}_{ij}\end{pmatrix}\)</span> that describe the effect of <span class="math">\(x_j\)</span> on <span class="math">\(y_i\)</span>. In particular, recalling that the probability of <span class="math">\(y=i\)</span> given a system state <span class="math">\(\sigma\)</span> is the <span class="math">\(i^{th}\)</span> component of</p>
+\[\begin{split}\begin{pmatrix} h_1(\sigma) \\ h_2(\sigma) \end{pmatrix} = \underbrace{\begin{pmatrix} W^1_{11} &amp; W^1_{12} \\ W^1_{21} &amp; W^1_{22} \end{pmatrix}}_{W^1} \begin{pmatrix} \sigma_{11} \\ \sigma_{12} \\ \sigma_{13} \\ \sigma_{21} \\ \sigma_{22} \\ \sigma_{23}\end{pmatrix} + \underbrace{\begin{pmatrix} W^2_{1,(1,2)} \\ W^2_{2,(1,2)} \end{pmatrix}}_{W^2}\begin{pmatrix} \sigma_{11}\sigma_{21} \\ \sigma_{11}\sigma_{22} \\ \sigma_{11}\sigma_{23} \\ \sigma_{12}\sigma_{21} \\ \sigma_{12}\sigma_{22} \\ \sigma_{12}\sigma_{23} \\ \sigma_{13}\sigma_{21} \\ \sigma_{13}\sigma_{22} \\ \sigma_{13}\sigma_{23} \end{pmatrix}.\end{split}\]</div>
+<p>We’ve written <span class="math">\(W^1\)</span> as a block matrix with <span class="math">\(1\times m_j\)</span> row vector blocks <span class="math">\(W^1_{ij}=\begin{pmatrix}W^{11}_{ij}&amp;\cdots&amp;W^{1m_j}_{ij}\end{pmatrix}\)</span> that describe the effect of <span class="math">\(x_j\)</span> on <span class="math">\(y_i\)</span>. In particular, recalling that the probability of <span class="math">\(y=i\)</span> given a input state <span class="math">\(\sigma\)</span> is the <span class="math">\(i^{th}\)</span> component of</p>
 <div class="math">
-\[\begin{split}f(\sigma) = {1 \over e^{h_1(\sigma)}+e^{h_2(\sigma)}} \begin{pmatrix} e^{h_1(\sigma)} \\ e^{h_2(\sigma)} \end{pmatrix}\end{split}\]</div>
-<p>we see that if <span class="math">\(x_j=s\)</span>, then <span class="math">\(h_i(\sigma)\)</span> and hence the probability of <span class="math">\(y=i\)</span> increases as <span class="math">\(H^{1s}_{ij}\)</span> increases. In general, <span class="math">\(H^k\)</span> can be written as <span class="math">\(n\)</span> rows each with <span class="math">\({n \choose k}\)</span> blocks <span class="math">\(H^k_{i\lambda}\)</span> of shape <span class="math">\(1\times\prod_{j\in\lambda}m_j\)</span> where <span class="math">\(\lambda=(j_1,\ldots,j_k)\)</span>, which represent the effect that variables <span class="math">\(x_{j_1},\ldots,x_{j_k}\)</span> collectively have on <span class="math">\(y_i\)</span>.</p>
+\[\begin{split}p(y~|~\sigma) = {1 \over e^{h_1(\sigma)}+e^{h_2(\sigma)}} \begin{pmatrix} e^{h_1(\sigma)} \\ e^{h_2(\sigma)} \end{pmatrix}\end{split}\]</div>
+<p>we see that if <span class="math">\(x_j=s\)</span>, then <span class="math">\(h_i(\sigma)\)</span> and hence the probability of <span class="math">\(y=i\)</span> increases as <span class="math">\(W^{1s}_{ij}\)</span> increases. In general, <span class="math">\(W^k\)</span> can be written as <span class="math">\(n\)</span> rows each with <span class="math">\({n \choose k}\)</span> blocks <span class="math">\(W^k_{i\lambda}\)</span> of shape <span class="math">\(1\times\prod_{j\in\lambda}m_j\)</span> where <span class="math">\(\lambda=(j_1,\ldots,j_k)\)</span>, which represent the effect that variables <span class="math">\(x_{j_1},\ldots,x_{j_k}\)</span> collectively have on <span class="math">\(y_i\)</span>. That is, if <span class="math">\(x_{j_1}=s_1,\ldots,x_{j_k}=s_k\)</span>, then <span class="math">\(h_i(\sigma)\)</span> and hence the probability of <span class="math">\(y=i\)</span> increases as <span class="math">\(W^{1s}_{\lambda}\)</span> increases, where <span class="math">\(\lambda=(j_1,\ldots,j_k)\)</span> and <span class="math">\(s=(s_1,\ldots,s_k)\)</span>.</p>
 <p>(<a class="reference external" href="./_scripts/h.py">Source code</a>, <a class="reference external" href="./_scripts/h.png">png</a>, <a class="reference external" href="./_scripts/h.hires.png">hires.png</a>, <a class="reference external" href="./_scripts/h.pdf">pdf</a>)</p>
 <div class="figure">
 <img alt="_images/h.png" src="_images/h.png" />
@@ -148,22 +148,26 @@
 </div>
 <div class="section" id="method">
 <h2>Method<a class="headerlink" href="#method" title="Permalink to this headline">¶</a></h2>
-<p>Suppose that we observe the variables <span class="math">\(x_i, y\)</span> many times, say <span class="math">\(\ell\)</span> times. We may arrange the one-hot encoding of each observation and their powers into matrices. Let <span class="math">\(\Sigma^1\)</span> be the matrix whose <span class="math">\(j^{th}\)</span> column <span class="math">\(\sigma_j\)</span> is the one-hot encoding of the <span class="math">\(j^{th}\)</span> observation of the input <span class="math">\(x_i\)</span>, and let <span class="math">\(\Sigma^k\)</span> be the matrix whose <span class="math">\(j^{th}\)</span> column is the <span class="math">\(k^{th}\)</span> power of <span class="math">\(\sigma_j\)</span>, <span class="math">\(\sigma_j^k\)</span>. We may then summarize the probability of <span class="math">\(y=i\)</span> given observation <span class="math">\(\sigma_j\)</span> as entry</p>
+<p>Suppose we make <span class="math">\(\ell\)</span> observations of the variables <span class="math">\(x_i, y\)</span>. We may arrange the one-hot encodings of these observations and their powers into matrices. Let <span class="math">\(\Sigma^1\)</span> be the matrix whose <span class="math">\(j^{th}\)</span> column is <span class="math">\(\sigma_j\)</span> the one-hot encoding of the <span class="math">\(j^{th}\)</span> input observation <span class="math">\(\sigma_j\)</span>, and let <span class="math">\(\Sigma^k\)</span> be the matrix whose <span class="math">\(j^{th}\)</span> column is <span class="math">\(\sigma_j^k\)</span>. Similarly, let <span class="math">\(\Sigma_y\)</span> be the matrix whose <span class="math">\(j^{th}\)</span> column is the one-hot encoding of the <span class="math">\(j^{th}\)</span> output observation.</p>
+<p>We may then summarize the output probability of <span class="math">\(y=i\)</span> given input observation <span class="math">\(\sigma_j\)</span> as entry</p>
 <div class="math">
-\[F_{ij} = {1 \over \sum_{i=1}^m e^{h_{ij}}} \begin{pmatrix} e^{h_{1j}} &amp; \cdots &amp; e^{h_{mj}} \end{pmatrix}^T\]</div>
-<p>of the matrix <span class="math">\(F\)</span>. Here the negative energy of the <span class="math">\(i^{th}\)</span> state of <span class="math">\(y\)</span> given observation <span class="math">\(\sigma_j\)</span> is the <span class="math">\(ij^{th}\)</span> element of the matrix <span class="math">\(h = H\Sigma\)</span> where</p>
+\[P_{ij} = {e^{H_{ij}} \over \sum_{i=1}^m e^{H_{ij}}}\]</div>
+<p>of a matrix <span class="math">\(P\)</span>. Here the negative energy of the <span class="math">\(i^{th}\)</span> state of <span class="math">\(y\)</span> given observation <span class="math">\(\sigma_j\)</span> is the <span class="math">\(ij^{th}\)</span> element of the matrix <span class="math">\(H = W\Sigma\)</span> where</p>
 <div class="math">
-\[\begin{split}H = \begin{pmatrix} H^1 &amp; \cdots &amp; H^K \end{pmatrix}\hspace{5mm}\text{and}\hspace{5mm}\Sigma = \begin{pmatrix} \Sigma^1 \\ \vdots \\ \Sigma^K \end{pmatrix}\end{split}\]</div>
-<p>The method is</p>
+\[\begin{split}W = \begin{pmatrix} W^1 &amp; \cdots &amp; W^K \end{pmatrix}\hspace{5mm}\text{and}\hspace{5mm}\Sigma = \begin{pmatrix} \Sigma^1 \\ \vdots \\ \Sigma^K \end{pmatrix}.\end{split}\]</div>
+<p>Given a guess at the model parameters <span class="math">\(W\)</span>, we can compute a corresponding guess at <span class="math">\(H\)</span> using this last formula. Additionally, given <span class="math">\(\Sigma\)</span> computed solely from the input data and a guess of <span class="math">\(H\)</span> we could attempt to solve the same equation for <span class="math">\(W\)</span>. This is the motivation behind the following method:</p>
 <blockquote>
-<div><p>initialize <span class="math">\(W^{(1)}=0\)</span> then <span class="math">\(H^{(1)} = W^{(1)}\Sigma\)</span></p>
-<p>repeat for <span class="math">\(k=1,2,\ldots\)</span> until convergence:</p>
+<div><p>Initialize <span class="math">\(W^{(1)}=0\)</span></p>
+<p>Repeat for <span class="math">\(k=1,2,\ldots\)</span> until convergence:</p>
 <blockquote>
-<div><p><span class="math">\(P_{ij} = {e^{H^{(k)}_{ij}} \over \sum_{i=1}^m e^{H^{(k)}_{ij}}}\)</span></p>
-<p><span class="math">\(H^{(k+1)} = H^{(k)}+\Sigma_y-P\)</span></p>
+<div><p><span class="math">\(H^{(k)} = W^{(k)}\Sigma\)</span></p>
+<p><span class="math">\(P_{ij}^{(k)} = {e^{H^{(k)}_{ij}} \over \sum_{i=1}^m e^{H^{(k)}_{ij}}}\)</span></p>
+<p><span class="math">\(H^{(k+1)} = H^{(k)}+\Sigma_y-P^{(k)}\)</span></p>
 <p><span class="math">\(W^{(k+1)} = H^{(k+1)}VS^+U^T\)</span></p>
 </div></blockquote>
 </div></blockquote>
+<p>In the above method, <span class="math">\(\Sigma=USV^T\)</span> is a truncated singular value decomposition.</p>
+<p>The shapes of all matrices mentioned in this section are listed in the following table:</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="43%" />
@@ -175,38 +179,39 @@
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><span class="math">\(F\)</span></td>
-<td><span class="math">\(m\times \ell\)</span></td>
-</tr>
-<tr class="row-odd"><td><span class="math">\(h\)</span></td>
-<td><span class="math">\(m\times \ell\)</span></td>
-</tr>
-<tr class="row-even"><td><span class="math">\(H^k\)</span></td>
-<td><span class="math">\(m\times p_k\)</span></td>
-</tr>
-<tr class="row-odd"><td><span class="math">\(H\)</span></td>
-<td><span class="math">\(m\times p\)</span></td>
-</tr>
-<tr class="row-even"><td><span class="math">\(\Sigma^k\)</span></td>
-<td><span class="math">\(p_k\times \ell\)</span></td>
-</tr>
-<tr class="row-odd"><td><span class="math">\(\Sigma\)</span></td>
+<tr class="row-even"><td><span class="math">\(\Sigma\)</span></td>
 <td><span class="math">\(p\times \ell\)</span></td>
+</tr>
+<tr class="row-odd"><td><span class="math">\(\Sigma^k\)</span></td>
+<td><span class="math">\(p_k\times \ell\)</span></td>
 </tr>
 <tr class="row-even"><td><span class="math">\(\Sigma_y\)</span></td>
 <td><span class="math">\(m\times \ell\)</span></td>
+</tr>
+<tr class="row-odd"><td><span class="math">\(P\)</span></td>
+<td><span class="math">\(m\times \ell\)</span></td>
+</tr>
+<tr class="row-even"><td><span class="math">\(H\)</span></td>
+<td><span class="math">\(m\times \ell\)</span></td>
+</tr>
+<tr class="row-odd"><td><span class="math">\(W\)</span></td>
+<td><span class="math">\(m\times p\)</span></td>
+</tr>
+<tr class="row-even"><td><span class="math">\(W^k\)</span></td>
+<td><span class="math">\(m\times p_k\)</span></td>
 </tr>
 <tr class="row-odd"><td><span class="math">\(U\)</span></td>
 <td><span class="math">\(p\times r\)</span></td>
 </tr>
 <tr class="row-even"><td><span class="math">\(S\)</span></td>
-<td><span class="math">\(r\times r\)</span></td>
+<td><span class="math">\(\ell\times r\)</span></td>
 </tr>
 <tr class="row-odd"><td><span class="math">\(V\)</span></td>
-<td><span class="math">\(r\times r\)</span></td>
+<td><span class="math">\(\ell\times\ell\)</span></td>
 </tr>
 </tbody>
 </table>
+<p>where <span class="math">\(p_k=\sum_{A\subseteq\{1,\ldots,n\}, |A|=k}\prod_{j\in A}m_j\)</span>, <span class="math">\(p=\sum_{k=1}^np_k\)</span> and <span class="math">\(r=\text{rank}(\Sigma)\)</span>.</p>
 </div>
 </div>
 

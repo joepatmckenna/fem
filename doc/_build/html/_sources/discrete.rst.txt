@@ -6,31 +6,31 @@ Here, we describe the version of FEM that requires discrete data, that is variab
 Model
 -----
 
-The function :math:`f` that we wish to learn operates on the "one-hot" encodings of discrete variables defined as follows. Assume the variable :math:`x_i` takes on one of :math:`m_i` states symbolized by the first :math:`m_i` positive integers, i.e. :math:`x_i\in\{1,2,\ldots,m_i\}`. The one-hot encoding :math:`\sigma_i\in\{0,1\}^{m_i}` of :math:`x_i` is a vector of length :math:`m_i` whose :math:`j^{th}`, :math:`j=1,\ldots,m_i` component is
+The distribution :math:`p` that we wish to learn operates on the *one-hot* encodings of discrete variables defined as follows. Assume the variable :math:`x_i` takes on one of :math:`m_i` states symbolized by the first :math:`m_i` positive integers, i.e. :math:`x_i\in\{1,2,\ldots,m_i\}`. The one-hot encoding :math:`\sigma_i\in\{0,1\}^{m_i}` of :math:`x_i` is a vector of length :math:`m_i` whose :math:`j^{th}`, :math:`j=1,\ldots,m_i` component is
 
 .. math::
 
    \sigma_{ij}(x_i) = \begin{cases} 1 & \text{ if }x_i=j \\ 0 & \text{otherwise}\end{cases}
 
-Note that :math:`\sigma_i` is a boolean vector with exactly one 1 and the rest 0's. Assume that we observe :math:`n` variables, then the state of the system is represented by the vector :math:`\sigma=\begin{pmatrix}\sigma_1&\cdots&\sigma_n\end{pmatrix}^T` formed from concatenating the one-hot encodings of each input variable. The set of valid :math:`\sigma` is :math:`\mathcal{S} = \{\sigma\in\{0,1\}^{M_{n+1}}:\sum_{j=M_i+1}^{M_{i+1}}\sigma_{ij}=1\text{ for each }i=1,\ldots,n\}` with :math:`M_i=\sum_{j<i}m_j`.
+Note that :math:`\sigma_i` is a boolean vector with exactly one 1 and the rest 0's. Assume that we observe :math:`n` variables, then the state of the input is represented by the vector :math:`\sigma=\sum_{i=1}^ne_i\otimes\sigma_i` where :math:`e_i` is the :math:`i^{th}` canonical basis vector of :math:`\mathbb{Z}^n`. In other words, the :math:`\sigma=\begin{pmatrix}\sigma_1&\cdots&\sigma_n\end{pmatrix}^T` is formed from concatenating the one-hot encodings of each input variable. Let :math:`\mathcal{S} = \{\sigma\in\{0,1\}^{M}:\sigma=\sum_{i=1}^ne_i\otimes\sigma_i\text{ where }\sigma_i\text{ is the one-hot encoding of }x_i, i=1,\ldots,n\}` with :math:`M=\sum_{j=1}^nm_j` denote the set of valid :math:`\sigma`.
 
-Assume the output variable :math:`y` takes on one of :math:`m` values, i.e. :math:`y\in\{1,\ldots,m\}`, then :math:`f:\mathcal{S}\rightarrow [0,1]^m` is defined as
+Assume the output variable :math:`y` takes on one of :math:`m` values, i.e. :math:`y\in\{1,\ldots,m\}`, then the probability distribution :math:`p:\mathcal{S}\rightarrow [0,1]` is defined by
 
 .. math::
 
-   f(\sigma) = {1 \over \sum_{i=1}^{m} e^{h_i(\sigma)}} \begin{pmatrix} e^{h_1(\sigma)} \cdots e^{h_m(\sigma)} \end{pmatrix}^T
+   p(y=j~|~\sigma) = {e^{h_j(\sigma)} \over \sum_{i=1}^{m} e^{h_i(\sigma)}}
 
-where :math:`h_i(\sigma)` is the negative energy of the :math:`i^{th}` state of :math:`y` when the system is in the state :math:`\sigma`. The :math:`i^{th}` component of :math:`f(\sigma)` is the probability according to the `Boltzmann distribution`_ that :math:`y` is in state :math:`i` given that the system is in the state :math:`\sigma`.
+where :math:`h_i(\sigma)` is the negative energy of the :math:`i^{th}` state of :math:`y` when the input state is :math:`\sigma`. :math:`p(y=j~|~\sigma)` is the probability according to the `Boltzmann distribution`_ that :math:`y` is in state :math:`j` given that the input is in the state :math:`\sigma`.
 
 Importantly, :math:`h:\mathcal{S}\rightarrow\mathbb{R}^m` maps :math:`\sigma` to the negative energies of states of :math:`y` in an interpretable manner:
 
 .. math::
 
-    h(\sigma) = \sum_{k=1}^KH^k\sigma^k.
+    h(\sigma) = \sum_{k=1}^KW^k\sigma^k.
 
-The primary objective of FEM is to determine the model parameters that make up the matrices :math:`H^k`. :math:`\sigma^k` is a vector of distinct powers of :math:`\sigma` components computed from the data.
+The primary objective of FEM is to determine the model parameters that make up the matrices :math:`W^k`. :math:`\sigma^k` is a vector of distinct powers of :math:`\sigma` components.
 
-The shapes of :math:`H^k` and :math:`\sigma_k` are :math:`m\times p_k` and :math:`p_k\times1`, respectively, where :math:`p_k=\sum_{S\subseteq\{1,\ldots,n\}}\prod_{j\in S}m_j`. The number of terms in the sum defining :math:`p_k` is :math:`{n \choose k}`, the number of ways of choosing :math:`k` out of the :math:`n` input variables. The products in the formula for :math:`p_k` reflect the fact that input variable :math:`x_j` can take :math:`m_j` states. Note that if all :math:`m_j=m`, then :math:`p_k={n\choose k}m^k`, the number ways of choosing :math:`k` input variables each of which may be in one of :math:`m` states.
+The shapes of :math:`W^k` and :math:`\sigma^k` are :math:`m\times p_k` and :math:`p_k\times1`, respectively, where :math:`p_k=\sum_{S\subseteq\{1,\ldots,n\}, |S|=k}\prod_{j\in S}m_j`. The number of terms in the sum defining :math:`p_k` is :math:`{n \choose k}`, the number of ways of choosing :math:`k` out of the :math:`n` input variables. The products in the formula for :math:`p_k` reflect the fact that input variable :math:`x_j` can take :math:`m_j` states. Note that if all :math:`m_j=m`, then :math:`p_k={n\choose k}m^k`, the number ways of choosing :math:`k` input variables each of which may be in one of :math:`m` states.
 
 For example, if :math:`n=2` and :math:`m_1=m_2=3`, then
 
@@ -44,75 +44,85 @@ which agrees with the definition of :math:`\sigma` above, and
    
    \sigma^2 = \begin{pmatrix} \sigma_{11}\sigma_{21} & \sigma_{11}\sigma_{22} & \sigma_{11}\sigma_{23} & \sigma_{12}\sigma_{21} & \sigma_{12}\sigma_{22} & \sigma_{12}\sigma_{23} & \sigma_{13}\sigma_{21} & \sigma_{13}\sigma_{22} & \sigma_{13}\sigma_{23} \end{pmatrix}^T.
 
-Note that we exclude powers of the form :math:`\sigma_{ij_1}\sigma_{ij_2}` with :math:`j_1\neq j_2` since they are guaranteed to be 0. On the other hand, we exclude powers of the form :math:`\sigma_{ij}^k` for :math:`k>1` since they are guaranteed to be 1 as long as :math:`\sigma_{ij}=1` and therefore would be redundant to the linear terms in :math:`h.` For those reasons, :math:`\sigma^k` for :math:`k>2` is empty in the above example, and generally the greatest degree of :math:`h` must satisfy :math:`K\leq n`.
+Note that we exclude powers of the form :math:`\sigma_{ij_1}\sigma_{ij_2}` with :math:`j_1\neq j_2` since they are guaranteed to be 0. On the other hand, we exclude powers of the form :math:`\sigma_{ij}^k` for :math:`k>1` since they are guaranteed to be 1 as long as :math:`\sigma_{ij}=1` and therefore would be redundant to the linear terms in :math:`h.` For those reasons, :math:`\sigma^k` for :math:`k>2` is empty in the above example, and generally the greatest degree of :math:`h` must satisfy :math:`K\leq n`, though this is hardly as restrictive as are computing abilities in real applications.
 
-We say that :math:`h` is interpretable because the effect of interactions between the input variables on the output variable is evident from the parameters :math:`H^k`. Consider the explicit formula for :math:`h` for the example above with :math:`m=2`:
+We say that :math:`h` is interpretable because the effect of interactions between the input variables on the output variable is evident from the parameters :math:`W^k`. Consider the explicit formula for :math:`h` for the example above with :math:`m=2`:
 
 .. math::
 
-   \begin{pmatrix} h_1(\sigma) \\ h_2(\sigma) \end{pmatrix} = \underbrace{\begin{pmatrix} H^1_{11} & H^1_{12} \\ H^1_{21} & H^1_{22} \end{pmatrix}}_{H^1} \begin{pmatrix} \sigma_{11} \\ \sigma_{12} \\ \sigma_{13} \\ \sigma_{21} \\ \sigma_{22} \\ \sigma_{23}\end{pmatrix} + \underbrace{\begin{pmatrix} H^2_{1,(1,2)} \\ H^2_{2,(1,2)} \end{pmatrix}}_{H^2}\begin{pmatrix} \sigma_{11}\sigma_{21} \\ \sigma_{11}\sigma_{22} \\ \sigma_{11}\sigma_{23} \\ \sigma_{12}\sigma_{21} \\ \sigma_{12}\sigma_{22} \\ \sigma_{12}\sigma_{23} \\ \sigma_{13}\sigma_{21} \\ \sigma_{13}\sigma_{22} \\ \sigma_{13}\sigma_{23} \end{pmatrix}.
+   \begin{pmatrix} h_1(\sigma) \\ h_2(\sigma) \end{pmatrix} = \underbrace{\begin{pmatrix} W^1_{11} & W^1_{12} \\ W^1_{21} & W^1_{22} \end{pmatrix}}_{W^1} \begin{pmatrix} \sigma_{11} \\ \sigma_{12} \\ \sigma_{13} \\ \sigma_{21} \\ \sigma_{22} \\ \sigma_{23}\end{pmatrix} + \underbrace{\begin{pmatrix} W^2_{1,(1,2)} \\ W^2_{2,(1,2)} \end{pmatrix}}_{W^2}\begin{pmatrix} \sigma_{11}\sigma_{21} \\ \sigma_{11}\sigma_{22} \\ \sigma_{11}\sigma_{23} \\ \sigma_{12}\sigma_{21} \\ \sigma_{12}\sigma_{22} \\ \sigma_{12}\sigma_{23} \\ \sigma_{13}\sigma_{21} \\ \sigma_{13}\sigma_{22} \\ \sigma_{13}\sigma_{23} \end{pmatrix}.
 
-We've written :math:`H^1` as a block matrix with :math:`1\times m_j` row vector blocks :math:`H^1_{ij}=\begin{pmatrix}H^{11}_{ij}&\cdots&H^{1m_j}_{ij}\end{pmatrix}` that describe the effect of :math:`x_j` on :math:`y_i`. In particular, recalling that the probability of :math:`y=i` given a system state :math:`\sigma` is the :math:`i^{th}` component of
+We've written :math:`W^1` as a block matrix with :math:`1\times m_j` row vector blocks :math:`W^1_{ij}=\begin{pmatrix}W^{11}_{ij}&\cdots&W^{1m_j}_{ij}\end{pmatrix}` that describe the effect of :math:`x_j` on :math:`y_i`. In particular, recalling that the probability of :math:`y=i` given a input state :math:`\sigma` is the :math:`i^{th}` component of
 
 .. math::
    
-   f(\sigma) = {1 \over e^{h_1(\sigma)}+e^{h_2(\sigma)}} \begin{pmatrix} e^{h_1(\sigma)} \\ e^{h_2(\sigma)} \end{pmatrix}
+   p(y~|~\sigma) = {1 \over e^{h_1(\sigma)}+e^{h_2(\sigma)}} \begin{pmatrix} e^{h_1(\sigma)} \\ e^{h_2(\sigma)} \end{pmatrix}
 
-we see that if :math:`x_j=s`, then :math:`h_i(\sigma)` and hence the probability of :math:`y=i` increases as :math:`H^{1s}_{ij}` increases. In general, :math:`H^k` can be written as :math:`n` rows each with :math:`{n \choose k}` blocks :math:`H^k_{i\lambda}` of shape :math:`1\times\prod_{j\in\lambda}m_j` where :math:`\lambda=(j_1,\ldots,j_k)`, which represent the effect that variables :math:`x_{j_1},\ldots,x_{j_k}` collectively have on :math:`y_i`.
+we see that if :math:`x_j=s`, then :math:`h_i(\sigma)` and hence the probability of :math:`y=i` increases as :math:`W^{1s}_{ij}` increases. In general, :math:`W^k` can be written as :math:`n` rows each with :math:`{n \choose k}` blocks :math:`W^k_{i\lambda}` of shape :math:`1\times\prod_{j\in\lambda}m_j` where :math:`\lambda=(j_1,\ldots,j_k)`, which represent the effect that variables :math:`x_{j_1},\ldots,x_{j_k}` collectively have on :math:`y_i`. That is, if :math:`x_{j_1}=s_1,\ldots,x_{j_k}=s_k`, then :math:`h_i(\sigma)` and hence the probability of :math:`y=i` increases as :math:`W^{1s}_{\lambda}` increases, where :math:`\lambda=(j_1,\ldots,j_k)` and :math:`s=(s_1,\ldots,s_k)`.
 
 .. plot:: _scripts/h.py
 
 Method
 ------
 
-Suppose that we observe the variables :math:`x_i, y` many times, say :math:`\ell` times. We may arrange the one-hot encoding of each observation and their powers into matrices. Let :math:`\Sigma^1` be the matrix whose :math:`j^{th}` column :math:`\sigma_j` is the one-hot encoding of the :math:`j^{th}` observation of the input :math:`x_i`, and let :math:`\Sigma^k` be the matrix whose :math:`j^{th}` column is the :math:`k^{th}` power of :math:`\sigma_j`, :math:`\sigma_j^k`. We may then summarize the probability of :math:`y=i` given observation :math:`\sigma_j` as entry
+Suppose we make :math:`\ell` observations of the variables :math:`x_i, y`. We may arrange the one-hot encodings of these observations and their powers into matrices. Let :math:`\Sigma^1` be the matrix whose :math:`j^{th}` column is :math:`\sigma_j` the one-hot encoding of the :math:`j^{th}` input observation :math:`\sigma_j`, and let :math:`\Sigma^k` be the matrix whose :math:`j^{th}` column is :math:`\sigma_j^k`. Similarly, let :math:`\Sigma_y` be the matrix whose :math:`j^{th}` column is the one-hot encoding of the :math:`j^{th}` output observation.
+
+We may then summarize the output probability of :math:`y=i` given input observation :math:`\sigma_j` as entry
 
 .. math::
 
-   F_{ij} = {1 \over \sum_{i=1}^m e^{h_{ij}}} \begin{pmatrix} e^{h_{1j}} & \cdots & e^{h_{mj}} \end{pmatrix}^T
+   P_{ij} = {e^{H_{ij}} \over \sum_{i=1}^m e^{H_{ij}}}
 
 
-of the matrix :math:`F`. Here the negative energy of the :math:`i^{th}` state of :math:`y` given observation :math:`\sigma_j` is the :math:`ij^{th}` element of the matrix :math:`h = H\Sigma` where
+of a matrix :math:`P`. Here the negative energy of the :math:`i^{th}` state of :math:`y` given observation :math:`\sigma_j` is the :math:`ij^{th}` element of the matrix :math:`H = W\Sigma` where
 
 .. math::
 
-   H = \begin{pmatrix} H^1 & \cdots & H^K \end{pmatrix}\hspace{5mm}\text{and}\hspace{5mm}\Sigma = \begin{pmatrix} \Sigma^1 \\ \vdots \\ \Sigma^K \end{pmatrix}
+   W = \begin{pmatrix} W^1 & \cdots & W^K \end{pmatrix}\hspace{5mm}\text{and}\hspace{5mm}\Sigma = \begin{pmatrix} \Sigma^1 \\ \vdots \\ \Sigma^K \end{pmatrix}.
 
-The method is
+Given a guess at the model parameters :math:`W`, we can compute a corresponding guess at :math:`H` using this last formula. Additionally, given :math:`\Sigma` computed solely from the input data and a guess of :math:`H` we could attempt to solve the same equation for :math:`W`. This is the motivation behind the following method:
 
-   initialize :math:`W^{(1)}=0` then :math:`H^{(1)} = W^{(1)}\Sigma`
+   Initialize :math:`W^{(1)}=0` 
 
-   repeat for :math:`k=1,2,\ldots` until convergence:
+   Repeat for :math:`k=1,2,\ldots` until convergence:
 
-      :math:`P_{ij} = {e^{H^{(k)}_{ij}} \over \sum_{i=1}^m e^{H^{(k)}_{ij}}}`
+      :math:`H^{(k)} = W^{(k)}\Sigma`
 
-      :math:`H^{(k+1)} = H^{(k)}+\Sigma_y-P`
+      :math:`P_{ij}^{(k)} = {e^{H^{(k)}_{ij}} \over \sum_{i=1}^m e^{H^{(k)}_{ij}}}`
+
+      :math:`H^{(k+1)} = H^{(k)}+\Sigma_y-P^{(k)}`
 
       :math:`W^{(k+1)} = H^{(k+1)}VS^+U^T`
+
+In the above method, :math:`\Sigma=USV^T` is a truncated singular value decomposition.
+
+The shapes of all matrices mentioned in this section are listed in the following table:
 
 +-------------------+-------------------------+
 | matrix            | shape                   |
 +===================+=========================+
-| :math:`F`         | :math:`m\times \ell`    |
-+-------------------+-------------------------+
-| :math:`h`         | :math:`m\times \ell`    |
-+-------------------+-------------------------+
-| :math:`H^k`       | :math:`m\times p_k`     |
-+-------------------+-------------------------+
-| :math:`H`         | :math:`m\times p`       |
+| :math:`\Sigma`    | :math:`p\times \ell`    |
 +-------------------+-------------------------+
 | :math:`\Sigma^k`  | :math:`p_k\times \ell`  |
 +-------------------+-------------------------+
-| :math:`\Sigma`    | :math:`p\times \ell`    |
-+-------------------+-------------------------+
 | :math:`\Sigma_y`  | :math:`m\times \ell`    |
++-------------------+-------------------------+
+| :math:`P`         | :math:`m\times \ell`    |
++-------------------+-------------------------+
+| :math:`H`         | :math:`m\times \ell`    |
++-------------------+-------------------------+
+| :math:`W`         | :math:`m\times p`       |
++-------------------+-------------------------+
+| :math:`W^k`       | :math:`m\times p_k`     |
 +-------------------+-------------------------+
 | :math:`U`         | :math:`p\times r`       |
 +-------------------+-------------------------+
-| :math:`S`         | :math:`r\times r`       |
+| :math:`S`         | :math:`\ell\times r`    |
 +-------------------+-------------------------+
-| :math:`V`         | :math:`r\times r`       |
+| :math:`V`         | :math:`\ell\times\ell`  |
 +-------------------+-------------------------+
+
+where :math:`p_k=\sum_{A\subseteq\{1,\ldots,n\}, |A|=k}\prod_{j\in A}m_j`, :math:`p=\sum_{k=1}^np_k` and :math:`r=\text{rank}(\Sigma)`.
 
 
 .. _Boltzmann distribution: https://en.wikipedia.org/wiki/Boltzmann_distribution
