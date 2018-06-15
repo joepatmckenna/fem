@@ -53,7 +53,7 @@ for i in range(2):
         ax[0].text(
             x + 0.5 * dx,
             y + 0.5 * dy,
-            '$W^{1%i}_{%i%i}$' % (s[i] % 3 + 1, i + 1, j + 1),
+            '$W_{1%i%i%i}$' % (j + 1, i + 1, s[i] % 3 + 1),
             ha=ha[j],
             va='top',
             color='r')
@@ -74,7 +74,7 @@ for i in range(9):
         fontsize=10)
 ax[1].text(x[4], -.5, '$x_1x_2$', va='center', ha='center', fontsize=10)
 
-i = s[0] + 3 * (s[1] % 3)
+i = s[1] % 3 + 3 * (s[0] % 3)
 ax[1].scatter(x[i], y[i], c='r', edgecolor='k', s=100)
 ha = ['right', 'left']
 for j in range(2):
@@ -83,7 +83,7 @@ for j in range(2):
     ax[1].text(
         x[i] + .5 * dx,
         y[i] + .5 * dy,
-        '$W^{2,(%i,%i)}_{%i,(1,2)}$' % (s[1] % 3 + 1, s[0] + 1, j + 1),
+        '$W_{2%i(1,2)(%i,%i)}$' % (j + 1, s[1] % 3 + 1, s[0] + 1),
         fontsize=10,
         ha=ha[j],
         va='top',
@@ -93,8 +93,8 @@ for a in ax:
     a.set_ylim(-.5, 1.5)
     a.axis('off')
 
-ax[0].set_title('example $W^1$ terms')
-ax[1].set_title('example $W^2$ terms')
+ax[0].set_title('example $W_1$ terms')
+ax[1].set_title('example $W_2$ terms')
 
 plt.tight_layout()
 plt.show()
