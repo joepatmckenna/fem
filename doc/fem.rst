@@ -1,17 +1,13 @@
 fem package
 ===========
 
-Submodules
-----------
+Subpackages
+-----------
 
-fem\.fit module
----------------
+.. toctree::
 
-.. automodule:: fem.fit
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+    fem.continuous
+    fem.discrete
 
 Module contents
 ---------------

@@ -68,7 +68,7 @@ Method
 
 Suppose we make :math:`\ell` observations of the variables :math:`x_i, y`. We may arrange the one-hot encodings of these observations into matrices. Let :math:`\Sigma_{xk}`, :math:`k=1,\ldots,K`, be the matrix whose :math:`j^{th}` column is the :math:`k^{th}` power of the one-hot encoding of the :math:`j^{th}` input observation :math:`\sigma_j^k`. Similarly, let :math:`\Sigma_y` be the matrix whose :math:`j^{th}` column is the one-hot encoding of the :math:`j^{th}` output observation.
 
-We summarize the probability of :math:`y=i` given input observation :math:`\sigma_j` in the matrix :math:`P` with elements
+We summarize the probability of :math:`y=i` given input observation :math:`\sigma_j` in the matrix :math:`P(\Sigma_y~|~W)` with elements
 
 .. math::
 
@@ -81,7 +81,7 @@ where :math:`H_{ij}` are the elements of the the matrix :math:`H = W\Sigma_x` wi
 
    W = \begin{pmatrix} W_1 & \cdots & W_K \end{pmatrix}\hspace{5mm}\text{and}\hspace{5mm}\Sigma_x = \begin{pmatrix} \Sigma_{x1} \\ \vdots \\ \Sigma_{xK} \end{pmatrix}.
 
-:math:`\Sigma_x` is computed solely from the input data. Given a guess at :math:`W`, we can compute corresponding guesses at :math:`H` and :math:`P` using the formulas above. We could also adjust :math:`H` by comparing :math:`P` to :math:`\Sigma_y`. Then, given :math:`H` we can solve the formula :math:`H=W\Sigma_x` for the model parameters :math:`W`. This is the motivation for the following method:
+:math:`\Sigma_x` and :math:`\Sigma_y` are computed solely from the data. We can adjust a guess at :math:`W` by comparing the corresponding :math:`H` and :math:`P(\Sigma_y~|~W)`, computed using the formulas above, to :math:`\Sigma_y`. That is, after modifying :math:`H` to reduce the difference :math:`\Sigma_y-P(\Sigma_y~|~W)` we can solve the formula :math:`H=W\Sigma_x` for the model parameters :math:`W`. This is the motivation for the following method:
 
    Initialize :math:`W^{(1)}=0` 
 
@@ -97,23 +97,23 @@ where :math:`H_{ij}` are the elements of the the matrix :math:`H = W\Sigma_x` wi
 
 The shapes of all matrices mentioned in this section are listed in the following table:
 
-+---------------------+-----------------------------------+
-| matrix              | shape                             |
-+=====================+===================================+
-| :math:`\Sigma_x`    | :math:`\sum_{k=1}^np_k\times\ell` |
-+---------------------+-----------------------------------+
-| :math:`\Sigma_{xk}` | :math:`p_k\times\ell`             |
-+---------------------+-----------------------------------+
-| :math:`\Sigma_y`    | :math:`m\times\ell`               |
-+---------------------+-----------------------------------+
-| :math:`P`           | :math:`m\times\ell`               |
-+---------------------+-----------------------------------+
-| :math:`H`           | :math:`m\times\ell`               |
-+---------------------+-----------------------------------+
-| :math:`W`           | :math:`m\times p`                 |
-+---------------------+-----------------------------------+
-| :math:`W_k`         | :math:`m\times p_k`               |
-+---------------------+-----------------------------------+
++-------------------------+-----------------------------------+
+| matrix                  | shape                             |
++=========================+===================================+
+| :math:`\Sigma_x`        | :math:`\sum_{k=1}^np_k\times\ell` |
++-------------------------+-----------------------------------+
+| :math:`\Sigma_{xk}`     | :math:`p_k\times\ell`             |
++-------------------------+-----------------------------------+
+| :math:`\Sigma_y`        | :math:`m\times\ell`               |
++-------------------------+-----------------------------------+
+| :math:`P(\Sigma_y~|~W)` | :math:`m\times\ell`               |
++-------------------------+-----------------------------------+
+| :math:`H`               | :math:`m\times\ell`               |
++-------------------------+-----------------------------------+
+| :math:`W`               | :math:`m\times\sum_{k=1}^np_k`    |
++-------------------------+-----------------------------------+
+| :math:`W_k`             | :math:`m\times p_k`               |
++-------------------------+-----------------------------------+
 
 where :math:`p_k=\sum_{A\subseteq\{1,\ldots,n\}, |A|=k}\prod_{j\in A}m_j`.
 

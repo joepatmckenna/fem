@@ -7,4 +7,3 @@ version
 ./fem/fortran_module.f90
 ./fem/fortran_module.pyf
 fem/__init__.py
-fem/fit.py

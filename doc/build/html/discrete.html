@@ -145,13 +145,13 @@
 <div class="section" id="method">
 <h2>Method<a class="headerlink" href="#method" title="Permalink to this headline">¶</a></h2>
 <p>Suppose we make <span class="math">\(\ell\)</span> observations of the variables <span class="math">\(x_i, y\)</span>. We may arrange the one-hot encodings of these observations into matrices. Let <span class="math">\(\Sigma_{xk}\)</span>, <span class="math">\(k=1,\ldots,K\)</span>, be the matrix whose <span class="math">\(j^{th}\)</span> column is the <span class="math">\(k^{th}\)</span> power of the one-hot encoding of the <span class="math">\(j^{th}\)</span> input observation <span class="math">\(\sigma_j^k\)</span>. Similarly, let <span class="math">\(\Sigma_y\)</span> be the matrix whose <span class="math">\(j^{th}\)</span> column is the one-hot encoding of the <span class="math">\(j^{th}\)</span> output observation.</p>
-<p>We summarize the probability of <span class="math">\(y=i\)</span> given input observation <span class="math">\(\sigma_j\)</span> in the matrix <span class="math">\(P\)</span> with elements</p>
+<p>We summarize the probability of <span class="math">\(y=i\)</span> given input observation <span class="math">\(\sigma_j\)</span> in the matrix <span class="math">\(P(\Sigma_y~|~W)\)</span> with elements</p>
 <div class="math">
 \[P_{ij} = {e^{H_{ij}} \over \sum_{i=1}^m e^{H_{ij}}},\]</div>
 <p>where <span class="math">\(H_{ij}\)</span> are the elements of the the matrix <span class="math">\(H = W\Sigma_x\)</span> with</p>
 <div class="math">
 \[\begin{split}W = \begin{pmatrix} W_1 &amp; \cdots &amp; W_K \end{pmatrix}\hspace{5mm}\text{and}\hspace{5mm}\Sigma_x = \begin{pmatrix} \Sigma_{x1} \\ \vdots \\ \Sigma_{xK} \end{pmatrix}.\end{split}\]</div>
-<p><span class="math">\(\Sigma_x\)</span> is computed solely from the input data. Given a guess at <span class="math">\(W\)</span>, we can compute corresponding guesses at <span class="math">\(H\)</span> and <span class="math">\(P\)</span> using the formulas above. We could also adjust <span class="math">\(H\)</span> by comparing <span class="math">\(P\)</span> to <span class="math">\(\Sigma_y\)</span>. Then, given <span class="math">\(H\)</span> we can solve the formula <span class="math">\(H=W\Sigma_x\)</span> for the model parameters <span class="math">\(W\)</span>. This is the motivation for the following method:</p>
+<p><span class="math">\(\Sigma_x\)</span> and <span class="math">\(\Sigma_y\)</span> are computed solely from the data. We can adjust a guess at <span class="math">\(W\)</span> by comparing the corresponding <span class="math">\(H\)</span> and <span class="math">\(P(\Sigma_y~|~W)\)</span>, computed using the formulas above, to <span class="math">\(\Sigma_y\)</span>. That is, after modifying <span class="math">\(H\)</span> to reduce the difference <span class="math">\(\Sigma_y-P(\Sigma_y~|~W)\)</span> we can solve the formula <span class="math">\(H=W\Sigma_x\)</span> for the model parameters <span class="math">\(W\)</span>. This is the motivation for the following method:</p>
 <blockquote>
 <div><p>Initialize <span class="math">\(W^{(1)}=0\)</span></p>
 <p>Repeat for <span class="math">\(k=1,2,\ldots\)</span> until convergence:</p>
@@ -165,8 +165,8 @@
 <p>The shapes of all matrices mentioned in this section are listed in the following table:</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="38%" />
-<col width="63%" />
+<col width="42%" />
+<col width="58%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">matrix</th>
@@ -183,14 +183,14 @@
 <tr class="row-even"><td><span class="math">\(\Sigma_y\)</span></td>
 <td><span class="math">\(m\times\ell\)</span></td>
 </tr>
-<tr class="row-odd"><td><span class="math">\(P\)</span></td>
+<tr class="row-odd"><td><span class="math">\(P(\Sigma_y~|~W)\)</span></td>
 <td><span class="math">\(m\times\ell\)</span></td>
 </tr>
 <tr class="row-even"><td><span class="math">\(H\)</span></td>
 <td><span class="math">\(m\times\ell\)</span></td>
 </tr>
 <tr class="row-odd"><td><span class="math">\(W\)</span></td>
-<td><span class="math">\(m\times p\)</span></td>
+<td><span class="math">\(m\times\sum_{k=1}^np_k\)</span></td>
 </tr>
 <tr class="row-even"><td><span class="math">\(W_k\)</span></td>
 <td><span class="math">\(m\times p_k\)</span></td>
@@ -222,7 +222,7 @@
         &copy; Copyright 2018, Joe McKenna.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.6.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.5.
       </li>
     </ul>
     </div>

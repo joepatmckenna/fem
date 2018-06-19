@@ -1,10 +1,14 @@
 from numpy.distutils.core import Extension
 
+libraries = ['gomp', 'lapack']  # + lapack_opt_info['libraries']
+# library_dirs = ['/usr/lib', '/usr/local/lib']  # lapack_opt_info['library_dirs']
+
 fortran_module = Extension(
     name='fortran_module',
     sources=['./fem/fortran_module.f90', './fem/fortran_module.pyf'],
-    libraries=['gomp', 'lapack', 'blas'],
-    extra_f90_compile_args=['-fopenmp', '-lgomp', '-llapack', '-lblas'])
+    libraries=libraries,
+    # library_dirs=library_dirs,
+    extra_f90_compile_args=['-fopenmp', '-lgomp'])
 
 # gnu (gcc, g++, g77, gfortran): -fopenmp
 # intel (icc, icpc, ifort): -qopenmp
