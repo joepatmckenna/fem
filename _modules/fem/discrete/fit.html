@@ -4,31 +4,31 @@
   <head>
     <meta charset="utf-8">
     
-    <title>fem.fit &mdash; fem  documentation</title>
+    <title>fem.discrete.fit &mdash; fem  documentation</title>
     
-    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
-    <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
+        URL_ROOT:    '../../../',
         VERSION:     '',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" >
-    <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="fem  documentation" href="../../index.html" >
-    <link rel="up" title="Module code" href="../index.html" > 
+    <script type="text/javascript" src="../../../_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" >
+    <link rel="search" title="Search" href="../../../search.html" >
+    <link rel="top" title="fem  documentation" href="../../../index.html" >
+    <link rel="up" title="Module code" href="../../index.html" > 
   </head>
   <body>
 
@@ -49,23 +49,23 @@
         <li class="active"><a href="https://www.niddk.nih.gov/research-funding/at-niddk/labs-branches/LBM">LBM</a></li>
         <li class="active"><a href="https://pypi.python.org/pypi/fem">fem</a></li>
 	
-        <li class="active"><a href="../../index.html">fem  documentation</a></li>
+        <li class="active"><a href="../../../index.html">fem  documentation</a></li>
 	
-          <li class="active"><a href="../index.html" accesskey="U">Module code</a></li> 
+          <li class="active"><a href="../../index.html" accesskey="U">Module code</a></li> 
     </ul>
               
               
     <ul class="nav nav-pills pull-right">
       <li class="active">
-        <a href="../../genindex.html" title="General Index"
+        <a href="../../../genindex.html" title="General Index"
            accesskey="I">index</a>
       </li>
       <li class="active">
-        <a href="../../f-modindex.html" title="Fortran Module Index"
+        <a href="../../../f-modindex.html" title="Fortran Module Index"
            >fortran modules</a>
       </li>
       <li class="active">
-        <a href="../../py-modindex.html" title="Python Module Index"
+        <a href="../../../py-modindex.html" title="Python Module Index"
            >modules</a>
       </li>
     </ul>
@@ -80,7 +80,7 @@
         <div class="sphinxsidebarwrapper">
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
-    <form class="search" action="../../search.html" method="get">
+    <form class="search" action="../../../search.html" method="get">
       <div><input type="text" name="q" /></div>
       <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
@@ -95,24 +95,23 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body">
             
-  <h1>Source code for fem.fit</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">combinatorics</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+  <h1>Source code for fem.discrete.fit</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="k">import</span> <span class="n">svds</span>
 <span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="k">import</span> <span class="n">csc_matrix</span>
-<span class="kn">from</span> <span class="nn">fortran_module</span> <span class="k">import</span> <span class="n">fortran_module</span>
+<span class="kn">import</span> <span class="nn">combinatorics</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">fortran_module</span>
 
 
-<div class="viewcode-block" id="one_hot"><a class="viewcode-back" href="../../fem.html#fem.fit.one_hot">[docs]</a><span class="k">def</span> <span class="nf">one_hot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">degs</span><span class="p">):</span>
+<div class="viewcode-block" id="one_hot"><a class="viewcode-back" href="../../../fem.discrete.html#fem.discrete.fit.one_hot">[docs]</a><span class="k">def</span> <span class="nf">one_hot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">degs</span><span class="p">):</span>
 
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
         <span class="n">l</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="n">x</span><span class="p">])</span>
         <span class="n">l</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -142,12 +141,11 @@
     <span class="k">return</span> <span class="n">csc_matrix</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">indptr</span><span class="p">)),</span> <span class="n">idx</span></div>
 
 
-<div class="viewcode-block" id="categorize"><a class="viewcode-back" href="../../fem.html#fem.fit.categorize">[docs]</a><span class="k">def</span> <span class="nf">categorize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="categorize"><a class="viewcode-back" href="../../../fem.discrete.html#fem.discrete.fit.categorize">[docs]</a><span class="k">def</span> <span class="nf">categorize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 
-    <span class="n">dim</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">])</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span> <span class="s1">&#39;x should be 1- or 2-dimensional&#39;</span>
@@ -169,7 +167,7 @@
     <span class="k">return</span> <span class="n">x_cat</span><span class="p">,</span> <span class="n">cat</span></div>
 
 
-<div class="viewcode-block" id="discrete_fit"><a class="viewcode-back" href="../../fem.html#fem.fit.discrete_fit">[docs]</a><span class="k">def</span> <span class="nf">discrete_fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">degs</span><span class="p">,</span> <span class="n">iters</span><span class="p">,</span> <span class="n">overfit</span><span class="p">):</span>
+<div class="viewcode-block" id="fit"><a class="viewcode-back" href="../../../fem.discrete.html#fem.discrete.fit.fit">[docs]</a><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">degs</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">iters</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">overfit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">impute</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="c1"># x: sum(p) by l</span>
     <span class="c1"># ------------------------------------</span>
     <span class="c1"># x1: x[i_x[0]:i_x[1], :] -- p[0] by l</span>
@@ -181,16 +179,20 @@
     <span class="c1"># i_x = np.insert(p.cumsum(), 0, 0)</span>
 
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-
     <span class="n">x</span><span class="p">,</span> <span class="n">cat_x</span> <span class="o">=</span> <span class="n">categorize</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">y</span><span class="p">,</span> <span class="n">cat_y</span> <span class="o">=</span> <span class="n">categorize</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-
     <span class="n">m_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cat_x</span><span class="p">])</span>
-    <span class="n">m_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cat_y</span><span class="p">])</span>
 
-    <span class="n">n_x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">n_y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">impute</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">m_y</span> <span class="o">=</span> <span class="n">m_x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">impute</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">cat_y</span> <span class="o">=</span> <span class="n">categorize</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">m_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cat_y</span><span class="p">])</span>
+
+    <span class="n">n_x</span><span class="p">,</span> <span class="n">n_y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="n">x_oh</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">one_hot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">degs</span><span class="p">)</span>
 
@@ -200,30 +202,21 @@
 
     <span class="n">x_oh_pinv</span> <span class="o">=</span> <span class="p">[</span><span class="n">x_oh_svd</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">x_oh_svd</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x_oh_svd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
 
-    <span class="n">par</span><span class="p">,</span> <span class="n">disc</span><span class="p">,</span> <span class="n">it</span> <span class="o">=</span> <span class="n">fortran_module</span><span class="o">.</span><span class="n">discrete_fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">m_x</span><span class="p">,</span> <span class="n">m_y</span><span class="p">,</span>
-                                                <span class="n">m_y</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">degs</span><span class="p">,</span> <span class="n">x_oh_pinv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                                                <span class="n">x_oh_pinv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x_oh_pinv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-                                                <span class="n">iters</span><span class="p">,</span> <span class="n">overfit</span><span class="p">)</span>
+    <span class="n">w</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">it</span> <span class="o">=</span> <span class="n">fortran_module</span><span class="o">.</span><span class="n">fortran_module</span><span class="o">.</span><span class="n">discrete_fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">m_x</span><span class="p">,</span> <span class="n">m_y</span><span class="p">,</span>
+                                           <span class="n">m_y</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">degs</span><span class="p">,</span> <span class="n">x_oh_pinv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                           <span class="n">x_oh_pinv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x_oh_pinv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">iters</span><span class="p">,</span>
+                                           <span class="n">overfit</span><span class="p">,</span> <span class="n">impute</span><span class="p">)</span>
 
     <span class="n">idx_by_deg</span> <span class="o">=</span> <span class="p">[</span><span class="n">combinatorics</span><span class="o">.</span><span class="n">multiindices</span><span class="p">(</span><span class="n">n_x</span><span class="p">,</span> <span class="n">deg</span><span class="p">)</span> <span class="k">for</span> <span class="n">deg</span> <span class="ow">in</span> <span class="n">degs</span><span class="p">]</span>
     <span class="n">mi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
         <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">m_x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">])</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">idx_by_deg</span><span class="p">])</span>
     <span class="n">mi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">mi</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
-    <span class="n">par</span> <span class="o">=</span> <span class="p">{</span><span class="n">deg</span><span class="p">:</span> <span class="n">par</span><span class="p">[:,</span> <span class="n">mi</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">mi</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">deg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">degs</span><span class="p">)}</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="p">{</span><span class="n">deg</span><span class="p">:</span> <span class="n">w</span><span class="p">[:,</span> <span class="n">mi</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">mi</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">deg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">degs</span><span class="p">)}</span>
 
-    <span class="n">disc</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">it</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">disc</span><span class="p">)]</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">[</span><span class="n">di</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">it</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">di</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">d</span><span class="p">)]</span>
 
-    <span class="k">return</span> <span class="n">par</span><span class="p">,</span> <span class="n">disc</span></div>
-
-
-<div class="viewcode-block" id="fit"><a class="viewcode-back" href="../../fem.html#fem.fit.fit">[docs]</a><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">degs</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">iters</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">overfit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-
-    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="s1">&#39;float&#39;</span> <span class="ow">and</span> <span class="n">y</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="s1">&#39;float&#39;</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;impute&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">discrete_impute_fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">degs</span><span class="p">,</span> <span class="n">iters</span><span class="p">,</span> <span class="n">overfit</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">discrete_fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">degs</span><span class="p">,</span> <span class="n">iters</span><span class="p">,</span> <span class="n">overfit</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">w</span><span class="p">,</span> <span class="n">d</span></div>
 </pre></div>
 
           </div>
@@ -246,7 +239,7 @@
         &copy; Copyright 2018, Joe McKenna.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.6.
       </li>
     </ul>
     </div>
