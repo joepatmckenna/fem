@@ -1,6 +1,7 @@
 name = 'fem'
 
 import fortran_module
-import fit
-import simulate
-import combinatorics
+import discrete.simulate
+import discrete.fit
+import continuous.simulate
+import continuous.fit

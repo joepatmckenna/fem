@@ -12,7 +12,10 @@ module fortran_module
 contains
 
   function num_threads() result (n)
-    ! num_threads description
+    ! Return the number of threads that the package can see.
+    ! If the return value is 1 but there are multiple cpus,
+    ! then OpenMP is not installed or not properly configured
+    implicit none
     integer n
     n = 1
     !$ n = omp_get_max_threads()
@@ -21,24 +24,14 @@ contains
   subroutine multiindices(n, m, degs, n_deg, n_idx, n_idx_by_deg, idx_ptr, idx, stratifier)
     implicit none
 
-    integer, intent(in) :: n
-    integer, intent(in) :: m(n)
-    integer, intent(in) :: degs(n_deg)
-    integer, intent(in) :: n_deg
-    integer, intent(in) :: n_idx
-    integer, intent(in) :: n_idx_by_deg(n_deg)
-
-    integer, intent(out) :: idx_ptr(:)
-    integer, intent(out) :: idx(:)
-    integer, intent(out) :: stratifier(:)
-
-    integer :: i, i1, i2, j ,k
+    integer, intent(in) :: n, n_deg, n_idx, m(n), degs(n_deg), n_idx_by_deg(n_deg)
+    integer, intent(out) :: idx_ptr(:), idx(:), stratifier(:)
     integer, allocatable :: var(:)
+    integer i, i1, i2, j, k
 
     idx_ptr(1) = 0
     i = 2
     do j = 1, n_deg
-       ! do k = 1, n_idx_by_deg(degs(j))
        do k = 1, n_idx_by_deg(j)
           idx_ptr(i) = idx_ptr(i-1) + degs(j)
           i = i + 1
@@ -85,33 +78,20 @@ contains
 
   end subroutine multiindices
 
-  subroutine simulate_time_series(par, m_sum, n_s, n, m, l, degs, n_deg, x)
+  subroutine simulate_time_series(w, m_sum, n_s, n, m, l, degs, n_deg, x)
     ! simulate_time_series description
 
-    real*8, intent(in) :: par(m_sum, n_s)
-    integer, intent(in) :: m_sum, n_s, n, n_deg
-    integer, intent(in) :: m(n)
-    integer, intent(in) :: l
-    integer, intent(in) :: degs(n_deg)
-    !f2py integer, intent(hide), depend(par) :: m_sum=shape(par,0)
-    !f2py integer, intent(hide), depend(par) :: n_s=shape(par,1)
+    real*8, intent(in) :: w(m_sum, n_s)
+    integer, intent(in) :: m_sum, n_s, n, n_deg, l, m(n), degs(n_deg)
+    integer, intent(out) :: x(n,l)
+    !f2py integer, intent(hide), depend(w) :: m_sum=shape(w,0)
+    !f2py integer, intent(hide), depend(w) :: n_s=shape(w,1)
     !f2py integer, intent(hide), depend(m) :: n=len(m)
     !f2py integer, intent(hide), depend(degs) :: n_deg=len(degs)
 
-    integer, intent(out) :: x(n,l)
-
-    integer :: t, i, i1, i2, j
-    integer :: max_deg
-    integer, allocatable :: bc(:)
-    integer :: n_idx_by_deg(n_deg)
-    integer :: n_idx
-    integer, allocatable :: idx_ptr(:)
-    integer, allocatable :: idx(:)
-    integer, allocatable :: stratifier(:)
-    integer :: m_cumsum(n+1)
-    real*8 randr(n, l)
-    real*8 wrk(m_sum)
-    integer, allocatable :: s(:,:)
+    integer, allocatable :: bc(:), idx_ptr(:), idx(:), stratifier(:), s(:,:)
+    integer t, i, i1, i2, j, max_deg, n_idx, n_idx_by_deg(n_deg), m_cumsum(n+1)
+    real*8 randr(n, l), wrk(m_sum)
 
     ! print*, 'passed to fortran'
 
@@ -159,7 +139,7 @@ contains
        ! energies
        wrk = 0
        do i = 1, n_idx
-          wrk = wrk + par(:, s(i, t-1))
+          wrk = wrk + w(:, s(i, t-1))
        end do
        ! print*, 'h', wrk
 
@@ -194,36 +174,20 @@ contains
 
   end subroutine simulate_time_series
 
-  subroutine simulate_mutations(par, m_sum, n_s, n, m, l, degs, n_deg, x, y)
+  subroutine simulate_mutations(w, m_sum, n_s, n, m, l, degs, n_deg, x, y)
     ! simulate_mutations description
 
-    real*8, intent(in) :: par(m_sum, n_s)
-    integer, intent(in) :: m_sum, n_s, n, n_deg
-    integer, intent(in) :: m(n)
-    integer, intent(in) :: l
-    integer, intent(in) :: degs(n_deg)
-    !f2py integer, intent(hide), depend(par) :: m_sum=shape(par,0)
-    !f2py integer, intent(hide), depend(par) :: n_s=shape(par,1)
+    real*8, intent(in) :: w(m_sum, n_s)
+    integer, intent(in) :: m_sum, n_s, n, n_deg, l, m(n), degs(n_deg)
+    integer, intent(out) :: x(n,l), y(n,l)
+    !f2py integer, intent(hide), depend(w) :: m_sum=shape(w,0)
+    !f2py integer, intent(hide), depend(w) :: n_s=shape(w,1)
     !f2py integer, intent(hide), depend(m) :: n=len(m)
     !f2py integer, intent(hide), depend(degs) :: n_deg=len(degs)
 
-    integer, intent(out) :: x(n,l), y(n,l)
-
-    integer :: i, i1, i2, j, k
-    integer :: max_deg
-    integer, allocatable :: bc(:)
-    integer :: n_idx_by_deg(n_deg)
-    integer :: n_idx
-    integer, allocatable :: idx_ptr(:)
-    integer, allocatable :: idx(:)
-    integer, allocatable :: stratifier(:)
-    integer :: m_cumsum(n+1)
-    real*8 randx(n, l)
-    real*8 randy(n, l)
-    real*8 wrk(m_sum)
-    integer, allocatable :: s(:,:)
-
-    ! print*, 'passed to fortran'
+    integer i, i1, i2, j, k, max_deg, n_idx, n_idx_by_deg(n_deg), m_cumsum(n+1)
+    real*8 randx(n, l), randy(n, l), wrk(m_sum)
+    integer, allocatable :: bc(:), idx_ptr(:), idx(:), stratifier(:), s(:,:)
 
     call random_seed()
     call random_number(randx)
@@ -274,7 +238,7 @@ contains
        ! energies
        wrk = 0
        do i = 1, n_idx
-          wrk = wrk + par(:, s(i, k))
+          wrk = wrk + w(:, s(i, k))
        end do
        ! print*, 'h', wrk
 
@@ -301,17 +265,18 @@ contains
 
   subroutine discrete_fit(x, y, n_x, n_y, m_x, m_y, m_y_sum, l, degs, n_deg, &
        x_oh_pinv1, x_oh_pinv2, x_oh_pinv3, x_oh_rank, n_s, &
-       iters, overfit, par, disc, iter)
+       iters, overfit, impute, w, disc, iter)
     implicit none
 
+    integer, intent(in) :: n_x, n_y, l, n_deg, x_oh_rank, n_s, m_y_sum
     integer, intent(in) :: x(n_x,l), y(n_y,l), m_x(n_x), m_y(n_y), degs(n_deg)
-    integer n_x, n_y, l, n_deg, x_oh_rank, n_s
-    integer, intent(in) ::  m_y_sum
     real*8, intent(in) :: x_oh_pinv1(l, x_oh_rank)
     real*8, intent(in) :: x_oh_pinv2(x_oh_rank)
     real*8, intent(in) :: x_oh_pinv3(x_oh_rank, n_s)
     integer, intent(in) :: iters
-    logical, intent(in) :: overfit
+    logical, intent(in) :: overfit, impute
+    real*8, intent(out) :: w(m_y_sum, n_s), disc(n_y, iters)
+    integer, intent(out) :: iter(n_y)
     !f2py integer, intent(hide), depend(x) :: n_x=shape(x,0)
     !f2py integer, intent(hide), depend(y) :: n_y=shape(y,0)
     !f2py integer, intent(hide), depend(x) :: l=shape(x,1)
@@ -319,20 +284,8 @@ contains
     !f2py integer, intent(hide), depend(x_oh_pinv2) :: x_oh_rank=len(x_oh_pinv2)
     !f2py integer, intent(hide), depend(x_oh_pinv3) :: n_s=shape(x_oh_pinv3,1)
 
-    real*8, intent(out) :: par(m_y_sum, n_s)
-    real*8, intent(out) :: disc(n_y, iters)
-    integer, intent(out) :: iter(n_y)
-
-    integer i, i1, i2, j, k
-    integer max_deg, n_idx
-    integer, allocatable :: bc(:)
-    integer :: n_idx_by_deg(n_deg)
-    integer, allocatable :: idx_ptr(:)
-    integer, allocatable :: idx(:)
-    integer, allocatable :: var(:)
-    integer, allocatable :: stratifier(:)
-    integer, allocatable :: s(:,:)
-    integer :: m_y_cumsum(n_y+1)
+    integer i, i1, i2, j, k, max_deg, n_idx, n_idx_by_deg(n_deg), m_y_cumsum(n_y+1)
+    integer, allocatable :: bc(:), idx_ptr(:), idx(:), var(:), stratifier(:), s(:,:)
 
     ! print*, 'x_oh_pinv1', shape(x_oh_pinv1)
     ! print*, 'x_oh_pinv2', shape(x_oh_pinv2)
@@ -425,7 +378,7 @@ contains
     end do
     ! print*, 'stratifier', stratifier
 
-    ! powers of x stratified, i.e. cols of par
+    ! powers of x stratified, i.e. cols of w
     allocate(s(n_idx, l))
     do i = 1, n_idx
        s(i, :) = x(idx(idx_ptr(i)+1), :)
@@ -446,14 +399,15 @@ contains
 
     ! print*, 'm_y_cumsum', m_y_cumsum
     ! print*, 'n_s', n_s
-    ! print*, 'par', shape(par)
+    ! print*, 'w', shape(w)
 
-    !$omp parallel do
+    !$omp parallel do default(shared) private(i1,i2)
     do i = 1, n_y
-       print*, i, iter(i), m_y_cumsum(i)+1, m_y_cumsum(i+1)
-       call discrete_fit_i(s, n_idx, y(i,:)+1, m_y(i), l, &
+       i1 = m_y_cumsum(i)+1
+       i2 = m_y_cumsum(i+1)
+       call discrete_fit_i(i1, i2, s, n_idx, y(i,:)+1, m_y(i), l, &
             x_oh_pinv1, x_oh_pinv2, x_oh_pinv3, x_oh_rank, n_s, &
-            iters, overfit, par(m_y_cumsum(i)+1:m_y_cumsum(i+1),:), disc(i,:), iter(i))
+            iters, overfit, impute, w(i1:i2,:), disc(i,:), iter(i))
     end do
     !$omp end parallel do
 
@@ -461,29 +415,27 @@ contains
 
   end subroutine discrete_fit
 
-  subroutine discrete_fit_i(s, n_idx, y, m_y, l, &
+  subroutine discrete_fit_i(i1, i2, s, n_idx, y, m_y, l, &
        x_oh_pinv1, x_oh_pinv2, x_oh_pinv3, x_oh_rank, n_s, &
-       iters, overfit, par, disc, iter)
+       iters, overfit, impute, w, disc, iter)
     implicit none
 
-    integer, intent(in) :: n_idx, m_y, l, x_oh_rank, n_s, iters
+    integer, intent(in) :: i1, i2, n_idx, m_y, l, x_oh_rank, n_s, iters
     integer, intent(in) :: s(n_idx, l), y(l)
     real*8, intent(in) :: x_oh_pinv1(l, x_oh_rank)
     real*8, intent(in) :: x_oh_pinv2(x_oh_rank)
     real*8, intent(in) :: x_oh_pinv3(x_oh_rank, n_s)
-    logical, intent(in) :: overfit
+    logical, intent(in) :: overfit, impute
 
-    real*8, intent(out) :: par(m_y, n_s)
-    real*8, intent(out) :: disc(iters)
+    real*8, intent(out) :: w(m_y, n_s), disc(iters)
     integer, intent(out) :: iter
 
     logical disc_mask(m_y, l)
     integer n_wrong_states
-    real*8 wrk(m_y, l)
-    real*8 dpar(m_y, x_oh_rank)
+    real*8 wrk(m_y, l), dw(m_y, x_oh_rank)
     integer i, t
 
-    par = 0
+    w = 0
     disc(1) = 1.0 / m_y / m_y + 1.0
     n_wrong_states = (m_y - 1) * l
 
@@ -498,7 +450,7 @@ contains
        wrk = 0
        do t = 1, l
           do i = 1, n_idx
-             wrk(:, t) = wrk(:, t) + par(:, s(i, t))
+             wrk(:, t) = wrk(:, t) + w(:, s(i, t))
           end do
        end do
 
@@ -518,17 +470,116 @@ contains
           wrk(y(t), t) = wrk(y(t), t) - 1
        end do
 
-       dpar = matmul(wrk, x_oh_pinv1)
+       dw = matmul(wrk, x_oh_pinv1)
        do i = 1, x_oh_rank
-          dpar(:, i) = dpar(:,i) * x_oh_pinv2(i)
+          dw(:, i) = dw(:,i) * x_oh_pinv2(i)
        end do
 
-       par = par - matmul(dpar, x_oh_pinv3)
+       w = w - matmul(dw, x_oh_pinv3)
+
+       if (impute) then
+          w(:, i1:i2) = 0
+       end if
 
     end do
 
     iter = iter - 1
 
   end subroutine discrete_fit_i
+
+  subroutine continuous_fit(x, y, n, l, iters, atol, rtol, impute, w, disc, iter)
+    implicit none
+
+    real*8, intent(in) ::  x(n,l), y(n,l), atol, rtol
+    integer, intent(in) :: n, l, iters
+    real*8, intent(out) :: w(n,n), disc(n,iters)
+    integer, intent(out) :: iter(n)
+    logical, intent(in) :: impute
+    real*8 symx(n,l), mean_x(n), x_mean0(n,l), cov_x(n,n)
+    real*8 dt, sqrt_dt, sqrt_2, rat
+    !f2py integer, intent(hide), depend(x) :: n=shape(x,0)
+    !f2py integer, intent(hide), depend(l) :: n=shape(x,1)
+    integer i, j, info, ipiv(n)
+
+    dt = 1.0
+    sqrt_dt = sqrt(dt)
+    sqrt_2 = sqrt(2.0)
+    rat = sqrt_dt / sqrt_2
+
+    symx = 1
+    symx = sign(symx, y-x)
+    ! print*, 'symx(:,1)', symx(:,1)
+
+    do i = 1, n
+       mean_x(i) = sum(x(i,:))
+    end do
+    mean_x = mean_x / l
+    ! print*, 'mean_x', mean_x
+
+    do i = 1, l
+       x_mean0(:,i) = x(:,i) - mean_x
+    end do
+    ! print*, 'x_mean0(:,1)', x_mean0(:,1)
+
+    do i = 1, n
+       do j = 1, n
+          cov_x(i,j) = dot_product(x(i,:), x(j,:))
+       end do
+    end do
+    cov_x = cov_x / l
+    ! print*, 'cov_x', cov_x
+
+    call dgetrf(n, n, cov_x, n, ipiv, info)
+    ! print*, 'dgetrf info', info
+
+    !$omp parallel do default(shared) private(i)
+    do i = 1, n
+       ! print*, 'fit_i', i
+       call continuous_fit_i(i, x, n, l, x_mean0, symx(i,:), cov_x, ipiv, &
+            iters, atol, rtol, impute, w(i,:), disc(i,:), iter(i))
+    end do
+    !$omp end parallel do
+
+    w = w / rat
+
+  end subroutine continuous_fit
+
+  subroutine continuous_fit_i(i, x, n, l, x_mean0, symx, cov_x, ipiv, iters, atol, rtol, impute, w, disc, iter)
+    implicit none
+
+    real*8, intent(in) :: x(n,l), x_mean0(n,l), symx(l), cov_x(n,n), atol, rtol
+    integer, intent(in) :: i, n, l, iters, ipiv(n)
+    logical, intent(in) :: impute
+    real*8, intent(out) :: w(n), disc(iters)
+    integer, intent(out) :: iter
+    real*8 h(l), erf_last(l), erf_next(l)
+    integer info
+
+    w = 0
+    w(i) = 1
+    erf_last = erf(x(i,:)) + 1
+
+    do iter = 1, iters
+
+       h = matmul(w,x)
+
+       erf_next = erf(h)
+
+       disc(iter) = norm2(erf_next-erf_last)
+       if ((disc(iter) < atol).or.(disc(iter) < norm2(erf_next)*rtol)) exit
+       erf_last = erf_next
+
+       h = h * symx / erf_next
+
+       w = matmul(x_mean0, h) / l
+       call dgetrs('N', n, 1, cov_x, n, ipiv, w, n, info)
+
+       if (impute) w(i) = 0
+
+    end do
+
+    iter = iter - 1
+
+  end subroutine continuous_fit_i
 
 end module fortran_module

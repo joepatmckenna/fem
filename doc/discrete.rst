@@ -66,22 +66,22 @@ we see that :math:`h_i(\sigma)` and hence the probability of :math:`y=i` increas
 Method
 ------
 
-Suppose we make :math:`\ell` observations of the variables :math:`x_i, y`. We may arrange the one-hot encodings of these observations and their powers into matrices. Let :math:`\Sigma_{x1}` be the matrix whose :math:`j^{th}` column is :math:`\sigma_j` the one-hot encoding of the :math:`j^{th}` input observation :math:`\sigma_j`, and let :math:`\Sigma_{xk}` be the matrix whose :math:`j^{th}` column is :math:`\sigma_j^k`. Similarly, let :math:`\Sigma_y` be the matrix whose :math:`j^{th}` column is the one-hot encoding of the :math:`j^{th}` output observation.
+Suppose we make :math:`\ell` observations of the variables :math:`x_i, y`. We may arrange the one-hot encodings of these observations into matrices. Let :math:`\Sigma_{xk}`, :math:`k=1,\ldots,K`, be the matrix whose :math:`j^{th}` column is the :math:`k^{th}` power of the one-hot encoding of the :math:`j^{th}` input observation :math:`\sigma_j^k`. Similarly, let :math:`\Sigma_y` be the matrix whose :math:`j^{th}` column is the one-hot encoding of the :math:`j^{th}` output observation.
 
-We may then summarize the output probability of :math:`y=i` given input observation :math:`\sigma_j` as entry
+We summarize the probability of :math:`y=i` given input observation :math:`\sigma_j` in the matrix :math:`P` with elements
 
 .. math::
 
-   P_{ij} = {e^{H_{ij}} \over \sum_{i=1}^m e^{H_{ij}}}
+   P_{ij} = {e^{H_{ij}} \over \sum_{i=1}^m e^{H_{ij}}},
 
 
-of a matrix :math:`P`. Here the negative energy of the :math:`i^{th}` state of :math:`y` given observation :math:`\sigma_j` is the :math:`ij^{th}` element of the matrix :math:`H = W\Sigma` where
+where :math:`H_{ij}` are the elements of the the matrix :math:`H = W\Sigma_x` with
 
 .. math::
 
    W = \begin{pmatrix} W_1 & \cdots & W_K \end{pmatrix}\hspace{5mm}\text{and}\hspace{5mm}\Sigma_x = \begin{pmatrix} \Sigma_{x1} \\ \vdots \\ \Sigma_{xK} \end{pmatrix}.
 
-Given a guess at the model parameters :math:`W`, we can compute a corresponding guess at :math:`H` using this last formula. Additionally, given :math:`\Sigma_x` computed solely from the input data and a guess of :math:`H` we could attempt to solve the same equation for :math:`W`. This is the motivation behind the following method:
+:math:`\Sigma_x` is computed solely from the input data. Given a guess at :math:`W`, we can compute corresponding guesses at :math:`H` and :math:`P` using the formulas above. We could also adjust :math:`H` by comparing :math:`P` to :math:`\Sigma_y`. Then, given :math:`H` we can solve the formula :math:`H=W\Sigma_x` for the model parameters :math:`W`. This is the motivation for the following method:
 
    Initialize :math:`W^{(1)}=0` 
 
@@ -97,24 +97,24 @@ Given a guess at the model parameters :math:`W`, we can compute a corresponding 
 
 The shapes of all matrices mentioned in this section are listed in the following table:
 
-+---------------------+-----------------------+
-| matrix              | shape                 |
-+=====================+=======================+
-| :math:`\Sigma_x`    | :math:`p\times\ell`   |
-+---------------------+-----------------------+
-| :math:`\Sigma_{xk}` | :math:`p_k\times\ell` |
-+---------------------+-----------------------+
-| :math:`\Sigma_y`    | :math:`m\times\ell`   |
-+---------------------+-----------------------+
-| :math:`P`           | :math:`m\times\ell`   |
-+---------------------+-----------------------+
-| :math:`H`           | :math:`m\times\ell`   |
-+---------------------+-----------------------+
-| :math:`W`           | :math:`m\times p`     |
-+---------------------+-----------------------+
-| :math:`W_k`         | :math:`m\times p_k`   |
-+---------------------+-----------------------+
++---------------------+-----------------------------------+
+| matrix              | shape                             |
++=====================+===================================+
+| :math:`\Sigma_x`    | :math:`\sum_{k=1}^np_k\times\ell` |
++---------------------+-----------------------------------+
+| :math:`\Sigma_{xk}` | :math:`p_k\times\ell`             |
++---------------------+-----------------------------------+
+| :math:`\Sigma_y`    | :math:`m\times\ell`               |
++---------------------+-----------------------------------+
+| :math:`P`           | :math:`m\times\ell`               |
++---------------------+-----------------------------------+
+| :math:`H`           | :math:`m\times\ell`               |
++---------------------+-----------------------------------+
+| :math:`W`           | :math:`m\times p`                 |
++---------------------+-----------------------------------+
+| :math:`W_k`         | :math:`m\times p_k`               |
++---------------------+-----------------------------------+
 
-where :math:`p_k=\sum_{A\subseteq\{1,\ldots,n\}, |A|=k}\prod_{j\in A}m_j`, :math:`p=\sum_{k=1}^np_k` and :math:`r=\text{rank}(\Sigma_x)`.
+where :math:`p_k=\sum_{A\subseteq\{1,\ldots,n\}, |A|=k}\prod_{j\in A}m_j`.
 
 .. _Boltzmann distribution: https://en.wikipedia.org/wiki/Boltzmann_distribution

@@ -18,10 +18,10 @@ python module fortran_module ! in
                 integer dimension(:),intent(out) :: idx
                 integer dimension(:),intent(out) :: stratifier
             end subroutine multiindices
-            subroutine simulate_time_series(par,m_sum,n_s,n,m,l,degs,n_deg,x) ! in :fortran_module:fortran_module.f90:fortran_module
-                real*8 dimension(m_sum,n_s),intent(in) :: par
-                integer, optional,intent(hide),depend(par) :: m_sum=shape(par,0)
-                integer, optional,intent(hide),depend(par) :: n_s=shape(par,1)
+            subroutine simulate_time_series(w,m_sum,n_s,n,m,l,degs,n_deg,x) ! in :fortran_module:fortran_module.f90:fortran_module
+                real*8 dimension(m_sum,n_s),intent(in) :: w
+                integer, optional,intent(hide),depend(w) :: m_sum=shape(w,0)
+                integer, optional,intent(hide),depend(w) :: n_s=shape(w,1)
                 integer, optional,intent(hide),depend(m) :: n=len(m)
                 integer dimension(n),intent(in) :: m
                 integer intent(in) :: l
@@ -29,10 +29,10 @@ python module fortran_module ! in
                 integer, optional,intent(hide),depend(degs) :: n_deg=len(degs)
                 integer dimension(n,l),intent(out),depend(n,l) :: x
             end subroutine simulate_time_series
-            subroutine simulate_mutations(par,m_sum,n_s,n,m,l,degs,n_deg,x,y) ! in :fortran_module:fortran_module.f90:fortran_module
-                real*8 dimension(m_sum,n_s),intent(in) :: par
-                integer, optional,intent(hide),depend(par) :: m_sum=shape(par,0)
-                integer, optional,intent(hide),depend(par) :: n_s=shape(par,1)
+            subroutine simulate_mutations(w,m_sum,n_s,n,m,l,degs,n_deg,x,y) ! in :fortran_module:fortran_module.f90:fortran_module
+                real*8 dimension(m_sum,n_s),intent(in) :: w
+                integer, optional,intent(hide),depend(w) :: m_sum=shape(w,0)
+                integer, optional,intent(hide),depend(w) :: n_s=shape(w,1)
                 integer, optional,intent(hide),depend(m) :: n=len(m)
                 integer dimension(n),intent(in) :: m
                 integer intent(in) :: l
@@ -41,7 +41,7 @@ python module fortran_module ! in
                 integer dimension(n,l),intent(out),depend(n,l) :: x
                 integer dimension(n,l),intent(out),depend(n,l) :: y
             end subroutine simulate_mutations
-            subroutine discrete_fit(x,y,n_x,n_y,m_x,m_y,m_y_sum,l,degs,n_deg,x_oh_pinv1,x_oh_pinv2,x_oh_pinv3,x_oh_rank,n_s,iters,overfit,par,disc,iter) ! in :fortran_module:fortran_module.f90:fortran_module
+            subroutine discrete_fit(x,y,n_x,n_y,m_x,m_y,m_y_sum,l,degs,n_deg,x_oh_pinv1,x_oh_pinv2,x_oh_pinv3,x_oh_rank,n_s,iters,overfit,impute,w,disc,iter) ! in :fortran_module:fortran_module.f90:fortran_module
                 integer dimension(n_x,l),intent(in) :: x
                 integer dimension(n_y,l),intent(in),depend(l) :: y
                 integer, optional,intent(hide),depend(x) :: n_x=shape(x,0)
@@ -59,11 +59,14 @@ python module fortran_module ! in
                 integer, optional,intent(hide),depend(x_oh_pinv3) :: n_s=shape(x_oh_pinv3,1)
                 integer intent(in) :: iters
                 logical intent(in) :: overfit
-                real*8 dimension(m_y_sum,n_s),intent(out),depend(m_y_sum,n_s) :: par
+                logical intent(in) :: impute
+                real*8 dimension(m_y_sum,n_s),intent(out),depend(m_y_sum,n_s) :: w
                 real*8 dimension(n_y,iters),intent(out),depend(n_y,iters) :: disc
                 integer dimension(n_y),intent(out),depend(n_y) :: iter
             end subroutine discrete_fit
-            subroutine discrete_fit_i(s,n_idx,y,m_y,l,x_oh_pinv1,x_oh_pinv2,x_oh_pinv3,x_oh_rank,n_s,iters,overfit,par,disc,iter) ! in :fortran_module:fortran_module.f90:fortran_module
+            subroutine discrete_fit_i(i1,i2,s,n_idx,y,m_y,l,x_oh_pinv1,x_oh_pinv2,x_oh_pinv3,x_oh_rank,n_s,iters,overfit,impute,w,disc,iter) ! in :fortran_module:fortran_module.f90:fortran_module
+                integer intent(in) :: i1
+                integer intent(in) :: i2
                 integer dimension(n_idx,l),intent(in) :: s
                 integer, optional,intent(in),check(shape(s,0)==n_idx),depend(s) :: n_idx=shape(s,0)
                 integer dimension(l),intent(in),depend(l) :: y
@@ -76,10 +79,41 @@ python module fortran_module ! in
                 integer, optional,intent(in),check(shape(x_oh_pinv3,1)==n_s),depend(x_oh_pinv3) :: n_s=shape(x_oh_pinv3,1)
                 integer intent(in) :: iters
                 logical intent(in) :: overfit
-                real*8 dimension(m_y,n_s),intent(out),depend(m_y,n_s) :: par
+                logical intent(in) :: impute
+                real*8 dimension(m_y,n_s),intent(out),depend(m_y,n_s) :: w
                 real*8 dimension(iters),intent(out),depend(iters) :: disc
                 integer intent(out) :: iter
             end subroutine discrete_fit_i
+            subroutine continuous_fit(x,y,n,l,iters,atol,rtol,impute,w,disc,iter) ! in :fortran_module:fortran_module.f90:fortran_module
+                real*8 dimension(n,l),intent(in) :: x
+                real*8 dimension(n,l),intent(in),depend(n,l) :: y
+                integer, optional,intent(hide),depend(l,x) :: n=shape(x,0)
+                integer, optional,intent(in),check(shape(x,1)==l),depend(x) :: l=shape(x,1)
+                integer intent(in) :: iters
+                real*8 intent(in) :: atol
+                real*8 intent(in) :: rtol
+                logical intent(in) :: impute
+                real*8 dimension(n,n),intent(out),depend(n,n) :: w
+                real*8 dimension(n,iters),intent(out),depend(n,iters) :: disc
+                integer dimension(n),intent(out),depend(n) :: iter
+            end subroutine continuous_fit
+            subroutine continuous_fit_i(i,x,n,l,x_mean0,symx,cov_x,ipiv,iters,atol,rtol,impute,w,disc,iter) ! in :fortran_module:fortran_module.f90:fortran_module
+                integer intent(in) :: i
+                real*8 dimension(n,l),intent(in) :: x
+                integer, optional,intent(in),check(shape(x,0)==n),depend(x) :: n=shape(x,0)
+                integer, optional,intent(in),check(shape(x,1)==l),depend(x) :: l=shape(x,1)
+                real*8 dimension(n,l),intent(in),depend(n,l) :: x_mean0
+                real*8 dimension(l),intent(in),depend(l) :: symx
+                real*8 dimension(n,n),intent(in),depend(n,n) :: cov_x
+                integer dimension(n),intent(in),depend(n) :: ipiv
+                integer intent(in) :: iters
+                real*8 intent(in) :: atol
+                real*8 intent(in) :: rtol
+                logical intent(in) :: impute
+                real*8 dimension(n),intent(out),depend(n) :: w
+                real*8 dimension(iters),intent(out),depend(iters) :: disc
+                integer intent(out) :: iter
+            end subroutine continuous_fit_i
         end module fortran_module
     end interface 
 end python module fortran_module

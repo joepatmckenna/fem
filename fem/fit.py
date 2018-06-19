@@ -8,13 +8,12 @@ from fortran_module import fortran_module
 def one_hot(x, degs):
 
     x = np.array(x)
-    dim = len(x.shape)
 
-    if dim == 1:
+    if x.ndim == 1:
         n = 1
         m = np.array([np.unique(x).shape[0]])
         l = x.shape[0]
-    elif dim == 2:
+    elif x.ndim == 2:
         n = x.shape[0]
         m = np.array([np.unique(xi).shape[0] for xi in x])
         l = x.shape[1]
@@ -46,10 +45,9 @@ def one_hot(x, degs):
 
 def categorize(x):
 
-    dim = x.shape
-    if len(dim) == 1:
+    if x.ndim == 1:
         x = np.array([x])
-    elif len(dim) == 2:
+    elif x.ndim == 2:
         x = np.array(x)
     else:
         print 'x should be 1- or 2-dimensional'
@@ -71,7 +69,7 @@ def categorize(x):
     return x_cat, cat
 
 
-def discrete_fit(x, y, degs, iters, overfit):
+def discrete_fit(x, y, degs, iters, overfit, impute):
     # x: sum(p) by l
     # ------------------------------------
     # x1: x[i_x[0]:i_x[1], :] -- p[0] by l
@@ -105,7 +103,7 @@ def discrete_fit(x, y, degs, iters, overfit):
     par, disc, it = fortran_module.discrete_fit(x, y, m_x, m_y,
                                                 m_y.sum(), degs, x_oh_pinv[0],
                                                 x_oh_pinv[1], x_oh_pinv[2],
-                                                iters, overfit)
+                                                iters, overfit, impute)
 
     idx_by_deg = [combinatorics.multiindices(n_x, deg) for deg in degs]
     mi = np.array(
@@ -119,10 +117,13 @@ def discrete_fit(x, y, degs, iters, overfit):
     return par, disc
 
 
-def fit(x, y, degs=[1], iters=100, overfit=True, mode=None):
+def fit(x, y=None, degs=[1], iters=100, overfit=True, impute=None):
+
+    if y is None:
+        y = x
+        impute = True
+    else:
+        impute = False
 
     if x.dtype != 'float' and y.dtype != 'float':
-        if mode == 'impute':
-            return discrete_impute_fit(x, y, degs, iters, overfit)
-        else:
-            return discrete_fit(x, y, degs, iters, overfit)
+        return discrete_fit(x, y, degs, iters, overfit, impute)

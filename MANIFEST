@@ -7,6 +7,4 @@ version
 ./fem/fortran_module.f90
 ./fem/fortran_module.pyf
 fem/__init__.py
-fem/combinatorics.py
 fem/fit.py
-fem/simulate.py

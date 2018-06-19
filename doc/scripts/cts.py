@@ -1,5 +1,5 @@
 from scipy.linalg import solve
-from scipy.special import erf as sperf
+from scipy.special import erf as erf
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -26,10 +26,10 @@ plt.plot(x[:, -100:].T)
 plt.show()
 
 x1, x2 = x[:, :-1], x[:, 1:]
-y = np.sign(np.diff(x))
-c_j = x.mean(1)
-c_jk = np.cov(x)
-xc = x1 - c_j[:, np.newaxis]
+sign_dx = np.sign(np.diff(x))
+mean_x = x.mean(1)
+cov_x = np.cov(x)
+x1_mean0 = x1 - mean_x[:, np.newaxis]
 
 
 def fit(i, iters=100):
@@ -37,8 +37,8 @@ def fit(i, iters=100):
     wi = np.zeros(n)
     wi[i] = 1
 
-    # sperf_last = sperf(x1[i] * rat) + 1
-    sperf_last = sperf(x1[i]) + 1
+    # erf_last = erf(x1[i] * rat) + 1
+    erf_last = erf(x1[i]) + 1
 
     e = []
 
@@ -46,20 +46,20 @@ def fit(i, iters=100):
 
         h = wi.dot(x1)
 
-        # sperf_next = sperf(h * rat)
-        sperf_next = sperf(h)
-        ei = np.linalg.norm(sperf_next - sperf_last)
+        # erf_next = erf(h * rat)
+        erf_next = erf(h)
+        ei = np.linalg.norm(erf_next - erf_last)
         e.append(ei)
         print i, it, ei
         if ei * ei < 1e-5:
             break
-        sperf_last = sperf_next.copy()
+        erf_last = erf_next.copy()
 
-        h *= y[i] / sperf_next
+        h *= sign_dx[i] / erf_next
 
-        wi = solve(c_jk, xc.dot(h) / (l - 1))
+        wi = solve(cov_x, x1_mean0.dot(h) / (l - 1))
 
-    return wi, e
+    return wi, e[1:]
 
 
 w_fit = np.empty((n, n))

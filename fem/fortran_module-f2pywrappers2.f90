@@ -33,6 +33,8 @@
       use fortran_module, only : simulate_mutations
       use fortran_module, only : discrete_fit
       use fortran_module, only : discrete_fit_i
+      use fortran_module, only : continuous_fit
+      use fortran_module, only : continuous_fit_i
       interface 
       subroutine f2pywrap_fortran_module_num_threads (num_threadsf2pywra&
      &p, num_threads)
@@ -59,7 +61,7 @@
       external f2pysetupfunc
       call f2pysetupfunc(f2pywrap_fortran_module_num_threads,f2pywrap_fo&
      &rtran_module_multiindices,simulate_time_series,simulate_mutations,&
-     &discrete_fit,discrete_fit_i)
+     &discrete_fit,discrete_fit_i,continuous_fit,continuous_fit_i)
       end subroutine f2pyinitfortran_module
 
 

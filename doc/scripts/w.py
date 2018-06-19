@@ -83,7 +83,7 @@ for j in range(2):
     ax[1].text(
         x[i] + .5 * dx,
         y[i] + .5 * dy,
-        '$W_{2%i(1,2)(%i,%i)}$' % (j + 1, s[1] % 3 + 1, s[0] + 1),
+        '$W_{2%i(1,2)(%i,%i)}$' % (j + 1, s[0] % 3 + 1, s[1] % 3 + 1),
         fontsize=10,
         ha=ha[j],
         va='top',

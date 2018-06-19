@@ -3,8 +3,8 @@ from numpy.distutils.core import Extension
 fortran_module = Extension(
     name='fortran_module',
     sources=['./fem/fortran_module.f90', './fem/fortran_module.pyf'],
-    libraries=['gomp'],
-    extra_f90_compile_args=['-fopenmp', '-lgomp'])
+    libraries=['gomp', 'lapack', 'blas'],
+    extra_f90_compile_args=['-fopenmp', '-lgomp', '-llapack', '-lblas'])
 
 # gnu (gcc, g++, g77, gfortran): -fopenmp
 # intel (icc, icpc, ifort): -qopenmp
