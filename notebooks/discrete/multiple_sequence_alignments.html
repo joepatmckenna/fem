@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Multiple sequence alignment &mdash; fem  documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" >
+    <link rel="search" title="Search" href="../../search.html" >
+    <link rel="top" title="fem  documentation" href="../../index.html" >
+    <link rel="up" title="Discrete data examples" href="../../examples.html" >
+    <link rel="next" title="Second order" href="second_order.html" >
+    <link rel="prev" title="higher order sim" href="higher_order_sim.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://www.niddk.nih.gov/research-funding/at-niddk/labs-branches/LBM">LBM</a></li>
+        <li class="active"><a href="https://pypi.python.org/pypi/fem">fem</a></li>
+	
+        <li class="active"><a href="../../index.html">fem  documentation</a></li>
+	
+          <li class="active"><a href="../../examples.html" accesskey="U">Discrete data examples</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../f-modindex.html" title="Fortran Module Index"
+           >fortran modules</a>
+      </li>
+      <li class="active">
+        <a href="../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="second_order.html" title="Second order"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="higher_order_sim.html" title="higher order sim"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="higher_order_sim.html"
+                        title="previous chapter">higher order sim</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="second_order.html"
+                        title="next chapter">Second order</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 9ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+</style>
+<div class="section" id="Multiple-sequence-alignment">
+<h1>Multiple sequence alignment<a class="headerlink" href="#Multiple-sequence-alignment" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">fem</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../../scripts&#39;</span><span class="p">)</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="s1">&#39;../../../data/msa&#39;</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference external" href="../scripts/parse_pfam.py">parse Pfam data</a></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">parse_pfam</span> <span class="kn">import</span> <span class="n">parse_pfam</span>
+<span class="n">pf</span><span class="p">,</span> <span class="n">pf_info</span><span class="p">,</span> <span class="n">pdbmap</span> <span class="o">=</span> <span class="n">parse_pfam</span><span class="p">(</span><span class="n">data_dir</span><span class="o">=</span><span class="n">data_dir</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">pf_info</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>i</th>
+      <th>min_m</th>
+      <th>max_m</th>
+      <th>res</th>
+      <th>seq</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>PF10417.8</th>
+      <td>0</td>
+      <td>2</td>
+      <td>21</td>
+      <td>109</td>
+      <td>5754</td>
+    </tr>
+    <tr>
+      <th>PF12574.7</th>
+      <td>1</td>
+      <td>1</td>
+      <td>6</td>
+      <td>325</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>PF00244.19</th>
+      <td>3</td>
+      <td>2</td>
+      <td>22</td>
+      <td>874</td>
+      <td>3543</td>
+    </tr>
+    <tr>
+      <th>PF00389.29</th>
+      <td>5</td>
+      <td>2</td>
+      <td>22</td>
+      <td>1437</td>
+      <td>19205</td>
+    </tr>
+    <tr>
+      <th>PF02826.18</th>
+      <td>6</td>
+      <td>1</td>
+      <td>22</td>
+      <td>1143</td>
+      <td>23448</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">pdbmap</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>chain</th>
+      <th>?</th>
+      <th>name</th>
+      <th>pf</th>
+      <th>id</th>
+      <th>res</th>
+    </tr>
+    <tr>
+      <th>pdbid</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3H3M</th>
+      <td>B</td>
+      <td>nan</td>
+      <td>FliT</td>
+      <td>PF05400</td>
+      <td>A0A0H3LVQ9</td>
+      <td>34-106</td>
+    </tr>
+    <tr>
+      <th>3H3M</th>
+      <td>A</td>
+      <td>nan</td>
+      <td>FliT</td>
+      <td>PF05400</td>
+      <td>A0A0H3LVQ9</td>
+      <td>34-106</td>
+    </tr>
+    <tr>
+      <th>3NKZ</th>
+      <td>C</td>
+      <td>nan</td>
+      <td>FliT</td>
+      <td>PF05400</td>
+      <td>A1JSR8</td>
+      <td>21-92</td>
+    </tr>
+    <tr>
+      <th>3NKZ</th>
+      <td>B</td>
+      <td>nan</td>
+      <td>FliT</td>
+      <td>PF05400</td>
+      <td>A1JSR8</td>
+      <td>21-94</td>
+    </tr>
+    <tr>
+      <th>3NKZ</th>
+      <td>D</td>
+      <td>nan</td>
+      <td>FliT</td>
+      <td>PF05400</td>
+      <td>A1JSR8</td>
+      <td>21-93</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="k">print</span> <span class="n">pdbmap</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+<span class="k">print</span> <span class="n">pdbmap</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;pf&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+3H3M
+PF05400
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">Bio</span>
+<span class="kn">from</span> <span class="nn">Bio</span> <span class="kn">import</span> <span class="n">SeqIO</span>
+
+<span class="n">msa</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">SeqIO</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;PF16592_ncbi.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;fasta&#39;</span><span class="p">)</span>
+<span class="n">msa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">seq</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">msa</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="c1"># number of AAs that occur at each residue</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">msa</span><span class="p">])</span>
+<span class="c1"># filter out residues that less than 3 AAs</span>
+<span class="n">msa</span> <span class="o">=</span> <span class="n">msa</span><span class="p">[</span><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">m_cumsum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="c1"># data dimensions</span>
+<span class="n">n</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="n">msa</span><span class="o">.</span><span class="n">shape</span>
+<span class="k">print</span> <span class="s1">&#39;sequence length (n): </span><span class="si">%i</span><span class="s1">, number of sequences (l): </span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+<span class="c1"># elements of data matrix</span>
+<span class="k">print</span> <span class="s1">&#39;AAs: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">msa</span><span class="p">),)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+sequence length (n): 1232, number of sequences (l): 1115
+AAs: [&#39;-&#39; &#39;A&#39; &#39;C&#39; &#39;D&#39; &#39;E&#39; &#39;F&#39; &#39;G&#39; &#39;H&#39; &#39;I&#39; &#39;K&#39; &#39;L&#39; &#39;M&#39; &#39;N&#39; &#39;P&#39; &#39;Q&#39; &#39;R&#39; &#39;S&#39; &#39;T&#39;
+ &#39;V&#39; &#39;W&#39; &#39;X&#39; &#39;Y&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">degs</span><span class="p">,</span> <span class="n">iters</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">10</span>
+<span class="n">w</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">fit</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">msa</span><span class="p">,</span> <span class="n">degs</span><span class="o">=</span><span class="n">degs</span><span class="p">,</span> <span class="n">iters</span><span class="o">=</span><span class="n">iters</span><span class="p">)</span>
+<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">print</span> <span class="s1">&#39;</span><span class="si">%02f</span><span class="s1"> seconds&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">,)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+70.239204 seconds
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">di</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">iters</span><span class="p">),</span> <span class="n">di</span><span class="p">,</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;iteration&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;discrepancy&#39;</span><span class="p">)</span>
+
+<span class="n">scale</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">seismic</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="n">scale</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;$W_1$&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_multiple_sequence_alignments_10_0.png" src="../../_images/notebooks_discrete_multiple_sequence_alignments_10_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="c1"># pymol -qcr &lt;script.py&gt;</span>
+<span class="c1"># ftp://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam31.0/</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2018, Joe McKenna.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

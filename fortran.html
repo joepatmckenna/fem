@@ -28,7 +28,7 @@
     <link rel="index" title="Index" href="genindex.html" >
     <link rel="search" title="Search" href="search.html" >
     <link rel="top" title="fem  documentation" href="index.html" >
-    <link rel="prev" title="fem package" href="fem.html" > 
+    <link rel="prev" title="fem.discrete package" href="fem.discrete.html" > 
   </head>
   <body>
 
@@ -64,7 +64,7 @@
            >fortran modules</a>
       </li>
       <li class="active">
-        <a href="fem.html" title="fem package"
+        <a href="fem.discrete.html" title="fem.discrete package"
            accesskey="P">previous</a>
       </li>
     </ul>
@@ -78,8 +78,8 @@
       <div class="spc-rightsidebar span3">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="fem.html"
-                        title="previous chapter">fem package</a></p>
+  <p class="topless"><a href="fem.discrete.html"
+                        title="previous chapter">fem.discrete package</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
@@ -108,7 +108,7 @@ $ use omp_lib</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Routines:</th><td class="field-body"><a class="reference internal" href="#f/fortran_module/simulate_time_series" title="f/fortran_module/simulate_time_series"><code class="xref f f-func docutils literal"><span class="pre">simulate_time_series()</span></code></a>, <a class="reference internal" href="#f/fortran_module/simulate_mutations" title="f/fortran_module/simulate_mutations"><code class="xref f f-func docutils literal"><span class="pre">simulate_mutations()</span></code></a>, <a class="reference internal" href="#f/fortran_module/num_threads" title="f/fortran_module/num_threads"><code class="xref f f-func docutils literal"><span class="pre">num_threads()</span></code></a>, <a class="reference internal" href="#f/fortran_module/multiindices" title="f/fortran_module/multiindices"><code class="xref f f-func docutils literal"><span class="pre">multiindices()</span></code></a>, <a class="reference internal" href="#f/fortran_module/discrete_fit_i" title="f/fortran_module/discrete_fit_i"><code class="xref f f-func docutils literal"><span class="pre">discrete_fit_i()</span></code></a>, <a class="reference internal" href="#f/fortran_module/discrete_fit" title="f/fortran_module/discrete_fit"><code class="xref f f-func docutils literal"><span class="pre">discrete_fit()</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Routines:</th><td class="field-body"><a class="reference internal" href="#f/fortran_module/simulate_time_series" title="f/fortran_module/simulate_time_series"><code class="xref f f-func docutils literal"><span class="pre">simulate_time_series()</span></code></a>, <a class="reference internal" href="#f/fortran_module/simulate_mutations" title="f/fortran_module/simulate_mutations"><code class="xref f f-func docutils literal"><span class="pre">simulate_mutations()</span></code></a>, <a class="reference internal" href="#f/fortran_module/continuous_fit_i" title="f/fortran_module/continuous_fit_i"><code class="xref f f-func docutils literal"><span class="pre">continuous_fit_i()</span></code></a>, <a class="reference internal" href="#f/fortran_module/discrete_fit_i" title="f/fortran_module/discrete_fit_i"><code class="xref f f-func docutils literal"><span class="pre">discrete_fit_i()</span></code></a>, <a class="reference internal" href="#f/fortran_module/multiindices" title="f/fortran_module/multiindices"><code class="xref f f-func docutils literal"><span class="pre">multiindices()</span></code></a>, <a class="reference internal" href="#f/fortran_module/continuous_fit" title="f/fortran_module/continuous_fit"><code class="xref f f-func docutils literal"><span class="pre">continuous_fit()</span></code></a>, <a class="reference internal" href="#f/fortran_module/discrete_fit" title="f/fortran_module/discrete_fit"><code class="xref f f-func docutils literal"><span class="pre">discrete_fit()</span></code></a>, <a class="reference internal" href="#f/fortran_module/num_threads" title="f/fortran_module/num_threads"><code class="xref f f-func docutils literal"><span class="pre">num_threads()</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -117,7 +117,9 @@ $ use omp_lib</p>
 <dl class="function">
 <dt id="f/fortran_module/num_threads">
 <em class="property">function  </em><code class="descclassname">fortran_module/</code><code class="descname">num_threads</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/num_threads" title="Permalink to this definition">¶</a></dt>
-<dd><p>num_threads description</p>
+<dd><p>Return the number of threads that the package can see.
+If the return value is 1 but there are multiple cpus,
+then OpenMP is not installed or not properly configured</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -157,14 +159,14 @@ $ use omp_lib</p>
 
 <dl class="subroutine">
 <dt id="f/fortran_module/simulate_time_series">
-<em class="property">subroutine  </em><code class="descclassname">fortran_module/</code><code class="descname">simulate_time_series</code><span class="sig-paren">(</span><em>par</em>, <em>m_sum</em>, <em>n_s</em>, <em>n</em>, <em>m</em>, <em>l</em>, <em>degs</em>, <em>n_deg</em>, <em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/simulate_time_series" title="Permalink to this definition">¶</a></dt>
+<em class="property">subroutine  </em><code class="descclassname">fortran_module/</code><code class="descname">simulate_time_series</code><span class="sig-paren">(</span><em>w</em>, <em>m_sum</em>, <em>n_s</em>, <em>n</em>, <em>m</em>, <em>l</em>, <em>degs</em>, <em>n_deg</em>, <em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/simulate_time_series" title="Permalink to this definition">¶</a></dt>
 <dd><p>simulate_time_series description</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>par</strong> (m_sum,n_s)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>w</strong> (m_sum,n_s)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
 <li><strong>m_sum</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
 <li><strong>n_s</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
 <li><strong>n</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
@@ -185,14 +187,14 @@ $ use omp_lib</p>
 
 <dl class="subroutine">
 <dt id="f/fortran_module/simulate_mutations">
-<em class="property">subroutine  </em><code class="descclassname">fortran_module/</code><code class="descname">simulate_mutations</code><span class="sig-paren">(</span><em>par</em>, <em>m_sum</em>, <em>n_s</em>, <em>n</em>, <em>m</em>, <em>l</em>, <em>degs</em>, <em>n_deg</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/simulate_mutations" title="Permalink to this definition">¶</a></dt>
+<em class="property">subroutine  </em><code class="descclassname">fortran_module/</code><code class="descname">simulate_mutations</code><span class="sig-paren">(</span><em>w</em>, <em>m_sum</em>, <em>n_s</em>, <em>n</em>, <em>m</em>, <em>l</em>, <em>degs</em>, <em>n_deg</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/simulate_mutations" title="Permalink to this definition">¶</a></dt>
 <dd><p>simulate_mutations description</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>par</strong> (m_sum,n_s)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>w</strong> (m_sum,n_s)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
 <li><strong>m_sum</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
 <li><strong>n_s</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
 <li><strong>n</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
@@ -214,7 +216,7 @@ $ use omp_lib</p>
 
 <dl class="subroutine">
 <dt id="f/fortran_module/discrete_fit">
-<em class="property">subroutine  </em><code class="descclassname">fortran_module/</code><code class="descname">discrete_fit</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>n_x</em>, <em>n_y</em>, <em>m_x</em>, <em>m_y</em>, <em>m_y_sum</em>, <em>l</em>, <em>degs</em>, <em>n_deg</em>, <em>x_oh_pinv1</em>, <em>x_oh_pinv2</em>, <em>x_oh_pinv3</em>, <em>x_oh_rank</em>, <em>n_s</em>, <em>iters</em>, <em>overfit</em>, <em>par</em>, <em>disc</em>, <em>iter</em><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/discrete_fit" title="Permalink to this definition">¶</a></dt>
+<em class="property">subroutine  </em><code class="descclassname">fortran_module/</code><code class="descname">discrete_fit</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>n_x</em>, <em>n_y</em>, <em>m_x</em>, <em>m_y</em>, <em>m_y_sum</em>, <em>l</em>, <em>degs</em>, <em>n_deg</em>, <em>x_oh_pinv1</em>, <em>x_oh_pinv2</em>, <em>x_oh_pinv3</em>, <em>x_oh_rank</em>, <em>n_s</em>, <em>iters</em>, <em>overfit</em>, <em>impute</em>, <em>w</em>, <em>disc</em>, <em>iter</em><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/discrete_fit" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -222,22 +224,23 @@ $ use omp_lib</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>x</strong> (n_x,l)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
 <li><strong>y</strong> (n_y,l)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
-<li><strong>n_x</strong><em> [</em><em>integer</em><em>,</em><em>hide,</em><em>]</em></li>
-<li><strong>n_y</strong><em> [</em><em>integer</em><em>,</em><em>hide,</em><em>]</em></li>
+<li><strong>n_x</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
+<li><strong>n_y</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
 <li><strong>m_x</strong> (n_x)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
 <li><strong>m_y</strong> (n_y)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
 <li><strong>m_y_sum</strong><em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
-<li><strong>l</strong><em> [</em><em>integer</em><em>,</em><em>hide,</em><em>]</em></li>
+<li><strong>l</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
 <li><strong>degs</strong> (n_deg)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
-<li><strong>n_deg</strong><em> [</em><em>integer</em><em>,</em><em>hide,</em><em>]</em></li>
+<li><strong>n_deg</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
 <li><strong>x_oh_pinv1</strong> (l,x_oh_rank)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
 <li><strong>x_oh_pinv2</strong> (x_oh_rank)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
 <li><strong>x_oh_pinv3</strong> (x_oh_rank,n_s)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
-<li><strong>x_oh_rank</strong><em> [</em><em>integer</em><em>,</em><em>hide,</em><em>]</em></li>
-<li><strong>n_s</strong><em> [</em><em>integer</em><em>,</em><em>hide,</em><em>]</em></li>
+<li><strong>x_oh_rank</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
+<li><strong>n_s</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
 <li><strong>iters</strong><em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
 <li><strong>overfit</strong><em> [</em><em>logical</em><em>,</em><em>in</em><em>]</em></li>
-<li><strong>par</strong> (m_y_sum,n_s)<em> [</em><em>real</em><em>,</em><em>out</em><em>]</em></li>
+<li><strong>impute</strong><em> [</em><em>logical</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>w</strong> (m_y_sum,n_s)<em> [</em><em>real</em><em>,</em><em>out</em><em>]</em></li>
 <li><strong>disc</strong> (n_y,iters)<em> [</em><em>real</em><em>,</em><em>out</em><em>]</em></li>
 <li><strong>iter</strong> (n_y)<em> [</em><em>integer</em><em>,</em><em>out</em><em>]</em></li>
 </ul>
@@ -252,12 +255,14 @@ $ use omp_lib</p>
 
 <dl class="subroutine">
 <dt id="f/fortran_module/discrete_fit_i">
-<em class="property">subroutine  </em><code class="descclassname">fortran_module/</code><code class="descname">discrete_fit_i</code><span class="sig-paren">(</span><em>s</em>, <em>n_idx</em>, <em>y</em>, <em>m_y</em>, <em>l</em>, <em>x_oh_pinv1</em>, <em>x_oh_pinv2</em>, <em>x_oh_pinv3</em>, <em>x_oh_rank</em>, <em>n_s</em>, <em>iters</em>, <em>overfit</em>, <em>par</em>, <em>disc</em>, <em>iter</em><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/discrete_fit_i" title="Permalink to this definition">¶</a></dt>
+<em class="property">subroutine  </em><code class="descclassname">fortran_module/</code><code class="descname">discrete_fit_i</code><span class="sig-paren">(</span><em>i1</em>, <em>i2</em>, <em>s</em>, <em>n_idx</em>, <em>y</em>, <em>m_y</em>, <em>l</em>, <em>x_oh_pinv1</em>, <em>x_oh_pinv2</em>, <em>x_oh_pinv3</em>, <em>x_oh_rank</em>, <em>n_s</em>, <em>iters</em>, <em>overfit</em>, <em>impute</em>, <em>w</em>, <em>disc</em>, <em>iter</em><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/discrete_fit_i" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>i1</strong><em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>i2</strong><em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
 <li><strong>s</strong> (n_idx,l)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
 <li><strong>n_idx</strong><em> [</em><em>integer</em><em>,</em><em>in,</em><em>]</em></li>
 <li><strong>y</strong> (l)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
@@ -270,13 +275,76 @@ $ use omp_lib</p>
 <li><strong>n_s</strong><em> [</em><em>integer</em><em>,</em><em>in,</em><em>]</em></li>
 <li><strong>iters</strong><em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
 <li><strong>overfit</strong><em> [</em><em>logical</em><em>,</em><em>in</em><em>]</em></li>
-<li><strong>par</strong> (m_y,n_s)<em> [</em><em>real</em><em>,</em><em>out</em><em>]</em></li>
+<li><strong>impute</strong><em> [</em><em>logical</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>w</strong> (m_y,n_s)<em> [</em><em>real</em><em>,</em><em>out</em><em>]</em></li>
 <li><strong>disc</strong> (iters)<em> [</em><em>real</em><em>,</em><em>out</em><em>]</em></li>
 <li><strong>iter</strong><em> [</em><em>integer</em><em>,</em><em>out</em><em>]</em></li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Called from:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#f/fortran_module/discrete_fit" title="f/fortran_module/discrete_fit"><code class="xref f f-func docutils literal"><span class="pre">discrete_fit()</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="subroutine">
+<dt id="f/fortran_module/continuous_fit">
+<em class="property">subroutine  </em><code class="descclassname">fortran_module/</code><code class="descname">continuous_fit</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>n</em>, <em>l</em>, <em>iters</em>, <em>atol</em>, <em>rtol</em>, <em>impute</em>, <em>w</em>, <em>disc</em>, <em>iter</em><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/continuous_fit" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (n,l)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>y</strong> (n,l)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>n</strong><em> [</em><em>integer</em><em>,</em><em>hide/in,</em><em>]</em></li>
+<li><strong>l</strong><em> [</em><em>integer</em><em>,</em><em>in,</em><em>]</em></li>
+<li><strong>iters</strong><em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>atol</strong><em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>rtol</strong><em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>impute</strong><em> [</em><em>logical</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>w</strong> (n,n)<em> [</em><em>real</em><em>,</em><em>out</em><em>]</em></li>
+<li><strong>disc</strong> (n,iters)<em> [</em><em>real</em><em>,</em><em>out</em><em>]</em></li>
+<li><strong>iter</strong> (n)<em> [</em><em>integer</em><em>,</em><em>out</em><em>]</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Call to:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#f/fortran_module/continuous_fit_i" title="f/fortran_module/continuous_fit_i"><code class="xref f f-func docutils literal"><span class="pre">continuous_fit_i()</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="subroutine">
+<dt id="f/fortran_module/continuous_fit_i">
+<em class="property">subroutine  </em><code class="descclassname">fortran_module/</code><code class="descname">continuous_fit_i</code><span class="sig-paren">(</span><em>i</em>, <em>x</em>, <em>n</em>, <em>l</em>, <em>x_mean0</em>, <em>symx</em>, <em>cov_x</em>, <em>ipiv</em>, <em>iters</em>, <em>atol</em>, <em>rtol</em>, <em>impute</em>, <em>w</em>, <em>disc</em>, <em>iter</em><span class="sig-paren">)</span><a class="headerlink" href="#f/fortran_module/continuous_fit_i" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>i</strong><em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>x</strong> (n,l)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>n</strong><em> [</em><em>integer</em><em>,</em><em>in,</em><em>]</em></li>
+<li><strong>l</strong><em> [</em><em>integer</em><em>,</em><em>in,</em><em>]</em></li>
+<li><strong>x_mean0</strong> (n,l)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>symx</strong> (l)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>cov_x</strong> (n,n)<em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>ipiv</strong> (n)<em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>iters</strong><em> [</em><em>integer</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>atol</strong><em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>rtol</strong><em> [</em><em>real</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>impute</strong><em> [</em><em>logical</em><em>,</em><em>in</em><em>]</em></li>
+<li><strong>w</strong> (n)<em> [</em><em>real</em><em>,</em><em>out</em><em>]</em></li>
+<li><strong>disc</strong> (iters)<em> [</em><em>real</em><em>,</em><em>out</em><em>]</em></li>
+<li><strong>iter</strong><em> [</em><em>integer</em><em>,</em><em>out</em><em>]</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Called from:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#f/fortran_module/continuous_fit" title="f/fortran_module/continuous_fit"><code class="xref f f-func docutils literal"><span class="pre">continuous_fit()</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -306,7 +374,7 @@ $ use omp_lib</p>
         &copy; Copyright 2018, Joe McKenna.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.6.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.5.
       </li>
     </ul>
     </div>

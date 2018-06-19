@@ -1,0 +1,147 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Simulated continuous time series"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "ImportError",
+     "evalue": "No module named fortran_module",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mImportError\u001b[0m                               Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-1-c5884d4553aa>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      3\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mnumpy\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0mnp\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      4\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mpandas\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0mpd\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 5\u001b[0;31m \u001b[0;32mimport\u001b[0m \u001b[0mfem\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      6\u001b[0m \u001b[0;32mprint\u001b[0m \u001b[0;34m'number of threads: %i'\u001b[0m \u001b[0;34m%\u001b[0m \u001b[0;34m(\u001b[0m\u001b[0mfem\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mfortran_module\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mfortran_module\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mnum_threads\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m/home/joe/Dropbox/NIH/fem/fem/__init__.py\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0mname\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;34m'fem'\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 3\u001b[0;31m \u001b[0;32mimport\u001b[0m \u001b[0mfortran_module\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      4\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mdiscrete\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0msimulate\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      5\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mdiscrete\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mfit\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mImportError\u001b[0m: No module named fortran_module"
+     ]
+    }
+   ],
+   "source": [
+    "%matplotlib inline\n",
+    "import matplotlib.pyplot as plt\n",
+    "import numpy as np\n",
+    "import pandas as pd\n",
+    "import fem\n",
+    "print 'number of threads: %i' % (fem.fortran_module.fortran_module.num_threads(),)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "n = 10\n",
+    "w = fem.continuous.simulate.model_parameters(n)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig, ax = plt.subplots(1, 2, figsize=(8,4))\n",
+    "ax[0].matshow(w)\n",
+    "w_flat = w.flatten()\n",
+    "hist = ax[1].hist(w_flat, ec='k', alpha=0.5)\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "x = fem.continuous.simulate.time_series(w, l=1e4)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "tab = []\n",
+    "for i in range(n):\n",
+    "    tab.append([x[i].min(), x[i].max(), x[i].mean()])\n",
+    "pd.DataFrame(data=tab, columns=['min', 'max', 'average'], index=1+np.arange(n))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "fig, ax = plt.subplots(n, 1, figsize=(16,4))\n",
+    "for i in range(n):\n",
+    "    ax[i].plot(x[i, :500], 'k-')\n",
+    "    ax[i].axis('off')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "x1, x2 = x[:,:-1], x[:,1:]\n",
+    "iters = 10\n",
+    "w_fit, d = fem.continuous.fit.fit(x1, x2, iters=iters)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure(figsize=(4,4))\n",
+    "ax = plt.gca()\n",
+    "w_fit_flat = w_fit.flatten()\n",
+    "ax.scatter(w_flat, w_fit_flat, c='k')\n",
+    "grid = np.linspace(w.min(), w.max())\n",
+    "ax.plot(grid, grid, 'r--')\n",
+    "ax.set_xlabel('true parameters')\n",
+    "ax.set_ylabel('inferred parameters')\n",
+    "plt.show()"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 2",
+   "language": "python",
+   "name": "python2"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 2
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython2",
+   "version": "2.7.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

@@ -11,7 +11,7 @@ Table of Contents
 -----------------
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
     discrete
     examples
@@ -23,4 +23,6 @@ Source Code
    :maxdepth: 2
 
    fem
+   fem.discrete
+   fem.continuous
    fortran
