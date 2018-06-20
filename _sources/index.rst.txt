@@ -20,9 +20,7 @@ Source Code
 -----------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    fem
-   fem.discrete
-   fem.continuous
    fortran
