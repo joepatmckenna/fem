@@ -427,6 +427,8 @@ contains
     real*8, intent(in) :: x_oh_pinv3(x_oh_rank, n_s)
     logical, intent(in) :: overfit, impute
 
+    real*8 tmp(x_oh_rank, n_s)
+
     real*8, intent(out) :: w(m_y, n_s), disc(iters)
     integer, intent(out) :: iter
 
@@ -445,6 +447,8 @@ contains
     end do
 
     do iter = 2, iters
+
+       print*, i1, i2, iter, impute
 
        ! compute energies
        wrk = 0
@@ -474,11 +478,9 @@ contains
        do i = 1, x_oh_rank
           dw(:, i) = dw(:,i) * x_oh_pinv2(i)
        end do
-
        w = w - matmul(dw, x_oh_pinv3)
-
        if (impute) then
-          w(:, i1:i2) = 0
+          w(:,i1:i2) = 0
        end if
 
     end do

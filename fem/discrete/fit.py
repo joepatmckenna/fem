@@ -55,7 +55,7 @@ def categorize(x):
 
     l = x.shape[1]
 
-    x_cat = np.empty(shape=x.shape, dtype=int)
+    cat_x = np.empty(shape=x.shape, dtype=int)
 
     cat = []
     for i in range(x.shape[0]):
@@ -63,10 +63,10 @@ def categorize(x):
         m = len(unique_states)
         num = dict(zip(unique_states, np.arange(m)))
         for j in range(l):
-            x_cat[i, j] = num[x[i, j]]
+            cat_x[i, j] = num[x[i, j]]
         cat.append(dict(zip(np.arange(m), unique_states)))
 
-    return x_cat, cat
+    return cat_x, cat
 
 
 def fit(x, y=None, degs=[1], iters=100, overfit=True, impute=None):
@@ -99,15 +99,15 @@ def fit(x, y=None, degs=[1], iters=100, overfit=True, impute=None):
     x_oh, idx = one_hot(x, degs)
 
     x_oh_rank = np.linalg.matrix_rank(x_oh.todense())
-    # x_oh_svd = svds(x_oh, k=min(x_oh_rank, n_x - 1))
-    x_oh_svd = svds(x_oh, k=x_oh_rank)
+    x_oh_svd = svds(x_oh, k=min(x_oh_rank, min(x_oh.shape) - 1))
+    # x_oh_svd = svds(x_oh, k=x_oh_rank)
 
     x_oh_pinv = [x_oh_svd[2].T, 1.0 / x_oh_svd[1], x_oh_svd[0].T]
 
-    w, d, it = fortran_module.fortran_module.discrete_fit(x, y, m_x, m_y,
-                                           m_y.sum(), degs, x_oh_pinv[0],
-                                           x_oh_pinv[1], x_oh_pinv[2], iters,
-                                           overfit, impute)
+    w, d, it = fortran_module.fortran_module.discrete_fit(
+        x, y, m_x, m_y,
+        m_y.sum(), degs, x_oh_pinv[0], x_oh_pinv[1], x_oh_pinv[2], iters,
+        overfit, impute)
 
     idx_by_deg = [combinatorics.multiindices(n_x, deg) for deg in degs]
     mi = np.array(
