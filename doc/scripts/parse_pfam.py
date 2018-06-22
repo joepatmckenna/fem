@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import Bio
 from Bio import AlignIO
-import os, urllib, gzip
+import os, urllib, gzip, re
 
 
 def parse_pfam(data_dir):
@@ -22,22 +22,24 @@ def parse_pfam(data_dir):
             urllib.urlretrieve(remote, local)
 
     # protein families
-    pf_file = os.path.join(data_dir, 'pf.npy')
-    if os.path.exists(pf_file):
-        pf = np.load(pf_file)
+    pfam_file = os.path.join(data_dir, 'pfam.npy')
+    if os.path.exists(pfam_file):
+        pfam = np.load(pfam_file)
     else:
-        pf = []
+        pfam = []
         with gzip.open(os.path.join(data_dir, 'Pfam-A.full.gz'), 'r') as f:
             for i, line in enumerate(f):
                 if line[:7] == '#=GF AC':
-                    pf.append(line.split(' ')[4][:-1])
-        pf = np.array(pf)
-        np.save(pf_file, pf)
+                    pfam.append(line.split(' ')[4][:-1])
+        pfam = np.array(pfam)
+        np.save(pfam_file, pfam)
 
-    pdbmap_file = os.path.join(data_dir, 'pdbmap.gz')
-    names = ['pdbid', 'chain', '?', 'name', 'pf', 'id', 'res']
-    pdbmap = pd.read_csv(
-        pdbmap_file,
+    len_pfam = len(pfam)
+
+    pdb_map_file = os.path.join(data_dir, 'pdbmap.gz')
+    names = ['pdb_id', 'chain', 'lig', 'name', 'pfam', 'pfam_protein_id', 'res']
+    pdb_map = pd.read_csv(
+        pdb_map_file,
         sep='\t',
         engine='python',
         header=None,
@@ -45,64 +47,65 @@ def parse_pfam(data_dir):
         dtype=str,
         compression='gzip')
     for name in names:
-        pdbmap[name] = pdbmap[name].map(lambda x: x.rstrip(';'))
-    pdbmap.set_index('pdbid', inplace=True)
+        pdb_map[name] = pdb_map[name].map(lambda x: x.rstrip(';'))
+    pdb_map.set_index('pdb_id', inplace=True)
 
-    pdbmap_pf = pdbmap['pf'].unique()
+    pdb_map_pfam = pdb_map['pfam'].unique()
 
     alignments = AlignIO.parse(
         gzip.open(os.path.join(data_dir, 'Pfam-A.full.gz'), 'r'), 'stockholm')
 
-    pf_info_file = os.path.join(data_dir, 'pf_info.npy')
+    pfam_info_file = os.path.join(data_dir, 'pfam_info.npy')
 
-    if os.path.exists(pf_info_file):
-        pf_info = np.load(pf_info_file)
-        pf_info = pd.DataFrame(
-            data=pf_info[:, 1:],
-            index=pf_info[:, 0],
+    if os.path.exists(pfam_info_file):
+        pfam_info = np.load(pfam_info_file)
+        pfam_info = pd.DataFrame(
+            data=pfam_info[:, 1:],
+            index=pfam_info[:, 0],
             columns=['i', 'min_m', 'max_m', 'res', 'seq'])
 
     else:
 
-        pf_info = []
+        pfam_info = []
 
         for i, a in enumerate(alignments):
 
-            pf_dir = os.path.join(data_dir, 'Pfam', pf[i])
+            pfam_dir = os.path.join(data_dir, 'Pfam-A.full',
+                                    pfam[i].split('.')[0])
 
-            if not pf[i].split('.')[0] in pdbmap_pf:
+            if not pfam[i].split('.')[0] in pdb_map_pfam:
                 continue
 
-            if os.path.exists(pf_dir):
-                msa = np.load(os.path.join(pf_dir, 'msa.npy'))
+            if os.path.exists(pfam_dir):
+                msa = np.load(os.path.join(pfam_dir, 'msa.npy'))
                 m = np.array([len(np.unique(s)) for s in msa])
-                pf_info.append(
-                    [pf[i], i,
+                pfam_info.append(
+                    [pfam[i], i,
                      m.min(),
                      m.max(), msa.shape[0], msa.shape[1]])
                 continue
 
             try:
-                os.makedirs(pf_dir)
+                os.makedirs(pfam_dir)
             except:
                 pass
 
             msa = np.array(a).T
             msa = np.array([[s.lower() for s in r] for r in msa])
 
-            ids = np.array([ai.id for ai in a])
+            ids = np.array([re.split('[_/-]', ai.id) for ai in a])
 
             m = np.array([len(np.unique(s)) for s in msa])
 
-            np.save(os.path.join(pf_dir, 'msa.npy'), msa)
-            np.save(os.path.join(pf_dir, 'ids.npy'), ids)
+            np.save(os.path.join(pfam_dir, 'msa.npy'), msa)
+            np.save(os.path.join(pfam_dir, 'ids.npy'), ids)
 
-            pf_info.append(
-                [pf[i], i,
+            pfam_info.append(
+                [pfam[i], i,
                  m.min(),
                  m.max(), msa.shape[0], msa.shape[1]])
 
-        pf_info = np.array(pf_info)
-        np.save(pf_info_file, pf_info)
+        pfam_info = np.array(pfam_info)
+        np.save(pfam_info_file, pfam_info)
 
-    return pf, pf_info, pdbmap
+    return pfam, pfam_info, pdb_map

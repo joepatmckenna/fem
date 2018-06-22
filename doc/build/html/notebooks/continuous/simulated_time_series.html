@@ -30,7 +30,7 @@
     <link rel="top" title="fem  documentation" href="../../index.html" >
     <link rel="up" title="Discrete data examples" href="../../examples.html" >
     <link rel="next" title="fem package" href="../../fem.html" >
-    <link rel="prev" title="Currency" href="currency.html" > 
+    <link rel="prev" title="Six-letter words" href="../discrete/six_letter_words.html" > 
   </head>
   <body>
 
@@ -75,7 +75,7 @@
            accesskey="N">next</a>
       </li>
       <li class="active">
-        <a href="currency.html" title="Currency"
+        <a href="../discrete/six_letter_words.html" title="Six-letter words"
            accesskey="P">previous</a>
       </li>
     </ul>
@@ -89,8 +89,8 @@
       <div class="spc-rightsidebar span3">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="currency.html"
-                        title="previous chapter">Currency</a></p>
+  <p class="topless"><a href="../discrete/six_letter_words.html"
+                        title="previous chapter">Six-letter words</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="../../fem.html"
                         title="next chapter">fem package</a></p>
@@ -299,27 +299,12 @@ div.nboutput div.output_area.stderr {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ImportError</span>                               Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-c5884d4553aa&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-green-fg">import</span> numpy <span class="ansi-green-fg">as</span> np
-<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-green-fg">import</span> pandas <span class="ansi-green-fg">as</span> pd
-<span class="ansi-green-fg">----&gt; 5</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">import</span> fem
-<span class="ansi-green-intense-fg ansi-bold">      6</span> <span class="ansi-green-fg">print</span> <span class="ansi-blue-fg">&#39;number of threads: %i&#39;</span> <span class="ansi-blue-fg">%</span> <span class="ansi-blue-fg">(</span>fem<span class="ansi-blue-fg">.</span>fortran_module<span class="ansi-blue-fg">.</span>fortran_module<span class="ansi-blue-fg">.</span>num_threads<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/home/joe/Dropbox/NIH/fem/fem/__init__.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      1</span> name <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#39;fem&#39;</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span>
-<span class="ansi-green-fg">----&gt; 3</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">import</span> fortran_module
-<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-green-fg">import</span> discrete<span class="ansi-blue-fg">.</span>simulate
-<span class="ansi-green-intense-fg ansi-bold">      5</span> <span class="ansi-green-fg">import</span> discrete<span class="ansi-blue-fg">.</span>fit
-
-<span class="ansi-red-fg">ImportError</span>: No module named fortran_module
+number of threads: 8
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -328,9 +313,9 @@ div.nboutput div.output_area.stderr {
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -342,9 +327,16 @@ div.nboutput div.output_area.stderr {
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_continuous_simulated_time_series_3_0.png" src="../../_images/notebooks_continuous_simulated_time_series_3_0.png" />
+</div>
+</div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -352,9 +344,9 @@ div.nboutput div.output_area.stderr {
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -365,9 +357,103 @@ div.nboutput div.output_area.stderr {
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>Out[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>min</th>
+      <th>max</th>
+      <th>average</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>-4.134939</td>
+      <td>4.364350</td>
+      <td>-0.008344</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-5.423651</td>
+      <td>5.167732</td>
+      <td>0.005973</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-3.816928</td>
+      <td>4.393365</td>
+      <td>0.011712</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-4.730983</td>
+      <td>5.091865</td>
+      <td>0.027664</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>-5.311236</td>
+      <td>4.631144</td>
+      <td>0.013681</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>-3.984726</td>
+      <td>4.413607</td>
+      <td>0.024554</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>-4.664567</td>
+      <td>4.696285</td>
+      <td>-0.037184</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>-4.685013</td>
+      <td>4.697462</td>
+      <td>0.028402</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>-4.074406</td>
+      <td>4.059182</td>
+      <td>0.011195</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>-3.779413</td>
+      <td>4.223529</td>
+      <td>-0.008984</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -378,9 +464,16 @@ div.nboutput div.output_area.stderr {
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_continuous_simulated_time_series_6_0.png" src="../../_images/notebooks_continuous_simulated_time_series_6_0.png" />
+</div>
+</div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -390,9 +483,9 @@ div.nboutput div.output_area.stderr {
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -406,6 +499,13 @@ div.nboutput div.output_area.stderr {
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;inferred parameters&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_continuous_simulated_time_series_8_0.png" src="../../_images/notebooks_continuous_simulated_time_series_8_0.png" />
 </div>
 </div>
 </div>
@@ -431,7 +531,7 @@ div.nboutput div.output_area.stderr {
         &copy; Copyright 2018, Joe McKenna.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.6.
       </li>
     </ul>
     </div>

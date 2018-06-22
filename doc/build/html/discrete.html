@@ -202,6 +202,19 @@
 </tbody>
 </table>
 <p>where <span class="math">\(p_k=\sum_{A\subseteq\{1,\ldots,n\}, |A|=k}\prod_{j\in A}m_j\)</span>.</p>
+<div class="section" id="consistency-and-convergence">
+<h3>Consistency and convergence<a class="headerlink" href="#consistency-and-convergence" title="Permalink to this headline">¶</a></h3>
+<p>The method above can be written as <span class="math">\(W^{(1)}=0\)</span> and <span class="math">\(W^{(k+1)}=\Phi(W^{(k)})\)</span> where</p>
+<div class="math">
+\[\Phi(W) = W + \left[\Sigma_y - P(\Sigma_y~|~W)\right]\Sigma_x^+\]</div>
+<p>and <span class="math">\(\Sigma_x^+\)</span> is implemented as the inverse of the truncated SVD of <span class="math">\(\Sigma_x\)</span>.</p>
+<p>In this section, we show that <span class="math">\(\Phi\)</span> is</p>
+<ul class="simple">
+<li>consistent: <span class="math">\(W^*=\Phi(W^*)\)</span> and</li>
+<li>convergent: <span class="math">\(\Phi^k(W)\rightarrow W^*\)</span> as <span class="math">\(k\rightarrow\infty\)</span></li>
+</ul>
+<p>for any <span class="math">\(W^*\)</span> such that <span class="math">\(P(\Sigma_y~|~W^*)=\Sigma_y\)</span>.</p>
+</div>
 </div>
 </div>
 
@@ -226,7 +239,7 @@
         &copy; Copyright 2018, Joe McKenna.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.6.
       </li>
     </ul>
     </div>

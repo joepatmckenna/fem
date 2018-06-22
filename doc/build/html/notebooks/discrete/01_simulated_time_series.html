@@ -329,7 +329,7 @@ optional arguments <code class="docutils literal"><span class="pre">dist=np.rand
 out <code class="docutils literal"><span class="pre">w</span></code> to a 1D array and plot the distribution:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [12]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -418,52 +418,52 @@ nonnegative integers. The average of each variable is approximately 1.</p>
     <tr>
       <th>1</th>
       <td>[0, 1, 2]</td>
-      <td>1.015556</td>
+      <td>0.988222</td>
     </tr>
     <tr>
       <th>2</th>
       <td>[0, 1, 2]</td>
-      <td>0.997778</td>
+      <td>1.004667</td>
     </tr>
     <tr>
       <th>3</th>
       <td>[0, 1, 2]</td>
-      <td>1.000222</td>
+      <td>0.995111</td>
     </tr>
     <tr>
       <th>4</th>
       <td>[0, 1, 2]</td>
-      <td>1.016667</td>
+      <td>1.018667</td>
     </tr>
     <tr>
       <th>5</th>
       <td>[0, 1, 2]</td>
-      <td>0.971333</td>
+      <td>0.996000</td>
     </tr>
     <tr>
       <th>6</th>
       <td>[0, 1, 2]</td>
-      <td>0.998000</td>
+      <td>1.018000</td>
     </tr>
     <tr>
       <th>7</th>
       <td>[0, 1, 2]</td>
-      <td>0.977333</td>
+      <td>0.979333</td>
     </tr>
     <tr>
       <th>8</th>
       <td>[0, 1, 2]</td>
-      <td>0.977556</td>
+      <td>0.979778</td>
     </tr>
     <tr>
       <th>9</th>
       <td>[0, 1, 2]</td>
-      <td>1.004000</td>
+      <td>1.008000</td>
     </tr>
     <tr>
       <th>10</th>
       <td>[0, 1, 2]</td>
-      <td>0.982000</td>
+      <td>0.971556</td>
     </tr>
   </tbody>
 </table>
@@ -546,6 +546,53 @@ model parameters.</p>
 <img alt="../../_images/notebooks_discrete_01_simulated_time_series_15_0.png" src="../../_images/notebooks_discrete_01_simulated_time_series_15_0.png" />
 </div>
 </div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">w_fit_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">wi</span> <span class="k">for</span> <span class="n">wi</span> <span class="ow">in</span> <span class="n">w_fit</span><span class="o">.</span><span class="n">itervalues</span><span class="p">()])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">w_flat</span><span class="p">,</span> <span class="n">w_fit_flat</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">w_flat</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">w_flat</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="s1">&#39;r--&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">disc</span><span class="p">:</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span> <span class="n">d</span><span class="p">[:</span><span class="mi">19</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">)</span>
+
+<span class="n">mse</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">iters</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+    <span class="n">w_fit</span><span class="p">,</span> <span class="n">disc</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">fit</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">degs</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">iters</span><span class="o">=</span><span class="n">iters</span><span class="p">)</span>
+    <span class="n">mse</span><span class="o">.</span><span class="n">append</span><span class="p">([((</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">w_fit</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span> <span class="n">mse</span><span class="p">,</span> <span class="s1">&#39;k-&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;true parameters $W$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;inferred parameters&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;iteration&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;mean squared $W$ error&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;iteration&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;discrepancy&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_01_simulated_time_series_16_0.png" src="../../_images/notebooks_discrete_01_simulated_time_series_16_0.png" />
+</div>
+</div>
 </div>
 
 
@@ -569,7 +616,7 @@ model parameters.</p>
         &copy; Copyright 2018, Joe McKenna.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.6.
       </li>
     </ul>
     </div>
