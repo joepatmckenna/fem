@@ -117,4 +117,22 @@ The shapes of all matrices mentioned in this section are listed in the following
 
 where :math:`p_k=\sum_{A\subseteq\{1,\ldots,n\}, |A|=k}\prod_{j\in A}m_j`.
 
+Consistency and convergence
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The method above can be written as :math:`W^{(1)}=0` and :math:`W^{(k+1)}=\Phi(W^{(k)})` where
+
+.. math::
+
+   \Phi(W) = W + \left[\Sigma_y - P(\Sigma_y~|~W)\right]\Sigma_x^+
+
+and :math:`\Sigma_x^+` is implemented as the inverse of the truncated SVD of :math:`\Sigma_x`.
+
+In this section, we show that :math:`\Phi` is
+
+- consistent: :math:`W^*=\Phi(W^*)` and
+- convergent: :math:`\Phi^k(W)\rightarrow W^*` as :math:`k\rightarrow\infty`
+
+for any :math:`W^*` such that :math:`P(\Sigma_y~|~W^*)=\Sigma_y`.
+
 .. _Boltzmann distribution: https://en.wikipedia.org/wiki/Boltzmann_distribution
