@@ -448,8 +448,6 @@ contains
 
     do iter = 2, iters
 
-       print*, i1, i2, iter, impute
-
        ! compute energies
        wrk = 0
        do t = 1, l
