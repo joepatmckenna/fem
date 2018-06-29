@@ -140,7 +140,7 @@
 <p>We’ve written <span class="math">\(W_1\)</span> as a block matrix with <span class="math">\(1\times m_j\)</span> row vector blocks <span class="math">\(W_{1ij}=\begin{pmatrix}W_{1ij1}&amp;\cdots&amp;W_{1ijm_j}\end{pmatrix}\)</span> that describe the effect of <span class="math">\(x_j\)</span> on <span class="math">\(y_i\)</span>. In particular, recalling that the probability of <span class="math">\(y=i\)</span> given a input state <span class="math">\(\sigma\)</span> is the <span class="math">\(i^{th}\)</span> component of</p>
 <div class="math">
 \[\begin{split}p(y~|~\sigma) = {1 \over e^{h_1(\sigma)}+e^{h_2(\sigma)}} \begin{pmatrix} e^{h_1(\sigma)} \\ e^{h_2(\sigma)} \end{pmatrix}\end{split}\]</div>
-<p>we see that <span class="math">\(h_i(\sigma)\)</span> and hence the probability of <span class="math">\(y=i\)</span> increases as <span class="math">\(W_{1ijs}\)</span> increases when <span class="math">\(x_j=s\)</span>. In general, <span class="math">\(W_k\)</span> can be written as <span class="math">\(n\)</span> rows each with <span class="math">\({n \choose k}\)</span> blocks <span class="math">\(W_{ki\lambda}\)</span> of shape <span class="math">\(1\times\prod_{j\in\lambda}m_j\)</span> where <span class="math">\(\lambda=(j_1,\ldots,j_k)\)</span>, which represent the effect that variables <span class="math">\(x_{j_1},\ldots,x_{j_k}\)</span> collectively have on <span class="math">\(y_i\)</span>. That is <span class="math">\(h_i(\sigma)\)</span> and hence the probability of <span class="math">\(y=i\)</span> increases as <span class="math">\(W_{k1\lambda s}\)</span> increases when <span class="math">\(x_{j_1}=s_1,\ldots,x_{j_k}=s_k\)</span>, where <span class="math">\(\lambda=(j_1,\ldots,j_k)\)</span> and <span class="math">\(s=(s_1,\ldots,s_k)\)</span>.</p>
+<p>we see that <span class="math">\(h_i(\sigma)\)</span> and hence the probability of <span class="math">\(y=i\)</span> increases as <span class="math">\(W_{1ijs}\)</span> increases when <span class="math">\(x_j=s\)</span>. In general, <span class="math">\(W_k\)</span> can be written as <span class="math">\(n\)</span> rows each with <span class="math">\({n \choose k}\)</span> blocks <span class="math">\(W_{ki\lambda}\)</span> of shape <span class="math">\(1\times\prod_{j\in\lambda}m_j\)</span> where <span class="math">\(\lambda=(j_1,\ldots,j_k)\)</span>, which represent the effect that variables <span class="math">\(x_{j_1},\ldots,x_{j_k}\)</span> collectively have on <span class="math">\(y_i\)</span>. That is <span class="math">\(h_i(\sigma)\)</span> and hence the probability of <span class="math">\(y=i\)</span> increases as <span class="math">\(W_{ki\lambda s}\)</span> increases when <span class="math">\(x_{j_1}=s_1,\ldots,x_{j_k}=s_k\)</span>, where <span class="math">\(\lambda=(j_1,\ldots,j_k)\)</span> and <span class="math">\(s=(s_1,\ldots,s_k)\)</span>.</p>
 <p>(<a class="reference external" href="./scripts/w.py">Source code</a>, <a class="reference external" href="./scripts/w.png">png</a>, <a class="reference external" href="./scripts/w.hires.png">hires.png</a>, <a class="reference external" href="./scripts/w.pdf">pdf</a>)</p>
 <div class="figure">
 <img alt="_images/w.png" src="_images/w.png" />
@@ -213,7 +213,7 @@
 <li>consistent: <span class="math">\(W^*=\Phi(W^*)\)</span> and</li>
 <li>convergent: <span class="math">\(\Phi^k(W)\rightarrow W^*\)</span> as <span class="math">\(k\rightarrow\infty\)</span></li>
 </ul>
-<p>for any <span class="math">\(W^*\)</span> such that <span class="math">\(P(\Sigma_y~|~W^*)=\Sigma_y\)</span>.</p>
+<p>for <span class="math">\(W^*\)</span> such that <span class="math">\(P(\Sigma_y~|~W^*)=\Sigma_y\)</span>.</p>
 </div>
 </div>
 </div>
@@ -239,7 +239,7 @@
         &copy; Copyright 2018, Joe McKenna.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.6.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.5.
       </li>
     </ul>
     </div>
