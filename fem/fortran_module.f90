@@ -527,7 +527,6 @@ contains
        end do
     end do
     cov_x = cov_x / l
-    ! print*, 'cov_x', cov_x
 
     call dgetrf(n, n, cov_x, n, ipiv, info)
     ! print*, 'dgetrf info', info

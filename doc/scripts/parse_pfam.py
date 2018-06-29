@@ -1,3 +1,4 @@
+import pickle
 import numpy as np
 import pandas as pd
 import Bio
@@ -5,23 +6,28 @@ from Bio import AlignIO
 import os, urllib, gzip, re
 
 
-def parse_pfam(data_dir):
+def parse_pfam(data_dir='./'):
 
-    # pfam ftp faq: https://pfam.xfam.org/help#tabview=tab13
+    # download pfam files from database ftp
+    # ftp faq: https://pfam.xfam.org/help#tabview=tab13
     pfam_current_release = 'ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release'
 
     files = [
         'Pfam-A.full.gz',  # The full alignments of the curated families (~6GB)
-        'pdbmap.gz',  # Mapping between PDB structures and Pfam domains. (~2MB)
+        # 'pdbmap.gz',  # Mapping between PDB structures and Pfam domains. (~2MB)
     ]
-
     for f in files:
         local = os.path.join(data_dir, f)
         if not os.path.exists(local):
             remote = os.path.join(pfam_current_release, f)
             urllib.urlretrieve(remote, local)
 
-    # protein families
+    # get list of
+    # 0) accession codes,
+    # 1) number of residues,
+    # 2) number of sequences,
+    # 3) and number of pdb references
+    # for all pfams in database
     pfam_file = os.path.join(data_dir, 'pfam.npy')
     if os.path.exists(pfam_file):
         pfam = np.load(pfam_file)
@@ -30,82 +36,121 @@ def parse_pfam(data_dir):
         with gzip.open(os.path.join(data_dir, 'Pfam-A.full.gz'), 'r') as f:
             for i, line in enumerate(f):
                 if line[:7] == '#=GF AC':
-                    pfam.append(line.split(' ')[4][:-1])
+                    ac = line.split(' ')[4][:-1].split('.')[0]
+                    pfam.append([ac, 0, 0, 0])
+
         pfam = np.array(pfam)
-        np.save(pfam_file, pfam)
+        n_pfam = len(pfam)
 
-    len_pfam = len(pfam)
+        # parse multiple sequence alignments file with Biopython
+        alignments = AlignIO.parse(
+            gzip.open(os.path.join(data_dir, 'Pfam-A.full.gz'), 'r'),
+            'stockholm')
 
-    pdb_map_file = os.path.join(data_dir, 'pdbmap.gz')
-    names = ['pdb_id', 'chain', 'lig', 'name', 'pfam', 'pfam_protein_id', 'res']
-    pdb_map = pd.read_csv(
-        pdb_map_file,
-        sep='\t',
-        engine='python',
-        header=None,
-        names=names,
-        dtype=str,
-        compression='gzip')
-    for name in names:
-        pdb_map[name] = pdb_map[name].map(lambda x: x.rstrip(';'))
-    pdb_map.set_index('pdb_id', inplace=True)
-
-    pdb_map_pfam = pdb_map['pfam'].unique()
-
-    alignments = AlignIO.parse(
-        gzip.open(os.path.join(data_dir, 'Pfam-A.full.gz'), 'r'), 'stockholm')
-
-    pfam_info_file = os.path.join(data_dir, 'pfam_info.npy')
-
-    if os.path.exists(pfam_info_file):
-        pfam_info = np.load(pfam_info_file)
-        pfam_info = pd.DataFrame(
-            data=pfam_info[:, 1:],
-            index=pfam_info[:, 0],
-            columns=['i', 'min_m', 'max_m', 'res', 'seq'])
-
-    else:
-
-        pfam_info = []
-
+        # for each pfam/msa
         for i, a in enumerate(alignments):
 
-            pfam_dir = os.path.join(data_dir, 'Pfam-A.full',
-                                    pfam[i].split('.')[0])
-
-            if not pfam[i].split('.')[0] in pdb_map_pfam:
-                continue
-
-            if os.path.exists(pfam_dir):
-                msa = np.load(os.path.join(pfam_dir, 'msa.npy'))
-                m = np.array([len(np.unique(s)) for s in msa])
-                pfam_info.append(
-                    [pfam[i], i,
-                     m.min(),
-                     m.max(), msa.shape[0], msa.shape[1]])
-                continue
+            # local directory associated with pfam
+            pfam_dir = os.path.join(data_dir, 'Pfam-A.full', pfam[i, 0])
 
             try:
                 os.makedirs(pfam_dir)
             except:
                 pass
 
-            msa = np.array(a).T
-            msa = np.array([[s.lower() for s in r] for r in msa])
+            # number of residues/sequences in alignment
+            n_residue = a.get_alignment_length()
+            n_sequence = len(a)
 
-            ids = np.array([re.split('[_/-]', ai.id) for ai in a])
+            # msa: residues symbols
+            # pdb_refs: references to pdb
+            msa = np.empty((n_residue, n_sequence), dtype=str)
+            pdb_refs = []
 
-            m = np.array([len(np.unique(s)) for s in msa])
+            # for each sequence in alignment
+            for j, seq in enumerate(a):
+                # store residue symbols in lowercase
+                msa[:, j] = np.array(seq.seq.lower())
+                # store uniprot sequence id
+                uniprot_id, uniprot_start, uniprot_end = re.split(
+                    '[/-]', seq.id)
+                # extract pdb refs if they are present
+                refs = seq.dbxrefs
+                if not refs:
+                    continue
+                for ref in refs:
+                    ref = ref.replace(' ', '').split(';')
+                    if ref[0] == 'PDB':
+                        pdb_id, chain = ref[1][:-1], ref[1][-1]
+                        pdb_start_end = ref[2].split('-')
+                        if len(pdb_start_end) == 2:
+                            pdb_start, pdb_end = pdb_start_end
+                        else:
+                            continue
+                        pdb_refs.append([
+                            pfam[i, 0], j, uniprot_id, uniprot_start,
+                            uniprot_end, pdb_id, chain, pdb_start, pdb_end
+                        ])
 
             np.save(os.path.join(pfam_dir, 'msa.npy'), msa)
-            np.save(os.path.join(pfam_dir, 'ids.npy'), ids)
+            np.save(os.path.join(pfam_dir, 'pdb_refs.npy'), pdb_refs)
 
-            pfam_info.append(
-                [pfam[i], i,
-                 m.min(),
-                 m.max(), msa.shape[0], msa.shape[1]])
+            n_pdb_ref = len(pdb_refs)
 
-        pfam_info = np.array(pfam_info)
-        np.save(pfam_info_file, pfam_info)
+            pfam[i, 1:] = n_residue, n_sequence, n_pdb_ref
 
-    return pfam, pfam_info, pdb_map
+        np.save(pfam_file, pfam)
+
+    # compile all pdb references
+    pdb_refs_file = os.path.join(data_dir, 'pdb_refs.npy')
+    if os.path.exists(pdb_refs_file):
+        pdb_refs = np.load(pdb_refs_file)
+    else:
+        n_pdb_refs = pfam[:, 3].astype(int)
+        has_pdb_refs = n_pdb_refs > 0
+        n_pdb_refs = n_pdb_refs[has_pdb_refs]
+        pfam_with_pdb = pfam[has_pdb_refs, 0]
+        refs = os.path.join(data_dir, 'Pfam-A.full', pfam_with_pdb[0],
+                            'pdb_refs.npy')
+        pdb_refs = np.load(refs)
+        for fam in pfam_with_pdb[1:]:
+            refs = np.load(
+                os.path.join(data_dir, 'Pfam-A.full', fam, 'pdb_refs.npy'))
+            pdb_refs = np.vstack([pdb_refs, refs])
+        np.save(pdb_refs_file, pdb_refs)
+
+    pfam = pd.DataFrame(
+        index=pfam[:, 0],
+        data=pfam[:, 1:],
+        columns=['res', 'seq', 'pdb_refs'],
+        dtype=int)
+
+    pdb_refs = pd.DataFrame(
+        index=pdb_refs[:, 0],
+        data=pdb_refs[:, 1:],
+        columns=[
+            'seq', 'uniprot_id', 'uniprot_start', 'uniprot_end', 'pdb_id',
+            'chain', 'pdb_start', 'pdb_end'
+        ])
+    cols = ['seq', 'uniprot_start', 'uniprot_end', 'pdb_start', 'pdb_end']
+    pdb_refs[cols] = pdb_refs[cols].apply(pd.to_numeric)
+
+    return pfam, pdb_refs
+
+    # pdb_map_file = os.path.join(data_dir, 'pdbmap.gz')
+    # names = [
+    #     'pdb_id', 'chain', 'lig', 'name', 'pfam', 'pfam_protein_id', 'res'
+    # ]
+    # pdb_map = pd.read_csv(
+    #     pdb_map_file,
+    #     sep='\t',
+    #     engine='python',
+    #     header=None,
+    #     names=names,
+    #     dtype=str,
+    #     compression='gzip')
+    # for name in names:
+    #     pdb_map[name] = pdb_map[name].map(lambda x: x.rstrip(';'))
+    # pdb_map.set_index('pdb_id', inplace=True)
+
+    # pdb_map_pfam = pdb_map['pfam'].unique()

@@ -58,7 +58,7 @@ We've written :math:`W_1` as a block matrix with :math:`1\times m_j` row vector 
    
    p(y~|~\sigma) = {1 \over e^{h_1(\sigma)}+e^{h_2(\sigma)}} \begin{pmatrix} e^{h_1(\sigma)} \\ e^{h_2(\sigma)} \end{pmatrix}
 
-we see that :math:`h_i(\sigma)` and hence the probability of :math:`y=i` increases as :math:`W_{1ijs}` increases when :math:`x_j=s`. In general, :math:`W_k` can be written as :math:`n` rows each with :math:`{n \choose k}` blocks :math:`W_{ki\lambda}` of shape :math:`1\times\prod_{j\in\lambda}m_j` where :math:`\lambda=(j_1,\ldots,j_k)`, which represent the effect that variables :math:`x_{j_1},\ldots,x_{j_k}` collectively have on :math:`y_i`. That is :math:`h_i(\sigma)` and hence the probability of :math:`y=i` increases as :math:`W_{k1\lambda s}` increases when :math:`x_{j_1}=s_1,\ldots,x_{j_k}=s_k`, where :math:`\lambda=(j_1,\ldots,j_k)` and :math:`s=(s_1,\ldots,s_k)`.
+we see that :math:`h_i(\sigma)` and hence the probability of :math:`y=i` increases as :math:`W_{1ijs}` increases when :math:`x_j=s`. In general, :math:`W_k` can be written as :math:`n` rows each with :math:`{n \choose k}` blocks :math:`W_{ki\lambda}` of shape :math:`1\times\prod_{j\in\lambda}m_j` where :math:`\lambda=(j_1,\ldots,j_k)`, which represent the effect that variables :math:`x_{j_1},\ldots,x_{j_k}` collectively have on :math:`y_i`. That is :math:`h_i(\sigma)` and hence the probability of :math:`y=i` increases as :math:`W_{ki\lambda s}` increases when :math:`x_{j_1}=s_1,\ldots,x_{j_k}=s_k`, where :math:`\lambda=(j_1,\ldots,j_k)` and :math:`s=(s_1,\ldots,s_k)`.
 
 .. plot:: scripts/w.py
 
@@ -133,6 +133,6 @@ In this section, we show that :math:`\Phi` is
 - consistent: :math:`W^*=\Phi(W^*)` and
 - convergent: :math:`\Phi^k(W)\rightarrow W^*` as :math:`k\rightarrow\infty`
 
-for any :math:`W^*` such that :math:`P(\Sigma_y~|~W^*)=\Sigma_y`.
+for :math:`W^*` such that :math:`P(\Sigma_y~|~W^*)=\Sigma_y`.
 
 .. _Boltzmann distribution: https://en.wikipedia.org/wiki/Boltzmann_distribution

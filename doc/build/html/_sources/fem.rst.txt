@@ -1,14 +1,6 @@
 fem package
 ===========
 
-Subpackages
------------
-
-.. toctree::
-
-    fem.continuous
-    fem.discrete
-
 Module contents
 ---------------
 

@@ -45,26 +45,23 @@ def one_hot(x, degs):
 
 def categorize(x):
 
-    if x.ndim == 1:
-        x = np.array([x])
-    elif x.ndim == 2:
-        x = np.array(x)
-    else:
-        print 'x should be 1- or 2-dimensional'
-        return
+    n = len(x)
+    l = [len(xi) for xi in x]
 
-    l = x.shape[1]
-
-    cat_x = np.empty(shape=x.shape, dtype=int)
+    # cat_x = np.empty(shape=x.shape, dtype=int)
+    cat_x = [np.empty(shape=l[i], dtype=int) for i in range(n)]
 
     cat = []
-    for i in range(x.shape[0]):
+    for i in range(n):
         unique_states = np.sort(np.unique(x[i]))
         m = len(unique_states)
         num = dict(zip(unique_states, np.arange(m)))
-        for j in range(l):
-            cat_x[i, j] = num[x[i, j]]
-        cat.append(dict(zip(np.arange(m), unique_states)))
+        for j in range(l[i]):
+            cat_x[i][j] = num[x[i][j]]
+        cat.append(num)
+
+    if np.allclose(l, l[0]):
+        cat_x = np.array(cat_x)
 
     return cat_x, cat
 

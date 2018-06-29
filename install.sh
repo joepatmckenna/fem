@@ -9,4 +9,4 @@
 (cd ./doc && make html)
 (git add . && cat version | xargs git commit -m  && git push origin master) # joepatmckenna maybe1day
 (git subtree push --prefix doc/build/html origin gh-pages) # joepatmckenna maybe1day
-(rsync -azv doc/build/html/ mckennajp@lbm.niddk.nih.gov:/var/www/html/mckennajp/fem/) # Eat@peach
+# (rsync -azv doc/build/html/ mckennajp@lbm.niddk.nih.gov:/var/www/html/mckennajp/fem/) # Eat@peach
