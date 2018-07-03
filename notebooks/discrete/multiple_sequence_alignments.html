@@ -29,8 +29,8 @@
     <link rel="search" title="Search" href="../../search.html" >
     <link rel="top" title="fem  documentation" href="../../index.html" >
     <link rel="up" title="Discrete data examples" href="../../examples.html" >
-    <link rel="next" title="Second order" href="second_order.html" >
-    <link rel="prev" title="higher order sim" href="higher_order_sim.html" > 
+    <link rel="next" title="Simulated continuous time series" href="../continuous/simulated_time_series.html" >
+    <link rel="prev" title="Simulated time series" href="01_simulated_time_series.html" > 
   </head>
   <body>
 
@@ -71,11 +71,11 @@
            >modules</a>
       </li>
       <li class="active">
-        <a href="second_order.html" title="Second order"
+        <a href="../continuous/simulated_time_series.html" title="Simulated continuous time series"
            accesskey="N">next</a>
       </li>
       <li class="active">
-        <a href="higher_order_sim.html" title="higher order sim"
+        <a href="01_simulated_time_series.html" title="Simulated time series"
            accesskey="P">previous</a>
       </li>
     </ul>
@@ -89,11 +89,11 @@
       <div class="spc-rightsidebar span3">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="higher_order_sim.html"
-                        title="previous chapter">higher order sim</a></p>
+  <p class="topless"><a href="01_simulated_time_series.html"
+                        title="previous chapter">Simulated time series</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="second_order.html"
-                        title="next chapter">Second order</a></p>
+  <p class="topless"><a href="../continuous/simulated_time_series.html"
+                        title="next chapter">Simulated continuous time series</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
@@ -294,15 +294,16 @@ Bank</a>.</p>
 <span></span><span class="kn">import</span> <span class="nn">fem</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">patches</span><span class="p">,</span> <span class="n">colors</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">time</span><span class="o">,</span> <span class="nn">pickle</span><span class="o">,</span> <span class="nn">pymol</span><span class="o">,</span> <span class="nn">Bio.PDB</span><span class="o">,</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">distance_matrix</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">time</span><span class="o">,</span> <span class="nn">pickle</span><span class="o">,</span> <span class="nn">pymol</span><span class="o">,</span> <span class="nn">Bio.PDB</span><span class="o">,</span> <span class="nn">warnings</span><span class="o">,</span> <span class="nn">nglview</span>
 <span class="kn">from</span> <span class="nn">Bio</span> <span class="kn">import</span> <span class="n">BiopythonWarning</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">BiopythonWarning</span><span class="p">)</span>
 <span class="n">data_dir</span> <span class="o">=</span> <span class="s1">&#39;../../../data/msa&#39;</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">parse_pfam</span> <span class="kn">import</span> <span class="n">parse_pfam</span>
-<span class="n">pdb_list</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">PDB</span><span class="o">.</span><span class="n">PDBList</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -311,7 +312,7 @@ database and a table <code class="docutils literal"><span class="pre">pdb_refs</
 PDB structures.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [73]:
+<span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -332,7 +333,7 @@ total MSAs: 16479, total PDB refs: 207746
 at least one sequence with a reference to a PDB structure.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [48]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -357,7 +358,7 @@ add a column <code class="docutils literal"><span class="pre">size=res*seq</span
 families contains the most data.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [51]:
+<span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -369,7 +370,7 @@ families contains the most data.</p>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[51]:
+<span></span>Out[4]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -451,7 +452,7 @@ PDB sequence that appears in the MSA. Let’s create a column <code class="docut
 contains the length of the sequence and sort by that column.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [52]:
+<span></span>In [5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -463,7 +464,7 @@ contains the length of the sequence and sort by that column.</p>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[52]:
+<span></span>Out[5]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -499,7 +500,7 @@ contains the length of the sequence and sort by that column.</p>
   <tbody>
     <tr>
       <th>PF11894</th>
-      <td>577</td>
+      <td>578</td>
       <td>NU205_HUMAN</td>
       <td>14</td>
       <td>1684</td>
@@ -511,7 +512,7 @@ contains the length of the sequence and sort by that column.</p>
     </tr>
     <tr>
       <th>PF11894</th>
-      <td>577</td>
+      <td>578</td>
       <td>NU205_HUMAN</td>
       <td>14</td>
       <td>1684</td>
@@ -523,7 +524,7 @@ contains the length of the sequence and sort by that column.</p>
     </tr>
     <tr>
       <th>PF11894</th>
-      <td>577</td>
+      <td>578</td>
       <td>NU205_HUMAN</td>
       <td>14</td>
       <td>1684</td>
@@ -535,7 +536,7 @@ contains the length of the sequence and sort by that column.</p>
     </tr>
     <tr>
       <th>PF11894</th>
-      <td>577</td>
+      <td>578</td>
       <td>NU205_HUMAN</td>
       <td>14</td>
       <td>1684</td>
@@ -547,7 +548,7 @@ contains the length of the sequence and sort by that column.</p>
     </tr>
     <tr>
       <th>PF02463</th>
-      <td>2433</td>
+      <td>2434</td>
       <td>SMC1_YEAST</td>
       <td>3</td>
       <td>1213</td>
@@ -569,16 +570,15 @@ which accommodates the negatively charged sgRNA: target DNA
 heteroduplex. <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pubmed/24529477">[1]</a></p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [72]:
+<span></span>In [6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
 <span></span><span class="c1"># Cas 9 family</span>
-<span class="n">cas9_ac</span> <span class="o">=</span> <span class="s1">&#39;PF16592&#39;</span>
-<span class="n">cas9_ref</span> <span class="o">=</span> <span class="n">pfam</span><span class="p">[</span><span class="n">pfam</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="n">cas9_ac</span><span class="p">]</span>
-<span class="n">cas9_size_rank</span> <span class="o">=</span> <span class="n">pfam</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)[</span><span class="s1">&#39;PF16592&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<span class="k">print</span> <span class="s1">&#39;size rank: </span><span class="si">%i</span><span class="s1"> of </span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cas9_size_rank</span><span class="p">,</span> <span class="n">pfam</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">cas9_ref</span>
+<span class="n">ac</span> <span class="o">=</span> <span class="s1">&#39;PF16592&#39;</span>
+<span class="n">size_rank</span> <span class="o">=</span> <span class="n">pfam</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)[</span><span class="n">ac</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;size rank: </span><span class="si">%i</span><span class="s1"> of </span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">size_rank</span><span class="p">,</span> <span class="n">pfam</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">pfam</span><span class="p">[</span><span class="n">pfam</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="n">ac</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -592,7 +592,7 @@ size rank: 3734 of 5327
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[72]:
+<span></span>Out[6]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -635,10 +635,10 @@ size rank: 3734 of 5327
 <p>The MSA data for Pfam family with accession code PFXXXXX is stored on
 the local disk in the <code class="docutils literal"><span class="pre">Pfam-A.full/PFXXXXX</span></code> subdirectory of
 <code class="docutils literal"><span class="pre">data_dir</span></code> defined above. Here, we define a function for loading MSA
-data, then load the data for PF16592.</p>
+data.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [86]:
+<span></span>In [7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -646,100 +646,77 @@ data, then load the data for PF16592.</p>
     <span class="n">fam_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;Pfam-A.full&#39;</span><span class="p">,</span> <span class="n">ac</span><span class="p">)</span>
     <span class="n">msa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fam_dir</span><span class="p">,</span> <span class="s1">&#39;msa.npy&#39;</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">msa</span>
-
-<span class="n">cas9_msa</span> <span class="o">=</span> <span class="n">get_msa</span><span class="p">(</span><span class="n">cas9_ac</span><span class="p">)</span>
-<span class="c1"># cas9_aa = np.array([len(np.unique(s)) for s in cas9_msa])</span>
-<span class="c1"># conserved_residues = cas9_aa == 2 &amp; &#39;-&#39; in cas9_aa</span>
-<span class="c1"># print np.array([np.unique(s) for s in cas9_msa])[conserved_residues]</span>
-<span class="c1"># cas9_msa = cas9_msa[~conserved_residues]</span>
-<span class="c1"># n, l = cas9_msa.shape</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [97]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
-<span></span><span class="n">cas9_aa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">cas9_msa</span><span class="p">])</span>
-<span class="n">missing_aa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;-&#39;</span> <span class="ow">in</span> <span class="n">aa</span> <span class="k">for</span> <span class="n">aa</span> <span class="ow">in</span> <span class="n">cas9_aa</span><span class="p">])</span>
-<span class="n">two_unique_aa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">aa</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">aa</span> <span class="ow">in</span> <span class="n">cas9_aa</span><span class="p">])</span>
-
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [54]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">get_pdb_refs</span><span class="p">(</span><span class="n">ac</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">pdb_refs</span><span class="p">[</span><span class="n">pdb_refs</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">ac</span><span class="p">)]</span>
-
-
+<span></span><span class="n">msa</span> <span class="o">=</span> <span class="n">get_msa</span><span class="p">(</span><span class="n">ac</span><span class="p">)</span>
+<span class="n">msa_int</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">fit</span><span class="o">.</span><span class="n">categorize</span><span class="p">(</span><span class="n">msa</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">aa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">msa</span><span class="p">])</span>
+<span class="n">one_aa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">aa</span><span class="p">])</span>
+<span class="n">two_aa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">aa</span><span class="p">])</span>
+<span class="n">missing_aa_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;-&#39;</span> <span class="ow">in</span> <span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">aa</span><span class="p">])</span>
+<span class="n">conserved_residues</span> <span class="o">=</span> <span class="n">one_aa</span> <span class="o">|</span> <span class="p">(</span><span class="n">two_aa</span> <span class="o">&amp;</span> <span class="n">missing_aa_res</span><span class="p">)</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">aa</span><span class="p">])</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">]</span>
+<span class="n">mm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;conserved residues: </span><span class="si">%i</span><span class="s1"> of </span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">conserved_residues</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">msa</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CAS9 MSA: size rank: 3734 / 5327
+conserved residues: 225 of 1079
 </pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[54]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>res</th>
-      <th>seq</th>
-      <th>pdb_refs</th>
-      <th>size</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>PF16592</th>
-      <td>1079</td>
-      <td>146</td>
-      <td>21</td>
-      <td>157534</td>
-    </tr>
-  </tbody>
-</table>
-</div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [7]:
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">msa_code</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">msa</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">msa_code</span><span class="p">[</span><span class="n">conserved_residues</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">msa</span><span class="o">.</span><span class="n">T</span><span class="p">):</span>
+    <span class="n">msa_code</span><span class="p">[</span><span class="n">s</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;sequence&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;residue&#39;</span><span class="p">)</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;plasma&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">msa_code</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;active&#39;</span><span class="p">,</span> <span class="s1">&#39;alignment gap&#39;</span><span class="p">,</span> <span class="s1">&#39;conserved residue&#39;</span><span class="p">,</span> <span class="s1">&#39;alignment gap and conserved residue&#39;</span><span class="p">]</span>
+<span class="n">handles</span> <span class="o">=</span> <span class="p">[</span><span class="n">patches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">handles</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_multiple_sequence_alignments_16_0.png" src="../../_images/notebooks_discrete_multiple_sequence_alignments_16_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
 <span></span><span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="n">w</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">fit</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cas9_msa</span><span class="p">,</span> <span class="n">degs</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">iters</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">w</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">fit</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">msa</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">],</span> <span class="n">degs</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">iters</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="c1"># for i1, i2 in zip(mm[:-1], mm[1:]):</span>
+<span class="c1">#     w[1][:, i1:i2] -= w[1][:, i1:i2].mean(1)[:,np.newaxis]</span>
 <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="k">print</span> <span class="s1">&#39;model fit time: </span><span class="si">%02f</span><span class="s1"> seconds&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">,)</span>
 </pre></div>
@@ -750,20 +727,20 @@ CAS9 MSA: size rank: 3734 / 5327
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-model fit time: 19.810086 seconds
+model fit time: 16.821907 seconds
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [8]:
+<span></span>In [11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
 <span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 <span class="n">scale</span> <span class="o">=</span> <span class="mf">1e-1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">seismic</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="n">scale</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">seismic</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="n">scale</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Pfam: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cas9_ac</span><span class="p">,))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Pfam: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ac</span><span class="p">,))</span>
 <span class="k">for</span> <span class="n">di</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
     <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">di</span><span class="p">,</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;iteration&#39;</span><span class="p">)</span>
@@ -781,18 +758,18 @@ model fit time: 19.810086 seconds
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [9]:
+<span></span>In [12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
-<span></span><span class="n">cas9_refs</span> <span class="o">=</span> <span class="n">get_pdb_refs</span><span class="p">(</span><span class="n">cas9_ac</span><span class="p">)</span>
-<span class="n">cas9_refs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span></span><span class="n">refs</span> <span class="o">=</span> <span class="n">pdb_refs</span><span class="p">[</span><span class="n">pdb_refs</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">ac</span><span class="p">)]</span>
+<span class="n">refs</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[9]:
+<span></span>Out[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -828,7 +805,7 @@ model fit time: 19.810086 seconds
   <tbody>
     <tr>
       <th>PF16592</th>
-      <td>69</td>
+      <td>70</td>
       <td>CAS9_STRP1</td>
       <td>181</td>
       <td>712</td>
@@ -840,7 +817,7 @@ model fit time: 19.810086 seconds
     </tr>
     <tr>
       <th>PF16592</th>
-      <td>69</td>
+      <td>70</td>
       <td>CAS9_STRP1</td>
       <td>181</td>
       <td>712</td>
@@ -852,7 +829,7 @@ model fit time: 19.810086 seconds
     </tr>
     <tr>
       <th>PF16592</th>
-      <td>69</td>
+      <td>70</td>
       <td>CAS9_STRP1</td>
       <td>181</td>
       <td>712</td>
@@ -864,7 +841,7 @@ model fit time: 19.810086 seconds
     </tr>
     <tr>
       <th>PF16592</th>
-      <td>69</td>
+      <td>70</td>
       <td>CAS9_STRP1</td>
       <td>181</td>
       <td>712</td>
@@ -876,12 +853,144 @@ model fit time: 19.810086 seconds
     </tr>
     <tr>
       <th>PF16592</th>
-      <td>69</td>
+      <td>70</td>
       <td>CAS9_STRP1</td>
       <td>181</td>
       <td>712</td>
       <td>5F9R</td>
       <td>B</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>4UN4</td>
+      <td>B</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>4ZT0</td>
+      <td>C</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>5FW2</td>
+      <td>B</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>5B2T</td>
+      <td>B</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>4UN5</td>
+      <td>B</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>4CMP</td>
+      <td>B</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>4CMQ</td>
+      <td>B</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>5FW3</td>
+      <td>B</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>5FQ5</td>
+      <td>B</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>4CMP</td>
+      <td>A</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>4ZT9</td>
+      <td>C</td>
       <td>181</td>
       <td>712</td>
       <td>532</td>
@@ -892,68 +1001,107 @@ model fit time: 19.810086 seconds
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [10]:
+<span></span>In [13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
-<span></span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">cas9_msa_int</span><span class="p">,</span> <span class="n">cas9_msa_cat</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">fit</span><span class="o">.</span><span class="n">categorize</span><span class="p">(</span><span class="n">cas9_msa</span><span class="p">)</span>
-<span class="n">cas9_ref</span> <span class="o">=</span> <span class="n">cas9_refs</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-<span class="n">cas9_ref</span>
+<span></span><span class="n">ref</span> <span class="o">=</span> <span class="n">refs</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">seq</span> <span class="o">=</span> <span class="n">msa</span><span class="p">[:,</span> <span class="n">ref</span><span class="o">.</span><span class="n">seq</span><span class="p">]</span>
+<span class="n">missing_aa_seq</span> <span class="o">=</span> <span class="n">seq</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span>
+<span class="k">print</span> <span class="s1">&#39;PDB length == MSA seq length? </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">res</span> <span class="o">==</span> <span class="n">seq</span><span class="p">[</span><span class="o">~</span><span class="n">missing_aa_seq</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="k">print</span> <span class="s1">&#39;aa sequence: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">seq</span><span class="p">[</span><span class="o">~</span><span class="n">missing_aa_seq</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+PDB length == MSA seq length? True
+aa sequence: [&#39;v&#39; &#39;d&#39; &#39;k&#39; &#39;l&#39; &#39;f&#39; &#39;i&#39; &#39;q&#39; &#39;l&#39; &#39;v&#39; &#39;q&#39; &#39;t&#39; &#39;y&#39; &#39;n&#39; &#39;q&#39; &#39;l&#39; &#39;f&#39; &#39;e&#39; &#39;e&#39;
+ &#39;n&#39; &#39;p&#39; &#39;i&#39; &#39;n&#39; &#39;a&#39; &#39;s&#39; &#39;g&#39; &#39;v&#39; &#39;d&#39; &#39;a&#39; &#39;k&#39; &#39;a&#39; &#39;i&#39; &#39;l&#39; &#39;s&#39; &#39;a&#39; &#39;r&#39; &#39;l&#39;
+ &#39;s&#39; &#39;k&#39; &#39;s&#39; &#39;r&#39; &#39;r&#39; &#39;l&#39; &#39;e&#39; &#39;n&#39; &#39;l&#39; &#39;i&#39; &#39;a&#39; &#39;q&#39; &#39;l&#39; &#39;p&#39; &#39;g&#39; &#39;e&#39; &#39;k&#39; &#39;k&#39;
+ &#39;n&#39; &#39;g&#39; &#39;l&#39; &#39;f&#39; &#39;g&#39; &#39;n&#39; &#39;l&#39; &#39;i&#39; &#39;a&#39; &#39;l&#39; &#39;s&#39; &#39;l&#39; &#39;g&#39; &#39;l&#39; &#39;t&#39; &#39;p&#39; &#39;n&#39; &#39;f&#39;
+ &#39;k&#39; &#39;s&#39; &#39;n&#39; &#39;f&#39; &#39;d&#39; &#39;l&#39; &#39;a&#39; &#39;e&#39; &#39;d&#39; &#39;a&#39; &#39;k&#39; &#39;l&#39; &#39;q&#39; &#39;l&#39; &#39;s&#39; &#39;k&#39; &#39;d&#39; &#39;t&#39;
+ &#39;y&#39; &#39;d&#39; &#39;d&#39; &#39;d&#39; &#39;l&#39; &#39;d&#39; &#39;n&#39; &#39;l&#39; &#39;l&#39; &#39;a&#39; &#39;q&#39; &#39;i&#39; &#39;g&#39; &#39;d&#39; &#39;q&#39; &#39;y&#39; &#39;a&#39; &#39;d&#39;
+ &#39;l&#39; &#39;f&#39; &#39;l&#39; &#39;a&#39; &#39;a&#39; &#39;k&#39; &#39;n&#39; &#39;l&#39; &#39;s&#39; &#39;d&#39; &#39;a&#39; &#39;i&#39; &#39;l&#39; &#39;l&#39; &#39;s&#39; &#39;d&#39; &#39;i&#39; &#39;l&#39;
+ &#39;r&#39; &#39;v&#39; &#39;n&#39; &#39;t&#39; &#39;e&#39; &#39;i&#39; &#39;t&#39; &#39;k&#39; &#39;a&#39; &#39;p&#39; &#39;l&#39; &#39;s&#39; &#39;a&#39; &#39;s&#39; &#39;m&#39; &#39;i&#39; &#39;k&#39; &#39;r&#39;
+ &#39;y&#39; &#39;d&#39; &#39;e&#39; &#39;h&#39; &#39;h&#39; &#39;q&#39; &#39;d&#39; &#39;l&#39; &#39;t&#39; &#39;l&#39; &#39;l&#39; &#39;k&#39; &#39;a&#39; &#39;l&#39; &#39;v&#39; &#39;r&#39; &#39;q&#39; &#39;q&#39;
+ &#39;l&#39; &#39;p&#39; &#39;e&#39; &#39;k&#39; &#39;y&#39; &#39;k&#39; &#39;e&#39; &#39;i&#39; &#39;f&#39; &#39;f&#39; &#39;d&#39; &#39;q&#39; &#39;s&#39; &#39;k&#39; &#39;n&#39; &#39;g&#39; &#39;y&#39; &#39;a&#39;
+ &#39;g&#39; &#39;y&#39; &#39;i&#39; &#39;d&#39; &#39;g&#39; &#39;g&#39; &#39;a&#39; &#39;s&#39; &#39;q&#39; &#39;e&#39; &#39;e&#39; &#39;f&#39; &#39;y&#39; &#39;k&#39; &#39;f&#39; &#39;i&#39; &#39;k&#39; &#39;p&#39;
+ &#39;i&#39; &#39;l&#39; &#39;e&#39; &#39;k&#39; &#39;m&#39; &#39;d&#39; &#39;g&#39; &#39;t&#39; &#39;e&#39; &#39;e&#39; &#39;l&#39; &#39;l&#39; &#39;v&#39; &#39;k&#39; &#39;l&#39; &#39;n&#39; &#39;r&#39; &#39;e&#39;
+ &#39;d&#39; &#39;l&#39; &#39;l&#39; &#39;r&#39; &#39;k&#39; &#39;q&#39; &#39;r&#39; &#39;t&#39; &#39;f&#39; &#39;d&#39; &#39;n&#39; &#39;g&#39; &#39;s&#39; &#39;i&#39; &#39;p&#39; &#39;h&#39; &#39;q&#39; &#39;i&#39;
+ &#39;h&#39; &#39;l&#39; &#39;g&#39; &#39;e&#39; &#39;l&#39; &#39;h&#39; &#39;a&#39; &#39;i&#39; &#39;l&#39; &#39;r&#39; &#39;r&#39; &#39;q&#39; &#39;e&#39; &#39;d&#39; &#39;f&#39; &#39;y&#39; &#39;p&#39; &#39;f&#39;
+ &#39;l&#39; &#39;k&#39; &#39;d&#39; &#39;n&#39; &#39;r&#39; &#39;e&#39; &#39;k&#39; &#39;i&#39; &#39;e&#39; &#39;k&#39; &#39;i&#39; &#39;l&#39; &#39;t&#39; &#39;f&#39; &#39;r&#39; &#39;i&#39; &#39;p&#39; &#39;y&#39;
+ &#39;y&#39; &#39;v&#39; &#39;g&#39; &#39;p&#39; &#39;l&#39; &#39;a&#39; &#39;r&#39; &#39;g&#39; &#39;n&#39; &#39;s&#39; &#39;r&#39; &#39;f&#39; &#39;a&#39; &#39;w&#39; &#39;m&#39; &#39;t&#39; &#39;r&#39; &#39;k&#39;
+ &#39;s&#39; &#39;e&#39; &#39;e&#39; &#39;t&#39; &#39;i&#39; &#39;t&#39; &#39;p&#39; &#39;w&#39; &#39;n&#39; &#39;f&#39; &#39;e&#39; &#39;e&#39; &#39;v&#39; &#39;v&#39; &#39;d&#39; &#39;k&#39; &#39;g&#39; &#39;a&#39;
+ &#39;s&#39; &#39;a&#39; &#39;q&#39; &#39;s&#39; &#39;f&#39; &#39;i&#39; &#39;e&#39; &#39;r&#39; &#39;m&#39; &#39;t&#39; &#39;n&#39; &#39;f&#39; &#39;d&#39; &#39;k&#39; &#39;n&#39; &#39;l&#39; &#39;p&#39; &#39;n&#39;
+ &#39;e&#39; &#39;k&#39; &#39;v&#39; &#39;l&#39; &#39;p&#39; &#39;k&#39; &#39;h&#39; &#39;s&#39; &#39;l&#39; &#39;l&#39; &#39;y&#39; &#39;e&#39; &#39;y&#39; &#39;f&#39; &#39;t&#39; &#39;v&#39; &#39;y&#39; &#39;n&#39;
+ &#39;e&#39; &#39;l&#39; &#39;t&#39; &#39;k&#39; &#39;v&#39; &#39;k&#39; &#39;y&#39; &#39;v&#39; &#39;t&#39; &#39;e&#39; &#39;g&#39; &#39;m&#39; &#39;r&#39; &#39;k&#39; &#39;p&#39; &#39;a&#39; &#39;f&#39; &#39;l&#39;
+ &#39;s&#39; &#39;g&#39; &#39;e&#39; &#39;q&#39; &#39;k&#39; &#39;k&#39; &#39;a&#39; &#39;i&#39; &#39;v&#39; &#39;d&#39; &#39;l&#39; &#39;l&#39; &#39;f&#39; &#39;k&#39; &#39;t&#39; &#39;n&#39; &#39;r&#39; &#39;k&#39;
+ &#39;v&#39; &#39;t&#39; &#39;v&#39; &#39;k&#39; &#39;q&#39; &#39;l&#39; &#39;k&#39; &#39;e&#39; &#39;d&#39; &#39;y&#39; &#39;f&#39; &#39;k&#39; &#39;k&#39; &#39;i&#39; &#39;e&#39; &#39;c&#39; &#39;f&#39; &#39;d&#39;
+ &#39;s&#39; &#39;v&#39; &#39;e&#39; &#39;i&#39; &#39;s&#39; &#39;g&#39; &#39;v&#39; &#39;e&#39; &#39;d&#39; &#39;r&#39; &#39;f&#39; &#39;n&#39; &#39;a&#39; &#39;s&#39; &#39;l&#39; &#39;g&#39; &#39;t&#39; &#39;y&#39;
+ &#39;h&#39; &#39;d&#39; &#39;l&#39; &#39;l&#39; &#39;k&#39; &#39;i&#39; &#39;i&#39; &#39;k&#39; &#39;d&#39; &#39;k&#39; &#39;d&#39; &#39;f&#39; &#39;l&#39; &#39;d&#39; &#39;n&#39; &#39;e&#39; &#39;e&#39; &#39;n&#39;
+ &#39;e&#39; &#39;d&#39; &#39;i&#39; &#39;l&#39; &#39;e&#39; &#39;d&#39; &#39;i&#39; &#39;v&#39; &#39;l&#39; &#39;t&#39; &#39;l&#39; &#39;t&#39; &#39;l&#39; &#39;f&#39; &#39;e&#39; &#39;d&#39; &#39;r&#39; &#39;e&#39;
+ &#39;m&#39; &#39;i&#39; &#39;e&#39; &#39;e&#39; &#39;r&#39; &#39;l&#39; &#39;k&#39; &#39;t&#39; &#39;y&#39; &#39;a&#39; &#39;h&#39; &#39;l&#39; &#39;f&#39; &#39;d&#39; &#39;d&#39; &#39;k&#39; &#39;v&#39; &#39;m&#39;
+ &#39;k&#39; &#39;q&#39; &#39;l&#39; &#39;k&#39; &#39;r&#39; &#39;r&#39; &#39;r&#39; &#39;y&#39; &#39;t&#39; &#39;g&#39; &#39;w&#39; &#39;g&#39; &#39;r&#39; &#39;l&#39; &#39;s&#39; &#39;r&#39; &#39;k&#39; &#39;l&#39;
+ &#39;i&#39; &#39;n&#39; &#39;g&#39; &#39;i&#39; &#39;r&#39; &#39;d&#39; &#39;k&#39; &#39;q&#39; &#39;s&#39; &#39;g&#39; &#39;k&#39; &#39;t&#39; &#39;i&#39; &#39;l&#39; &#39;d&#39; &#39;f&#39; &#39;l&#39; &#39;k&#39;
+ &#39;s&#39; &#39;d&#39; &#39;g&#39; &#39;f&#39; &#39;a&#39; &#39;n&#39; &#39;r&#39; &#39;n&#39; &#39;f&#39; &#39;m&#39; &#39;q&#39; &#39;l&#39; &#39;i&#39; &#39;h&#39; &#39;d&#39; &#39;d&#39; &#39;s&#39; &#39;l&#39;
+ &#39;t&#39; &#39;f&#39; &#39;k&#39; &#39;e&#39; &#39;d&#39; &#39;i&#39; &#39;q&#39; &#39;k&#39; &#39;a&#39; &#39;q&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[10]:
+<span></span>In [14]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>seq                      69
-uniprot_id       CAS9_STRP1
-uniprot_start           181
-uniprot_end             712
-pdb_id                 4OO8
-chain                     A
-pdb_start               181
-pdb_end                 712
-res                     532
-Name: PF16592, dtype: object
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">seq_int</span> <span class="o">=</span> <span class="n">msa_int</span><span class="p">[:,</span> <span class="n">ref</span><span class="o">.</span><span class="n">seq</span><span class="p">]</span>
+<span class="n">seq_int</span> <span class="o">=</span> <span class="n">seq_int</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">]</span>
+<span class="n">w_idx</span> <span class="o">=</span> <span class="n">mm</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">seq_int</span>
+<span class="n">w_idx</span> <span class="o">=</span> <span class="n">w_idx</span><span class="p">[</span><span class="o">~</span><span class="n">missing_aa_seq</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">]]</span>
+<span class="n">w_seq</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">w_idx</span><span class="p">,</span> <span class="n">w_idx</span><span class="p">)]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">scale</span> <span class="o">=</span> <span class="mf">1e-1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">w_seq</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">w_seq</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">seismic</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="n">scale</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;PDB: </span><span class="si">%s</span><span class="s1">, chain </span><span class="si">%s</span><span class="s1">, residues </span><span class="si">%i</span><span class="s1">-</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">chain</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">pdb_start</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">pdb_end</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_multiple_sequence_alignments_21_0.png" src="../../_images/notebooks_discrete_multiple_sequence_alignments_21_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [11]:
+<span></span>In [15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">contact_map</span><span class="p">(</span><span class="n">pdb_ref</span><span class="p">,</span> <span class="n">dist_thresh</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
-    <span class="n">pdb_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;Pfam-A.full&#39;</span><span class="p">,</span> <span class="n">pdb_ref</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-    <span class="n">pdb_file</span> <span class="o">=</span> <span class="n">pdb_list</span><span class="o">.</span><span class="n">retrieve_pdb_file</span><span class="p">(</span><span class="n">pdb_ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">pdir</span><span class="o">=</span><span class="n">pdb_dir</span><span class="p">,</span> <span class="n">file_format</span><span class="o">=</span><span class="s1">&#39;pdb&#39;</span><span class="p">)</span>
-
+<span></span><span class="k">def</span> <span class="nf">get_contact_map</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">dist_thresh</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+    <span class="n">pdb_list</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">PDB</span><span class="o">.</span><span class="n">PDBList</span><span class="p">()</span>
     <span class="n">pdb_parser</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">PDB</span><span class="o">.</span><span class="n">PDBParser</span><span class="p">()</span>
-    <span class="n">chain</span> <span class="o">=</span> <span class="n">pdb_parser</span><span class="o">.</span><span class="n">get_structure</span><span class="p">(</span><span class="n">pdb_ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">pdb_file</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="n">pdb_ref</span><span class="o">.</span><span class="n">chain</span><span class="p">]</span>
-    <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">a</span><span class="o">.</span><span class="n">get_coord</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">get_atoms</span><span class="p">())])</span>
-    <span class="n">coords</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="n">pdb_ref</span><span class="o">.</span><span class="n">pdb_start</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">pdb_ref</span><span class="o">.</span><span class="n">pdb_end</span><span class="p">]</span>
-    <span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">distance_matrix</span>
+    <span class="n">pdb_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;Pfam-A.full&#39;</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">pdb_file</span> <span class="o">=</span> <span class="n">pdb_list</span><span class="o">.</span><span class="n">retrieve_pdb_file</span><span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">pdir</span><span class="o">=</span><span class="n">pdb_dir</span><span class="p">,</span> <span class="n">file_format</span><span class="o">=</span><span class="s1">&#39;pdb&#39;</span><span class="p">)</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">pdb_parser</span><span class="o">.</span><span class="n">get_structure</span><span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">pdb_file</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="n">ref</span><span class="o">.</span><span class="n">chain</span><span class="p">]</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">a</span><span class="o">.</span><span class="n">get_coord</span><span class="p">()</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">chain</span><span class="o">.</span><span class="n">get_atoms</span><span class="p">()])</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_start</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_end</span><span class="p">]</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">[</span><span class="o">~</span><span class="n">missing_aa_seq</span><span class="p">]]</span>
     <span class="k">return</span> <span class="n">distance_matrix</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">coords</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">dist_thresh</span>
 
-<span class="n">seq</span><span class="p">,</span> <span class="n">seq_int</span> <span class="o">=</span> <span class="n">cas9_msa</span><span class="p">[:,</span> <span class="n">cas9_ref</span><span class="o">.</span><span class="n">seq</span><span class="p">],</span> <span class="n">cas9_msa_int</span><span class="p">[:,</span> <span class="n">cas9_ref</span><span class="o">.</span><span class="n">seq</span><span class="p">]</span>
-<span class="n">missing_residues</span> <span class="o">=</span> <span class="n">seq</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span>
-<span class="n">w_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">cas9_m</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">seq_int</span>
-<span class="n">w_idx</span> <span class="o">=</span> <span class="n">w_idx</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">missing_residues</span> <span class="o">|</span> <span class="n">conserved_residues</span><span class="p">)]</span>
-<span class="n">w_seq</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">w_idx</span><span class="p">,</span> <span class="n">w_idx</span><span class="p">)]</span>
+<span class="n">contact_map</span> <span class="o">=</span> <span class="n">get_contact_map</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
 
-<span class="n">cas9_ref_contact_map</span> <span class="o">=</span> <span class="n">contact_map</span><span class="p">(</span><span class="n">cas9_ref</span><span class="p">)</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;PDB: </span><span class="si">%s</span><span class="s1">, chain </span><span class="si">%s</span><span class="s1">, residues </span><span class="si">%i</span><span class="s1">-</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cas9_ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">cas9_ref</span><span class="o">.</span><span class="n">chain</span><span class="p">,</span> <span class="n">cas9_ref</span><span class="o">.</span><span class="n">pdb_start</span><span class="p">,</span> <span class="n">cas9_ref</span><span class="o">.</span><span class="n">pdb_end</span><span class="p">))</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">w_seq</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">seismic</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="n">scale</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cas9_ref_contact_map</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Greys</span><span class="p">,</span>  <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
-    <span class="n">a</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
-    <span class="n">a</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;PDB: </span><span class="si">%s</span><span class="s1">, chain </span><span class="si">%s</span><span class="s1">, residues </span><span class="si">%i</span><span class="s1">-</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">chain</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">pdb_start</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">pdb_end</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">contact_map</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -970,62 +1118,34 @@ Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_discrete_multiple_sequence_alignments_21_1.png" src="../../_images/notebooks_discrete_multiple_sequence_alignments_21_1.png" />
+<img alt="../../_images/notebooks_discrete_multiple_sequence_alignments_22_1.png" src="../../_images/notebooks_discrete_multiple_sequence_alignments_22_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [46]:
+<span></span>In [16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
-<span></span><span class="n">w_seq_abs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">w_seq</span><span class="p">)</span>
-<span class="n">order</span> <span class="o">=</span> <span class="n">w_seq_abs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">s</span> <span class="o">=</span> <span class="n">w_seq</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span></span><span class="k">def</span> <span class="nf">roc</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">w</span><span class="p">)[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">c_flat</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">tp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">c_flat</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="o">~</span><span class="n">c_flat</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">tp</span> <span class="o">/=</span> <span class="n">tp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">fp</span> <span class="o">/=</span> <span class="n">fp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">fp</span><span class="p">,</span> <span class="n">tp</span>
 
-<span class="c1"># true/false positive</span>
-<span class="n">tp</span><span class="p">,</span> <span class="n">fp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="n">s</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="n">s</span><span class="p">)</span>
-<span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">s</span><span class="p">,</span> <span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">%</span><span class="k">s</span>
-<span class="k">if</span> <span class="n">cas9_ref_contact_map</span><span class="p">[</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">]:</span>
-    <span class="n">tp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="n">tp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
-    <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">o</span><span class="o">/</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="o">%</span><span class="k">s</span>
-    <span class="k">if</span> <span class="n">cas9_ref_contact_map</span><span class="p">[</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">]:</span>
-        <span class="n">tp</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">fp</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">fp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">tp</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">fp</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tp</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">fp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="k">print</span> <span class="n">tp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">fp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="n">cas9_ref_contact_map</span> <span class="o">==</span> <span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="p">(</span><span class="n">cas9_ref_contact_map</span> <span class="o">==</span> <span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">cas9_ref_contact_map</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="k">print</span> <span class="n">cas9_ref_contact_map</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">w_seq</span><span class="o">.</span><span class="n">shape</span>
-
-<span class="n">tp</span> <span class="o">/=</span> <span class="p">(</span><span class="n">cas9_ref_contact_map</span> <span class="o">==</span> <span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">fp</span> <span class="o">/=</span> <span class="p">(</span><span class="n">cas9_ref_contact_map</span> <span class="o">==</span> <span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="k">print</span> <span class="n">tp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">fp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="n">cas9_ref_contact_map</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-14130.0 214354.0 15820 267204
-228484 283024
-(532, 532) (478, 478)
-0.893173198482933 0.8022110447448392 0.9441036802532647
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [41]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
-<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tp</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">fp</span><span class="p">,</span> <span class="n">tp</span> <span class="o">=</span> <span class="n">roc</span><span class="p">(</span><span class="n">w_seq</span><span class="p">,</span> <span class="n">contact_map</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="s1">&#39;k-&#39;</span><span class="p">)</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;false positive rate&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;true positive rate&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;ROC&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;AUC: </span><span class="si">%0.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tp</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">tp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],),</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1037,9 +1157,165 @@ Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
 <img alt="../../_images/notebooks_discrete_multiple_sequence_alignments_23_0.png" src="../../_images/notebooks_discrete_multiple_sequence_alignments_23_0.png" />
 </div>
 </div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">idx</span> <span class="o">=</span> <span class="n">contact_map</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">w_seq</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+<span class="n">thresh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">w_seq</span><span class="p">)[</span><span class="n">mask</span><span class="p">])[</span><span class="o">-</span><span class="n">idx</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">contact_map</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys&#39;</span><span class="p">)</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">([</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">])</span>
+<span class="n">norm</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">BoundaryNorm</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">matshow</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">w_seq</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">thresh</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;PDB: </span><span class="si">%s</span><span class="s1">, chain </span><span class="si">%s</span><span class="s1">, residues </span><span class="si">%i</span><span class="s1">-</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">chain</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">pdb_start</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">pdb_end</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_multiple_sequence_alignments_24_0.png" src="../../_images/notebooks_discrete_multiple_sequence_alignments_24_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [79]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">w_seq</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+<span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">w_seq</span><span class="p">)[</span><span class="n">mask</span><span class="p">])</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_start</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">pdb_end</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">[</span><span class="o">~</span><span class="n">missing_aa_seq</span><span class="p">]]</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+<span class="n">res_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">res</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])[</span><span class="n">mask</span><span class="p">]</span>
+
+<span class="n">res_pairs</span> <span class="o">=</span> <span class="n">res_res</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:]]</span>
+
+<span class="n">pdb_list</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">PDB</span><span class="o">.</span><span class="n">PDBList</span><span class="p">()</span>
+<span class="n">pdb_parser</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">PDB</span><span class="o">.</span><span class="n">PDBParser</span><span class="p">()</span>
+<span class="n">pdb_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;Pfam-A.full&#39;</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="n">pdb_file</span> <span class="o">=</span> <span class="n">pdb_list</span><span class="o">.</span><span class="n">retrieve_pdb_file</span><span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">pdir</span><span class="o">=</span><span class="n">pdb_dir</span><span class="p">,</span> <span class="n">file_format</span><span class="o">=</span><span class="s1">&#39;pdb&#39;</span><span class="p">)</span>
+<span class="n">chain</span> <span class="o">=</span> <span class="n">pdb_parser</span><span class="o">.</span><span class="n">get_structure</span><span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">pdb_file</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="n">ref</span><span class="o">.</span><span class="n">chain</span><span class="p">]</span>
+<span class="n">view</span> <span class="o">=</span> <span class="n">nglview</span><span class="o">.</span><span class="n">show_biopython</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span>
+<span class="c1"># view.clear_representations()</span>
+<span class="c1"># view.add_licorice()</span>
+<span class="n">view</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">opacity</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="c1"># colors = [&#39;0x0000FF&#39;] * len(chain)</span>
+<span class="c1"># view._set_color_by_residue(colors, component_index=0, repr_index=0)</span>
+<span class="n">view</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt9.ent&#39;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "6d157e379fff4626b056bad0e7680cc4", "version_minor": 0, "version_major": 2}</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="n">max_auc</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">refs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="n">ref</span> <span class="o">=</span> <span class="n">refs</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="n">msa</span><span class="p">[:,</span> <span class="n">ref</span><span class="o">.</span><span class="n">seq</span><span class="p">]</span>
+    <span class="n">missing_aa_seq</span> <span class="o">=</span> <span class="n">seq</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span>
+    <span class="n">seq_int</span> <span class="o">=</span> <span class="n">msa_int</span><span class="p">[:,</span> <span class="n">ref</span><span class="o">.</span><span class="n">seq</span><span class="p">][</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">]</span>
+    <span class="n">w_idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">mm</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">seq_int</span><span class="p">)[</span><span class="o">~</span><span class="n">missing_aa_seq</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">]]</span>
+    <span class="n">w_seq</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">w_idx</span><span class="p">,</span> <span class="n">w_idx</span><span class="p">)]</span>
+    <span class="n">contact_map</span> <span class="o">=</span> <span class="n">get_contact_map</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
+    <span class="n">fp</span><span class="p">,</span> <span class="n">tp</span> <span class="o">=</span> <span class="n">roc</span><span class="p">(</span><span class="n">w_seq</span><span class="p">,</span> <span class="n">contact_map</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s%s</span><span class="s1">, </span><span class="si">%i</span><span class="s1">-</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">chain</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">pdb_start</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">pdb_end</span><span class="p">))</span>
+    <span class="n">max_auc</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_auc</span><span class="p">,</span> <span class="n">tp</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">tp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;false positive rate&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;true positive rate&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;ROC&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;max AUC: </span><span class="si">%0.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">max_auc</span><span class="p">,),</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmq.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt0.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5f9r.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4un4.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt0.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fw2.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5b2t.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4un5.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmp.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmq.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fw3.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fq5.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmp.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt9.ent&#39;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_multiple_sequence_alignments_26_1.png" src="../../_images/notebooks_discrete_multiple_sequence_alignments_26_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [84]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[84]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>9274
+</pre></div>
+</div>
+</div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [15]:
+<span></span>In [20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -1062,7 +1338,7 @@ Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [16]:
+<span></span>In [21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -1072,7 +1348,7 @@ Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [17]:
+<span></span>In [22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -1082,7 +1358,7 @@ Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [18]:
+<span></span>In [23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -1113,7 +1389,7 @@ Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [19]:
+<span></span>In [24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -1125,7 +1401,7 @@ Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [20]:
+<span></span>In [25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -1136,7 +1412,7 @@ Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [21]:
+<span></span>In [26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -1147,7 +1423,7 @@ Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [22]:
+<span></span>In [27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -1157,7 +1433,7 @@ Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [23]:
+<span></span>In [28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -1168,7 +1444,7 @@ Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [24]:
+<span></span>In [29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -1187,7 +1463,7 @@ Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [25]:
+<span></span>In [30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -1198,7 +1474,7 @@ Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [26]:
+<span></span>In [31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -1211,7 +1487,7 @@ Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [27]:
+<span></span>In [32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
