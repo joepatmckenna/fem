@@ -1,4 +1,5 @@
 from numpy.distutils.core import Extension
+# from setuptools import find_packages
 
 libraries = ['gomp', 'lapack']  # + lapack_opt_info['libraries']
 # library_dirs = ['/usr/lib', '/usr/local/lib']  # lapack_opt_info['library_dirs']
@@ -35,6 +36,7 @@ if __name__ == '__main__':
         url='http://lbm.niddk.nih.gov/mckennajp/fem',
         download_url='https://pypi.org/project/fem',
         packages=['fem', 'fem.discrete', 'fem.continuous'],
+        # packages=find_packages(),
         ext_modules=[fortran_module],
         classifiers=("Programming Language :: Python :: 2",
                      "License :: OSI Approved :: MIT License",

@@ -3,6 +3,9 @@ Free Energy Minimization
 
 Quick Start
 -----------
+
+.. image:: https://mybinder.org/badge.svg :target: https://mybinder.org/v2/gh/joepatmckenna/fem/master?filepath=doc%2Fnotebooks%2Fcontinuous%2Fvim2.ipynb
+
 - Install ``fem``:
 
   .. code-block:: sh
