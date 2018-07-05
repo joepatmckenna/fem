@@ -29,7 +29,7 @@
     <link rel="search" title="Search" href="../../search.html" >
     <link rel="top" title="fem  documentation" href="../../index.html" >
     <link rel="up" title="Discrete data examples" href="../../examples.html" >
-    <link rel="next" title="Currency" href="currency.html" >
+    <link rel="next" title="Multiple sequence alignment" href="multiple_sequence_alignments.html" >
     <link rel="prev" title="Discrete data examples" href="../../examples.html" > 
   </head>
   <body>
@@ -71,7 +71,7 @@
            >modules</a>
       </li>
       <li class="active">
-        <a href="currency.html" title="Currency"
+        <a href="multiple_sequence_alignments.html" title="Multiple sequence alignment"
            accesskey="N">next</a>
       </li>
       <li class="active">
@@ -92,8 +92,8 @@
   <p class="topless"><a href="../../examples.html"
                         title="previous chapter">Discrete data examples</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="currency.html"
-                        title="next chapter">Currency</a></p>
+  <p class="topless"><a href="multiple_sequence_alignments.html"
+                        title="next chapter">Multiple sequence alignment</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
@@ -279,6 +279,7 @@ div.nboutput div.output_area.stderr {
 </style>
 <div class="section" id="Simulated-time-series">
 <h1>Simulated time series<a class="headerlink" href="#Simulated-time-series" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://mybinder.org/v2/gh/joepatmckenna/fem/master?filepath=doc%2Fnotebooks%2Fdiscrete%2F01_simulated_time_series.ipynb"><img alt="Binder" src="https://mybinder.org/badge.svg" /></a></p>
 <p>In this example, we generate discrete time series data from a model with
 known parameters <span class="math">\(W\)</span>. The <code class="docutils literal"><span class="pre">FEM</span></code> package provides functions for
 generating models and data. After generating the data, we demonstrate
@@ -345,7 +346,7 @@ out <code class="docutils literal"><span class="pre">w</span></code> to a 1D arr
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_discrete_01_simulated_time_series_5_0.png" src="../../_images/notebooks_discrete_01_simulated_time_series_5_0.png" />
+<img alt="../../_images/notebooks_discrete_01_simulated_time_series_6_0.png" src="../../_images/notebooks_discrete_01_simulated_time_series_6_0.png" />
 </div>
 </div>
 <p>Now that we have a model represented by <code class="docutils literal"><span class="pre">w</span></code>, we generate time series
@@ -418,52 +419,52 @@ nonnegative integers. The average of each variable is approximately 1.</p>
     <tr>
       <th>1</th>
       <td>[0, 1, 2]</td>
-      <td>1.011333</td>
+      <td>1.026222</td>
     </tr>
     <tr>
       <th>2</th>
       <td>[0, 1, 2]</td>
-      <td>1.010889</td>
+      <td>1.005111</td>
     </tr>
     <tr>
       <th>3</th>
       <td>[0, 1, 2]</td>
-      <td>0.980889</td>
+      <td>0.992667</td>
     </tr>
     <tr>
       <th>4</th>
       <td>[0, 1, 2]</td>
-      <td>1.026222</td>
+      <td>1.025111</td>
     </tr>
     <tr>
       <th>5</th>
       <td>[0, 1, 2]</td>
-      <td>1.001111</td>
+      <td>0.988444</td>
     </tr>
     <tr>
       <th>6</th>
       <td>[0, 1, 2]</td>
-      <td>1.058889</td>
+      <td>1.017778</td>
     </tr>
     <tr>
       <th>7</th>
       <td>[0, 1, 2]</td>
-      <td>0.971111</td>
+      <td>0.967556</td>
     </tr>
     <tr>
       <th>8</th>
       <td>[0, 1, 2]</td>
-      <td>0.984222</td>
+      <td>0.990000</td>
     </tr>
     <tr>
       <th>9</th>
       <td>[0, 1, 2]</td>
-      <td>1.003111</td>
+      <td>0.989333</td>
     </tr>
     <tr>
       <th>10</th>
       <td>[0, 1, 2]</td>
-      <td>0.980222</td>
+      <td>0.985111</td>
     </tr>
   </tbody>
 </table>
@@ -488,7 +489,7 @@ discernable pattern to the naked eye:</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_discrete_01_simulated_time_series_11_0.png" src="../../_images/notebooks_discrete_01_simulated_time_series_11_0.png" />
+<img alt="../../_images/notebooks_discrete_01_simulated_time_series_12_0.png" src="../../_images/notebooks_discrete_01_simulated_time_series_12_0.png" />
 </div>
 </div>
 <p>We can however determine the model that generated the above data using
@@ -543,7 +544,7 @@ model parameters.</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_discrete_01_simulated_time_series_15_0.png" src="../../_images/notebooks_discrete_01_simulated_time_series_15_0.png" />
+<img alt="../../_images/notebooks_discrete_01_simulated_time_series_16_0.png" src="../../_images/notebooks_discrete_01_simulated_time_series_16_0.png" />
 </div>
 </div>
 </div>
@@ -569,7 +570,7 @@ model parameters.</p>
         &copy; Copyright 2018, Joe McKenna.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.6.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.5.
       </li>
     </ul>
     </div>
