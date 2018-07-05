@@ -1,4 +1,7 @@
 name: fem-environment
+requirements:
+  build:
+    - {{ compiler('fortran') }}
 channels:
   - conda-forge
 dependencies:
