@@ -6,8 +6,8 @@ dependencies:
   - libgfortran
   - openblas
   - python=2.7
+  - numpy
   - pip:
-    - numpy
     - pandas
     - matplotlib
     - fem
