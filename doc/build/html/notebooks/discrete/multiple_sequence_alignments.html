@@ -285,7 +285,7 @@ that downloads the current release of the <a class="reference external" href="ht
 database</a>, and stores the MSAs in that
 database on the local disk. Get a list of IDs from the <a class="reference external" href="https://www.rcsb.org/">Protein Data
 Bank</a>.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [1]:
 </pre></div>
@@ -307,36 +307,12 @@ Bank</a>.</p>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ImportError</span>                               Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-da0b32c9bbc9&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">import</span> fem
-<span class="ansi-green-intense-fg ansi-bold">      2</span> get_ipython<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>magic<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">u&#39;matplotlib inline&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-green-fg">import</span> matplotlib<span class="ansi-blue-fg">.</span>pyplot <span class="ansi-green-fg">as</span> plt
-<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-green-fg">from</span> matplotlib <span class="ansi-green-fg">import</span> patches<span class="ansi-blue-fg">,</span> colors
-<span class="ansi-green-intense-fg ansi-bold">      5</span> <span class="ansi-green-fg">import</span> numpy <span class="ansi-green-fg">as</span> np
-
-<span class="ansi-green-fg">/home/joe/Dropbox/NIH/fem/fem/__init__.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      1</span> name <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#39;fem&#39;</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span>
-<span class="ansi-green-fg">----&gt; 3</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">import</span> fortran_module
-<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-green-fg">import</span> discrete<span class="ansi-blue-fg">.</span>simulate
-<span class="ansi-green-intense-fg ansi-bold">      5</span> <span class="ansi-green-fg">import</span> discrete<span class="ansi-blue-fg">.</span>fit
-
-<span class="ansi-red-fg">ImportError</span>: No module named fortran_module
-</pre></div></div>
-</div>
 <p>Get a table <code class="docutils literal"><span class="pre">pfam</span></code> of information for all protein families in the Pfam
 database and a table <code class="docutils literal"><span class="pre">pdb_refs</span></code> of all references from sequences to
 PDB structures.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -345,11 +321,19 @@ PDB structures.</p>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+total MSAs: 16479, total PDB refs: 207746
+</pre></div></div>
+</div>
 <p>Subset the Pfam table <code class="docutils literal"><span class="pre">pfam</span></code> to contain only the families that contain
 at least one sequence with a reference to a PDB structure.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -358,15 +342,23 @@ at least one sequence with a reference to a PDB structure.</p>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+MSAs with PDB refs: 5327
+</pre></div></div>
+</div>
 <p>Each row in <code class="docutils literal"><span class="pre">pfam</span></code> contains information about a single protein
 family/multiple sequence alignment. Up until this point, the columns of
 <code class="docutils literal"><span class="pre">pfam</span></code> are <code class="docutils literal"><span class="pre">res</span></code>: the number of residues in each sequence of the
 alignment, <code class="docutils literal"><span class="pre">seq</span></code>: the number of sequences in the alignment. Now let’s
 add a column <code class="docutils literal"><span class="pre">size=res*seq</span></code> and sort by that column to see which
 families contains the most data.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -375,6 +367,76 @@ families contains the most data.</p>
 <span class="n">pfam</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>res</th>
+      <th>seq</th>
+      <th>pdb_refs</th>
+      <th>size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>PF00005</th>
+      <td>2386</td>
+      <td>369723</td>
+      <td>407</td>
+      <td>882159078</td>
+    </tr>
+    <tr>
+      <th>PF00069</th>
+      <td>3194</td>
+      <td>236455</td>
+      <td>3910</td>
+      <td>755237270</td>
+    </tr>
+    <tr>
+      <th>PF07690</th>
+      <td>3427</td>
+      <td>214283</td>
+      <td>23</td>
+      <td>734347841</td>
+    </tr>
+    <tr>
+      <th>PF00067</th>
+      <td>4853</td>
+      <td>85020</td>
+      <td>768</td>
+      <td>412602060</td>
+    </tr>
+    <tr>
+      <th>PF00501</th>
+      <td>3767</td>
+      <td>87704</td>
+      <td>145</td>
+      <td>330380968</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 </div>
 <p>Each row in the PDB references table <code class="docutils literal"><span class="pre">pdb_refs</span></code> contains information
 about a cross-reference between a protein family in the Pfam database
@@ -388,9 +450,9 @@ ID, <code class="docutils literal"><span class="pre">chain</span></code>: the PD
 <code class="docutils literal"><span class="pre">pdb_start</span></code>/<code class="docutils literal"><span class="pre">pdb_end</span></code>: the start and end residue positions of the
 PDB sequence that appears in the MSA. Let’s create a column <code class="docutils literal"><span class="pre">res</span></code> that
 contains the length of the sequence and sort by that column.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -400,15 +462,115 @@ contains the length of the sequence and sort by that column.</p>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>seq</th>
+      <th>uniprot_id</th>
+      <th>uniprot_start</th>
+      <th>uniprot_end</th>
+      <th>pdb_id</th>
+      <th>chain</th>
+      <th>pdb_start</th>
+      <th>pdb_end</th>
+      <th>res</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>PF11894</th>
+      <td>578</td>
+      <td>NU205_HUMAN</td>
+      <td>14</td>
+      <td>1684</td>
+      <td>5IJN</td>
+      <td>J</td>
+      <td>14</td>
+      <td>1684</td>
+      <td>1671</td>
+    </tr>
+    <tr>
+      <th>PF11894</th>
+      <td>578</td>
+      <td>NU205_HUMAN</td>
+      <td>14</td>
+      <td>1684</td>
+      <td>5IJN</td>
+      <td>P</td>
+      <td>14</td>
+      <td>1684</td>
+      <td>1671</td>
+    </tr>
+    <tr>
+      <th>PF11894</th>
+      <td>578</td>
+      <td>NU205_HUMAN</td>
+      <td>14</td>
+      <td>1684</td>
+      <td>5IJN</td>
+      <td>D</td>
+      <td>14</td>
+      <td>1684</td>
+      <td>1671</td>
+    </tr>
+    <tr>
+      <th>PF11894</th>
+      <td>578</td>
+      <td>NU205_HUMAN</td>
+      <td>14</td>
+      <td>1684</td>
+      <td>5IJN</td>
+      <td>V</td>
+      <td>14</td>
+      <td>1684</td>
+      <td>1671</td>
+    </tr>
+    <tr>
+      <th>PF02463</th>
+      <td>2434</td>
+      <td>SMC1_YEAST</td>
+      <td>3</td>
+      <td>1213</td>
+      <td>1W1W</td>
+      <td>C</td>
+      <td>3</td>
+      <td>1213</td>
+      <td>1211</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
 <p>We’ll examine the particular protein family with Pfam accesion code
 PF16592. This protein family corresponds to the REC lobe of
 CRISPR-associated endonuclease Cas9. The REC lobe and the NUC lobe of
 Cas9 fold to present a positively charged groove at their interface
 which accommodates the negatively charged sgRNA: target DNA
 heteroduplex. <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pubmed/24529477">[1]</a></p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -420,13 +582,63 @@ heteroduplex. <a class="reference external" href="https://www.ncbi.nlm.nih.gov/p
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+size rank: 3734 of 5327
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>res</th>
+      <th>seq</th>
+      <th>pdb_refs</th>
+      <th>size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>PF16592</th>
+      <td>1079</td>
+      <td>146</td>
+      <td>21</td>
+      <td>157534</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
 <p>The MSA data for Pfam family with accession code PFXXXXX is stored on
 the local disk in the <code class="docutils literal"><span class="pre">Pfam-A.full/PFXXXXX</span></code> subdirectory of
 <code class="docutils literal"><span class="pre">data_dir</span></code> defined above. Here, we define a function for loading MSA
 data.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -437,9 +649,9 @@ data.</p>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -457,9 +669,17 @@ data.</p>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+conserved residues: 225 of 1079
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -480,9 +700,16 @@ data.</p>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_multiple_sequence_alignments_16_0.png" src="../../_images/notebooks_discrete_multiple_sequence_alignments_16_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -495,9 +722,17 @@ data.</p>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+model fit time: 17.952974 seconds
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -514,20 +749,127 @@ data.</p>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_multiple_sequence_alignments_18_0.png" src="../../_images/notebooks_discrete_multiple_sequence_alignments_18_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
 <span></span><span class="n">refs</span> <span class="o">=</span> <span class="n">pdb_refs</span><span class="p">[</span><span class="n">pdb_refs</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">ac</span><span class="p">)]</span>
-<span class="n">refs</span>
+<span class="n">refs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>Out[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>seq</th>
+      <th>uniprot_id</th>
+      <th>uniprot_start</th>
+      <th>uniprot_end</th>
+      <th>pdb_id</th>
+      <th>chain</th>
+      <th>pdb_start</th>
+      <th>pdb_end</th>
+      <th>res</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>4OO8</td>
+      <td>A</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>4CMQ</td>
+      <td>A</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>4OO8</td>
+      <td>D</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>4ZT0</td>
+      <td>A</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>5F9R</td>
+      <td>B</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -539,9 +881,47 @@ data.</p>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+PDB length == MSA seq length? True
+aa sequence: [&#39;v&#39; &#39;d&#39; &#39;k&#39; &#39;l&#39; &#39;f&#39; &#39;i&#39; &#39;q&#39; &#39;l&#39; &#39;v&#39; &#39;q&#39; &#39;t&#39; &#39;y&#39; &#39;n&#39; &#39;q&#39; &#39;l&#39; &#39;f&#39; &#39;e&#39; &#39;e&#39;
+ &#39;n&#39; &#39;p&#39; &#39;i&#39; &#39;n&#39; &#39;a&#39; &#39;s&#39; &#39;g&#39; &#39;v&#39; &#39;d&#39; &#39;a&#39; &#39;k&#39; &#39;a&#39; &#39;i&#39; &#39;l&#39; &#39;s&#39; &#39;a&#39; &#39;r&#39; &#39;l&#39;
+ &#39;s&#39; &#39;k&#39; &#39;s&#39; &#39;r&#39; &#39;r&#39; &#39;l&#39; &#39;e&#39; &#39;n&#39; &#39;l&#39; &#39;i&#39; &#39;a&#39; &#39;q&#39; &#39;l&#39; &#39;p&#39; &#39;g&#39; &#39;e&#39; &#39;k&#39; &#39;k&#39;
+ &#39;n&#39; &#39;g&#39; &#39;l&#39; &#39;f&#39; &#39;g&#39; &#39;n&#39; &#39;l&#39; &#39;i&#39; &#39;a&#39; &#39;l&#39; &#39;s&#39; &#39;l&#39; &#39;g&#39; &#39;l&#39; &#39;t&#39; &#39;p&#39; &#39;n&#39; &#39;f&#39;
+ &#39;k&#39; &#39;s&#39; &#39;n&#39; &#39;f&#39; &#39;d&#39; &#39;l&#39; &#39;a&#39; &#39;e&#39; &#39;d&#39; &#39;a&#39; &#39;k&#39; &#39;l&#39; &#39;q&#39; &#39;l&#39; &#39;s&#39; &#39;k&#39; &#39;d&#39; &#39;t&#39;
+ &#39;y&#39; &#39;d&#39; &#39;d&#39; &#39;d&#39; &#39;l&#39; &#39;d&#39; &#39;n&#39; &#39;l&#39; &#39;l&#39; &#39;a&#39; &#39;q&#39; &#39;i&#39; &#39;g&#39; &#39;d&#39; &#39;q&#39; &#39;y&#39; &#39;a&#39; &#39;d&#39;
+ &#39;l&#39; &#39;f&#39; &#39;l&#39; &#39;a&#39; &#39;a&#39; &#39;k&#39; &#39;n&#39; &#39;l&#39; &#39;s&#39; &#39;d&#39; &#39;a&#39; &#39;i&#39; &#39;l&#39; &#39;l&#39; &#39;s&#39; &#39;d&#39; &#39;i&#39; &#39;l&#39;
+ &#39;r&#39; &#39;v&#39; &#39;n&#39; &#39;t&#39; &#39;e&#39; &#39;i&#39; &#39;t&#39; &#39;k&#39; &#39;a&#39; &#39;p&#39; &#39;l&#39; &#39;s&#39; &#39;a&#39; &#39;s&#39; &#39;m&#39; &#39;i&#39; &#39;k&#39; &#39;r&#39;
+ &#39;y&#39; &#39;d&#39; &#39;e&#39; &#39;h&#39; &#39;h&#39; &#39;q&#39; &#39;d&#39; &#39;l&#39; &#39;t&#39; &#39;l&#39; &#39;l&#39; &#39;k&#39; &#39;a&#39; &#39;l&#39; &#39;v&#39; &#39;r&#39; &#39;q&#39; &#39;q&#39;
+ &#39;l&#39; &#39;p&#39; &#39;e&#39; &#39;k&#39; &#39;y&#39; &#39;k&#39; &#39;e&#39; &#39;i&#39; &#39;f&#39; &#39;f&#39; &#39;d&#39; &#39;q&#39; &#39;s&#39; &#39;k&#39; &#39;n&#39; &#39;g&#39; &#39;y&#39; &#39;a&#39;
+ &#39;g&#39; &#39;y&#39; &#39;i&#39; &#39;d&#39; &#39;g&#39; &#39;g&#39; &#39;a&#39; &#39;s&#39; &#39;q&#39; &#39;e&#39; &#39;e&#39; &#39;f&#39; &#39;y&#39; &#39;k&#39; &#39;f&#39; &#39;i&#39; &#39;k&#39; &#39;p&#39;
+ &#39;i&#39; &#39;l&#39; &#39;e&#39; &#39;k&#39; &#39;m&#39; &#39;d&#39; &#39;g&#39; &#39;t&#39; &#39;e&#39; &#39;e&#39; &#39;l&#39; &#39;l&#39; &#39;v&#39; &#39;k&#39; &#39;l&#39; &#39;n&#39; &#39;r&#39; &#39;e&#39;
+ &#39;d&#39; &#39;l&#39; &#39;l&#39; &#39;r&#39; &#39;k&#39; &#39;q&#39; &#39;r&#39; &#39;t&#39; &#39;f&#39; &#39;d&#39; &#39;n&#39; &#39;g&#39; &#39;s&#39; &#39;i&#39; &#39;p&#39; &#39;h&#39; &#39;q&#39; &#39;i&#39;
+ &#39;h&#39; &#39;l&#39; &#39;g&#39; &#39;e&#39; &#39;l&#39; &#39;h&#39; &#39;a&#39; &#39;i&#39; &#39;l&#39; &#39;r&#39; &#39;r&#39; &#39;q&#39; &#39;e&#39; &#39;d&#39; &#39;f&#39; &#39;y&#39; &#39;p&#39; &#39;f&#39;
+ &#39;l&#39; &#39;k&#39; &#39;d&#39; &#39;n&#39; &#39;r&#39; &#39;e&#39; &#39;k&#39; &#39;i&#39; &#39;e&#39; &#39;k&#39; &#39;i&#39; &#39;l&#39; &#39;t&#39; &#39;f&#39; &#39;r&#39; &#39;i&#39; &#39;p&#39; &#39;y&#39;
+ &#39;y&#39; &#39;v&#39; &#39;g&#39; &#39;p&#39; &#39;l&#39; &#39;a&#39; &#39;r&#39; &#39;g&#39; &#39;n&#39; &#39;s&#39; &#39;r&#39; &#39;f&#39; &#39;a&#39; &#39;w&#39; &#39;m&#39; &#39;t&#39; &#39;r&#39; &#39;k&#39;
+ &#39;s&#39; &#39;e&#39; &#39;e&#39; &#39;t&#39; &#39;i&#39; &#39;t&#39; &#39;p&#39; &#39;w&#39; &#39;n&#39; &#39;f&#39; &#39;e&#39; &#39;e&#39; &#39;v&#39; &#39;v&#39; &#39;d&#39; &#39;k&#39; &#39;g&#39; &#39;a&#39;
+ &#39;s&#39; &#39;a&#39; &#39;q&#39; &#39;s&#39; &#39;f&#39; &#39;i&#39; &#39;e&#39; &#39;r&#39; &#39;m&#39; &#39;t&#39; &#39;n&#39; &#39;f&#39; &#39;d&#39; &#39;k&#39; &#39;n&#39; &#39;l&#39; &#39;p&#39; &#39;n&#39;
+ &#39;e&#39; &#39;k&#39; &#39;v&#39; &#39;l&#39; &#39;p&#39; &#39;k&#39; &#39;h&#39; &#39;s&#39; &#39;l&#39; &#39;l&#39; &#39;y&#39; &#39;e&#39; &#39;y&#39; &#39;f&#39; &#39;t&#39; &#39;v&#39; &#39;y&#39; &#39;n&#39;
+ &#39;e&#39; &#39;l&#39; &#39;t&#39; &#39;k&#39; &#39;v&#39; &#39;k&#39; &#39;y&#39; &#39;v&#39; &#39;t&#39; &#39;e&#39; &#39;g&#39; &#39;m&#39; &#39;r&#39; &#39;k&#39; &#39;p&#39; &#39;a&#39; &#39;f&#39; &#39;l&#39;
+ &#39;s&#39; &#39;g&#39; &#39;e&#39; &#39;q&#39; &#39;k&#39; &#39;k&#39; &#39;a&#39; &#39;i&#39; &#39;v&#39; &#39;d&#39; &#39;l&#39; &#39;l&#39; &#39;f&#39; &#39;k&#39; &#39;t&#39; &#39;n&#39; &#39;r&#39; &#39;k&#39;
+ &#39;v&#39; &#39;t&#39; &#39;v&#39; &#39;k&#39; &#39;q&#39; &#39;l&#39; &#39;k&#39; &#39;e&#39; &#39;d&#39; &#39;y&#39; &#39;f&#39; &#39;k&#39; &#39;k&#39; &#39;i&#39; &#39;e&#39; &#39;c&#39; &#39;f&#39; &#39;d&#39;
+ &#39;s&#39; &#39;v&#39; &#39;e&#39; &#39;i&#39; &#39;s&#39; &#39;g&#39; &#39;v&#39; &#39;e&#39; &#39;d&#39; &#39;r&#39; &#39;f&#39; &#39;n&#39; &#39;a&#39; &#39;s&#39; &#39;l&#39; &#39;g&#39; &#39;t&#39; &#39;y&#39;
+ &#39;h&#39; &#39;d&#39; &#39;l&#39; &#39;l&#39; &#39;k&#39; &#39;i&#39; &#39;i&#39; &#39;k&#39; &#39;d&#39; &#39;k&#39; &#39;d&#39; &#39;f&#39; &#39;l&#39; &#39;d&#39; &#39;n&#39; &#39;e&#39; &#39;e&#39; &#39;n&#39;
+ &#39;e&#39; &#39;d&#39; &#39;i&#39; &#39;l&#39; &#39;e&#39; &#39;d&#39; &#39;i&#39; &#39;v&#39; &#39;l&#39; &#39;t&#39; &#39;l&#39; &#39;t&#39; &#39;l&#39; &#39;f&#39; &#39;e&#39; &#39;d&#39; &#39;r&#39; &#39;e&#39;
+ &#39;m&#39; &#39;i&#39; &#39;e&#39; &#39;e&#39; &#39;r&#39; &#39;l&#39; &#39;k&#39; &#39;t&#39; &#39;y&#39; &#39;a&#39; &#39;h&#39; &#39;l&#39; &#39;f&#39; &#39;d&#39; &#39;d&#39; &#39;k&#39; &#39;v&#39; &#39;m&#39;
+ &#39;k&#39; &#39;q&#39; &#39;l&#39; &#39;k&#39; &#39;r&#39; &#39;r&#39; &#39;r&#39; &#39;y&#39; &#39;t&#39; &#39;g&#39; &#39;w&#39; &#39;g&#39; &#39;r&#39; &#39;l&#39; &#39;s&#39; &#39;r&#39; &#39;k&#39; &#39;l&#39;
+ &#39;i&#39; &#39;n&#39; &#39;g&#39; &#39;i&#39; &#39;r&#39; &#39;d&#39; &#39;k&#39; &#39;q&#39; &#39;s&#39; &#39;g&#39; &#39;k&#39; &#39;t&#39; &#39;i&#39; &#39;l&#39; &#39;d&#39; &#39;f&#39; &#39;l&#39; &#39;k&#39;
+ &#39;s&#39; &#39;d&#39; &#39;g&#39; &#39;f&#39; &#39;a&#39; &#39;n&#39; &#39;r&#39; &#39;n&#39; &#39;f&#39; &#39;m&#39; &#39;q&#39; &#39;l&#39; &#39;i&#39; &#39;h&#39; &#39;d&#39; &#39;d&#39; &#39;s&#39; &#39;l&#39;
+ &#39;t&#39; &#39;f&#39; &#39;k&#39; &#39;e&#39; &#39;d&#39; &#39;i&#39; &#39;q&#39; &#39;k&#39; &#39;a&#39; &#39;q&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -560,9 +940,16 @@ data.</p>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_multiple_sequence_alignments_21_0.png" src="../../_images/notebooks_discrete_multiple_sequence_alignments_21_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -587,9 +974,24 @@ data.</p>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_multiple_sequence_alignments_22_1.png" src="../../_images/notebooks_discrete_multiple_sequence_alignments_22_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -616,9 +1018,16 @@ data.</p>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_multiple_sequence_alignments_23_0.png" src="../../_images/notebooks_discrete_multiple_sequence_alignments_23_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -637,9 +1046,16 @@ data.</p>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_multiple_sequence_alignments_24_0.png" src="../../_images/notebooks_discrete_multiple_sequence_alignments_24_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -661,16 +1077,30 @@ data.</p>
 <span class="n">view</span> <span class="o">=</span> <span class="n">nglview</span><span class="o">.</span><span class="n">show_biopython</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span>
 <span class="c1"># view.clear_representations()</span>
 <span class="c1"># view.add_licorice()</span>
-<span class="n">view</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">opacity</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="c1"># view.add_surface(opacity=0.1)</span>
 <span class="c1"># colors = [&#39;0x0000FF&#39;] * len(chain)</span>
 <span class="c1"># view._set_color_by_residue(colors, component_index=0, repr_index=0)</span>
 <span class="n">view</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "c1ede460049741b3b3507f0f682f2bfd", "version_minor": 0, "version_major": 2}</script></div>
+</div>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -678,13 +1108,18 @@ data.</p>
 
 <span class="n">max_auc</span> <span class="o">=</span> <span class="mi">0</span>
 
+<span class="n">msa_int</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">fit</span><span class="o">.</span><span class="n">categorize</span><span class="p">(</span><span class="n">msa</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">msa_oh</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">fit</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">msa_int</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">],</span> <span class="n">degs</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span>
+<span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">msa_oh</span><span class="p">)</span>
+
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">refs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
     <span class="n">ref</span> <span class="o">=</span> <span class="n">refs</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
     <span class="n">seq</span> <span class="o">=</span> <span class="n">msa</span><span class="p">[:,</span> <span class="n">ref</span><span class="o">.</span><span class="n">seq</span><span class="p">]</span>
     <span class="n">missing_aa_seq</span> <span class="o">=</span> <span class="n">seq</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span>
     <span class="n">seq_int</span> <span class="o">=</span> <span class="n">msa_int</span><span class="p">[:,</span> <span class="n">ref</span><span class="o">.</span><span class="n">seq</span><span class="p">][</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">]</span>
     <span class="n">w_idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">mm</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">seq_int</span><span class="p">)[</span><span class="o">~</span><span class="n">missing_aa_seq</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">]]</span>
-    <span class="n">w_seq</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">w_idx</span><span class="p">,</span> <span class="n">w_idx</span><span class="p">)]</span>
+<span class="c1">#     w_seq = w[1][np.ix_(w_idx, w_idx)]</span>
+    <span class="n">w_seq</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">w_idx</span><span class="p">,</span> <span class="n">w_idx</span><span class="p">)]</span>
     <span class="n">contact_map</span> <span class="o">=</span> <span class="n">get_contact_map</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
     <span class="n">fp</span><span class="p">,</span> <span class="n">tp</span> <span class="o">=</span> <span class="n">roc</span><span class="p">(</span><span class="n">w_seq</span><span class="p">,</span> <span class="n">contact_map</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s%s</span><span class="s1">, </span><span class="si">%i</span><span class="s1">-</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">chain</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">pdb_start</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">pdb_end</span><span class="p">))</span>
@@ -701,9 +1136,83 @@ data.</p>
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmq.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt0.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5f9r.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4un4.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt0.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fw2.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5b2t.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4un5.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmp.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmq.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fw3.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fq5.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmp.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt9.ent&#39;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_multiple_sequence_alignments_26_1.png" src="../../_images/notebooks_discrete_multiple_sequence_alignments_26_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">msa_int</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">fit</span><span class="o">.</span><span class="n">categorize</span><span class="p">(</span><span class="n">msa</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">msa_oh</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">fit</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">msa_int</span><span class="p">,</span> <span class="n">degs</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span>
+<span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">msa_oh</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;seismic&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-.</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=.</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;seismic&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-.</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=.</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">tmp</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;seismic&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-.</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=.</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_multiple_sequence_alignments_27_0.png" src="../../_images/notebooks_discrete_multiple_sequence_alignments_27_0.png" />
+</div>
+</div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="c1"># # get 100 most extreme values of w[1]</span>
+<span class="c1"># i = np.arange(w[1].shape[0])</span>
+<span class="c1"># mask = ~np.eye(w[1].shape[0], dtype=bool)</span>
+<span class="c1"># order = np.argsort(np.abs(w[1])[mask])</span>
+<span class="c1"># ii = np.dstack(np.meshgrid(i, i)[::-1])[mask][order][::-1]</span>
+<span class="c1"># mi = np.repeat(np.arange(mm.shape[0]-1), np.diff(mm))</span>
+<span class="c1"># ij = set()</span>
+<span class="c1"># index = 0</span>
+<span class="c1"># while len(ij) &lt; 100:</span>
+<span class="c1">#     ij.add((mi[ii[index, 0]], mi[ii[index, 1]]))</span>
+<span class="c1">#     index += 1</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -726,7 +1235,7 @@ data.</p>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -736,7 +1245,7 @@ data.</p>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -746,7 +1255,7 @@ data.</p>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -777,7 +1286,7 @@ data.</p>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -789,7 +1298,7 @@ data.</p>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -800,7 +1309,7 @@ data.</p>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -811,7 +1320,7 @@ data.</p>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -821,7 +1330,7 @@ data.</p>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -832,7 +1341,7 @@ data.</p>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -851,7 +1360,7 @@ data.</p>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -862,7 +1371,7 @@ data.</p>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -875,7 +1384,7 @@ data.</p>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [34]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -908,7 +1417,7 @@ data.</p>
         &copy; Copyright 2018, Joe McKenna.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.6.
       </li>
     </ul>
     </div>

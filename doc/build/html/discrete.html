@@ -214,6 +214,22 @@
 <li>convergent: <span class="math">\(\Phi^k(W)\rightarrow W^*\)</span> as <span class="math">\(k\rightarrow\infty\)</span></li>
 </ul>
 <p>for <span class="math">\(W^*\)</span> such that <span class="math">\(P(\Sigma_y~|~W^*)=\Sigma_y\)</span>.</p>
+<p>For consistency, assume <span class="math">\(P(\Sigma_y~|~W^*)=\Sigma_y\)</span>, then <span class="math">\(\Phi(W^*) = W^* + \left[\Sigma_y - P(\Sigma_y~|~W^*)\right]\Sigma_x^+ = W^*\)</span>.</p>
+<div class="math">
+\[{\partial\Phi(W)\over\partial W} = {\partial W\over\partial W} - {\partial P(\Sigma_y~|~W)\Sigma_x^+\over\partial W}\]</div>
+<div class="math">
+\[\begin{split}{\partial\over\partial w_{ij}}e_r^TWe_c = \begin{cases} 1 &amp;\text{ if }r=i, c=j\\ 0&amp;\text{ otherwise}\end{cases}\end{split}\]</div>
+<div class="math">
+\[\begin{split}{\partial\over\partial w_{ij}} e_r^T P(\Sigma_y~|~W) e_k = \begin{cases} e_r^TP(\Sigma_y~|~W)e_k[1-e_r^TP(\Sigma_y~|~W)e_k]e_j^T\Sigma_xe_k &amp; \text{ if }r=i \\ -[e_r^TP(\Sigma_y~|~W)e_k]^2e_j^T\Sigma_xe_k &amp; \text{ if }r\neq i\end{cases}\end{split}\]</div>
+<div class="math">
+\[\begin{split}{\partial\over\partial w_{ij}}e_r^TP(\Sigma_y~|~W)\Sigma_x^+e_c &amp;= \sum_{k=1}^{\ell}{\partial\over\partial w_{ij}}e_r^TP(\Sigma_y~|~W)e_ke_k^T\Sigma_x^+e_c\\
+&amp;= \begin{cases}\sum_{k=1}^{\ell}e_r^TP(\Sigma_y~|~W)e_k[1-e_r^TP(\Sigma_y~|~W)e_k]e_j^T\Sigma_xe_ke_k^T\Sigma_x^+e_c&amp; \text{ if }r=i\\-\sum_{k=1}^{\ell}[e_r^TP(\Sigma_y~|~W)e_k]^2e_j^T\Sigma_xe_ke_k^T\Sigma_x^+e_c&amp; \text{ if }r\neq i\end{cases}\\
+&amp;= \begin{cases}\sum_{k=1}^{\ell}e_r^TP(\Sigma_y~|~W)e_k[1-e_r^TP(\Sigma_y~|~W)e_k]&amp; \text{ if }r=i,c=j\\-\sum_{k=1}^{\ell}[e_r^TP(\Sigma_y~|~W)e_k]^2&amp; \text{ if }r\neq i,c=j\\0&amp;\text{ if }c\neq j\end{cases}\\\end{split}\]</div>
+<div class="math">
+\[\begin{split}\sum_{i=1}^m\sum_{j=1}^p{\partial\over\partial w_{ij}}e_r^TP(\Sigma_y~|~W)\Sigma_x^+e_c &amp; =\sum_{i=1}^m{\partial\over\partial w_{ic}}e_r^TP(\Sigma_y~|~W)\Sigma_x^+e_c\\
+&amp;= \sum_{i=1, i\neq r}^m{\partial\over\partial w_{ic}}e_r^TP(\Sigma_y~|~W)\Sigma_x^+e_c + {\partial\over\partial w_{rc}}e_r^TP(\Sigma_y~|~W)\Sigma_x^+e_c\\
+&amp;= -\sum_{i=1, i\neq r}^m\sum_{k=1}^{\ell}[e_r^TP(\Sigma_y~|~W)e_k]^2 + \sum_{k=1}^{\ell}e_r^TP(\Sigma_y~|~W)e_k[1-e_r^TP(\Sigma_y~|~W)e_k]\\
+&amp;= -\sum_{i=1}^m\sum_{k=1}^{\ell}[e_r^TP(\Sigma_y~|~W)e_k]^2 + \sum_{k=1}^{\ell}e_r^TP(\Sigma_y~|~W)e_k\end{split}\]</div>
 </div>
 </div>
 </div>

@@ -135,4 +135,38 @@ In this section, we show that :math:`\Phi` is
 
 for :math:`W^*` such that :math:`P(\Sigma_y~|~W^*)=\Sigma_y`.
 
+For consistency, assume :math:`P(\Sigma_y~|~W^*)=\Sigma_y`, then :math:`\Phi(W^*) = W^* + \left[\Sigma_y - P(\Sigma_y~|~W^*)\right]\Sigma_x^+ = W^*`.
+
+.. math::
+
+   {\partial\Phi(W)\over\partial W} = {\partial W\over\partial W} - {\partial P(\Sigma_y~|~W)\Sigma_x^+\over\partial W}
+
+.. math::
+
+   {\partial\over\partial w_{ij}}e_r^TWe_c = \begin{cases} 1 &\text{ if }r=i, c=j\\ 0&\text{ otherwise}\end{cases}
+
+..
+   {\partial\over\partial w_{ij}}e_r^TP(\Sigma_y~|~W)e_{c'} = \begin{cases} {\exp e_r^TW\Sigma_x e_{c'}\over\sum_{r'=1}^m\exp e_{r'}^TW\Sigma_x e_{c'}}\left(1-{\exp e_r^TW\Sigma_x e_{c'}\over\sum_{r'=1}^m\exp e_{r'}^TW\Sigma_x e_{c'}}\right)e_j^T\Sigma_xe_{c'} &\text{ if }r=i\\ -\left({\exp e_r^TW\Sigma_x e_{c'}\over\sum_{r'=1}^m\exp e_{r'}^TW\Sigma_x e_{c'}}\right)^2e_j^T\Sigma_xe_{c'}&\text{ if }r\neq i\end{cases}
+
+.. math::
+
+   {\partial\over\partial w_{ij}} e_r^T P(\Sigma_y~|~W) e_k = \begin{cases} e_r^TP(\Sigma_y~|~W)e_k[1-e_r^TP(\Sigma_y~|~W)e_k]e_j^T\Sigma_xe_k & \text{ if }r=i \\ -[e_r^TP(\Sigma_y~|~W)e_k]^2e_j^T\Sigma_xe_k & \text{ if }r\neq i\end{cases}
+
+..
+   {\partial\over\partial w_{ij}}e_r^TP(\Sigma_y~|~W)\Sigma_x^+e_c = \begin{cases}\sum_{k=1}^p{\exp e_r^TW\Sigma_x e_k\over\sum_{r'=1}^m\exp e_{r'}^TW\Sigma_x e_k}\left(1-{\exp e_r^TW\Sigma_x e_k\over\sum_{r'=1}^m\exp e_{r'}^TW\Sigma_x e_k}\right) & \text{ if }r=i,c=j\\-\sum_{k=1}^p\left({\exp e_r^TW\Sigma_x e_k\over\sum_{r'=1}^m\exp e_{r'}^TW\Sigma_x e_k}\right)^2&\text{ if }r\neq i,c=j\\0&\text{ if }c\neq j\end{cases}
+
+.. math::
+
+   {\partial\over\partial w_{ij}}e_r^TP(\Sigma_y~|~W)\Sigma_x^+e_c &= \sum_{k=1}^{\ell}{\partial\over\partial w_{ij}}e_r^TP(\Sigma_y~|~W)e_ke_k^T\Sigma_x^+e_c\\
+   &= \begin{cases}\sum_{k=1}^{\ell}e_r^TP(\Sigma_y~|~W)e_k[1-e_r^TP(\Sigma_y~|~W)e_k]e_j^T\Sigma_xe_ke_k^T\Sigma_x^+e_c& \text{ if }r=i\\-\sum_{k=1}^{\ell}[e_r^TP(\Sigma_y~|~W)e_k]^2e_j^T\Sigma_xe_ke_k^T\Sigma_x^+e_c& \text{ if }r\neq i\end{cases}\\
+   &= \begin{cases}\sum_{k=1}^{\ell}e_r^TP(\Sigma_y~|~W)e_k[1-e_r^TP(\Sigma_y~|~W)e_k]& \text{ if }r=i,c=j\\-\sum_{k=1}^{\ell}[e_r^TP(\Sigma_y~|~W)e_k]^2& \text{ if }r\neq i,c=j\\0&\text{ if }c\neq j\end{cases}\\
+
+.. math::
+
+   \sum_{i=1}^m\sum_{j=1}^p{\partial\over\partial w_{ij}}e_r^TP(\Sigma_y~|~W)\Sigma_x^+e_c & =\sum_{i=1}^m{\partial\over\partial w_{ic}}e_r^TP(\Sigma_y~|~W)\Sigma_x^+e_c\\
+   &= \sum_{i=1, i\neq r}^m{\partial\over\partial w_{ic}}e_r^TP(\Sigma_y~|~W)\Sigma_x^+e_c + {\partial\over\partial w_{rc}}e_r^TP(\Sigma_y~|~W)\Sigma_x^+e_c\\
+   &= -\sum_{i=1, i\neq r}^m\sum_{k=1}^{\ell}[e_r^TP(\Sigma_y~|~W)e_k]^2 + \sum_{k=1}^{\ell}e_r^TP(\Sigma_y~|~W)e_k[1-e_r^TP(\Sigma_y~|~W)e_k]\\
+   &= -\sum_{i=1}^m\sum_{k=1}^{\ell}[e_r^TP(\Sigma_y~|~W)e_k]^2 + \sum_{k=1}^{\ell}e_r^TP(\Sigma_y~|~W)e_k
+
+   
 .. _Boltzmann distribution: https://en.wikipedia.org/wiki/Boltzmann_distribution
