@@ -2,7 +2,7 @@ name: fem-environment
 channels:
   - conda-forge
 dependencies:
-  - python
+  - python=2.7
   - numpy
   - pandas
   - matplotlib
