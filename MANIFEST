@@ -7,3 +7,10 @@ version
 ./fem/fortran_module.f90
 ./fem/fortran_module.pyf
 fem/__init__.py
+fem/continuous/__init__.py
+fem/continuous/fit.py
+fem/continuous/simulate.py
+fem/discrete/__init__.py
+fem/discrete/combinatorics.py
+fem/discrete/fit.py
+fem/discrete/simulate.py

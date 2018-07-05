@@ -34,7 +34,7 @@ if __name__ == '__main__':
         author_email='joepatmckenna@gmail.com',
         url='http://lbm.niddk.nih.gov/mckennajp/fem',
         download_url='https://pypi.org/project/fem',
-        packages=['fem'],
+        packages=['fem', 'fem.discrete', 'fem.continuous'],
         ext_modules=[fortran_module],
         classifiers=("Programming Language :: Python :: 2",
                      "License :: OSI Approved :: MIT License",
