@@ -85,7 +85,25 @@ def categorize(x):
     return cat_x, cat
 
 
-def fit(x, y=None, degs=[1], iters=100, overfit=True, impute=None):
+def predict(w, x, cat_x):
+
+    degs = np.sort(w.keys())
+
+    w = np.hstack(w.values())
+
+    x_oh, idx = fem.discrete.fit.one_hot(x, degs=degs)
+    x_oh = x_oh.toarray()
+    m = np.cumsum([len(cat) for cat in cat_x[:-1]])
+    p = np.split(w.dot(x_oh), m, axis=0)
+
+    # y = np.array([pi.argmax(axis=0) for pi in p])
+    # i = np.arange(x.shape[1])
+    # p = np.array([pi[xi, i] for xi, pi in zip(x, p)])
+    # return x, p
+    return p
+
+
+def fit(x, y=None, iters=100, degs=[1], overfit=True, impute=None):
     """Fit the Potts model to the data
 
     Args:
@@ -127,10 +145,11 @@ def fit(x, y=None, degs=[1], iters=100, overfit=True, impute=None):
 
     n_x, n_y = x.shape[0], y.shape[0]
 
-    x_oh, idx = one_hot(x, degs)
+    x_oh, idx_x = one_hot(x, degs)
 
     x_oh_rank = np.linalg.matrix_rank(x_oh.todense())
     x_oh_svd = svds(x_oh, k=min(x_oh_rank, min(x_oh.shape) - 1))
+
     # x_oh_svd = svds(x_oh, k=x_oh_rank)
 
     sv_pinv = x_oh_svd[1]
@@ -145,12 +164,31 @@ def fit(x, y=None, degs=[1], iters=100, overfit=True, impute=None):
         overfit, impute)
 
     idx_by_deg = [combinatorics.multiindices(n_x, deg) for deg in degs]
-    mi = np.array(
+    mm_x = np.array(
         [np.sum([np.prod(m_x[i]) for i in idx]) for idx in idx_by_deg])
-    mi = np.insert(mi.cumsum(), 0, 0)
+    mm_x = np.insert(mm_x.cumsum(), 0, 0)
 
-    w = {deg: w[:, mi[i]:mi[i + 1]] for i, deg in enumerate(degs)}
-
+    w = {deg: w[:, mm_x[i]:mm_x[i + 1]] for i, deg in enumerate(degs)}
     d = [di[1:it[i]] for i, di in enumerate(d)]
 
     return w, d
+
+
+class model:
+    def __init__(self, degs=[1]):
+        self.degs = degs
+        # x, y, n_x, n_y, m_x, m_y, cat_x, cat_y, x_oh_pinv
+        # w, d, degs, impute
+
+        # self.x = x
+        # self.m_x = m_x
+        # self.impute = True
+        # self.y = y
+        # self.m_y = m_y
+        # self.n_x = n_x
+        # self.n_y = n_y
+        # self.x_oh = x_oh
+        # self.x_oh_pinv = x_oh_pinv
+        # self.mm_x = mm_x
+        # self.d = d
+        # self.w = w
