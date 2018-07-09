@@ -6,6 +6,16 @@ from .. import fortran_module
 
 
 def one_hot(x, degs):
+    """One hot encoding of `x`
+
+    Args:
+        x (ndarray):
+        degs (list):
+
+    Returns
+        (csc_matrix, ndarray): the one hot encoding and the multiindices
+
+    """
 
     x = np.array(x)
 
@@ -44,6 +54,15 @@ def one_hot(x, degs):
 
 
 def categorize(x):
+    """Convert x to integer data
+
+    Args:
+        x (list):
+
+    Returns:
+        (list, dict): The integer data and the map from symbols to integers
+
+    """
 
     n = len(x)
     l = [len(xi) for xi in x]
@@ -67,6 +86,21 @@ def categorize(x):
 
 
 def fit(x, y=None, degs=[1], iters=100, overfit=True, impute=None):
+    """Fit the Potts model to the data
+
+    Args:
+        x (ndarray):
+        y (ndarray):
+        degs (list):
+        iters (int):
+        overfit (bool):
+        impute (bool):
+
+    Returns:
+        (dict, list): The fitted model parameters and the running discrepancies
+
+    """
+
     # x: sum(p) by l
     # ------------------------------------
     # x1: x[i_x[0]:i_x[1], :] -- p[0] by l
@@ -99,7 +133,11 @@ def fit(x, y=None, degs=[1], iters=100, overfit=True, impute=None):
     x_oh_svd = svds(x_oh, k=min(x_oh_rank, min(x_oh.shape) - 1))
     # x_oh_svd = svds(x_oh, k=x_oh_rank)
 
-    x_oh_pinv = [x_oh_svd[2].T, 1.0 / x_oh_svd[1], x_oh_svd[0].T]
+    sv_pinv = x_oh_svd[1]
+    zero_sv = np.isclose(sv_pinv, 0)
+    sv_pinv[~zero_sv] = 1.0 / sv_pinv[~zero_sv]
+    sv_pinv[zero_sv] = 0.0
+    x_oh_pinv = [x_oh_svd[2].T, sv_pinv, x_oh_svd[0].T]
 
     w, d, it = fortran_module.fortran_module.discrete_fit(
         x, y, m_x, m_y,

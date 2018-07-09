@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Direct information from a multiple sequence alignment &mdash; fem  documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" >
+    <link rel="search" title="Search" href="../../search.html" >
+    <link rel="top" title="fem  documentation" href="../../index.html" >
+    <link rel="up" title="Discrete data examples" href="../../examples.html" >
+    <link rel="next" title="Simulated continuous time series" href="../continuous/simulated_time_series.html" >
+    <link rel="prev" title="Simulated time series" href="01_simulated_time_series.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://www.niddk.nih.gov/research-funding/at-niddk/labs-branches/LBM">LBM</a></li>
+        <li class="active"><a href="https://pypi.python.org/pypi/fem">fem</a></li>
+	
+        <li class="active"><a href="../../index.html">fem  documentation</a></li>
+	
+          <li class="active"><a href="../../examples.html" accesskey="U">Discrete data examples</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../f-modindex.html" title="Fortran Module Index"
+           >fortran modules</a>
+      </li>
+      <li class="active">
+        <a href="../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="../continuous/simulated_time_series.html" title="Simulated continuous time series"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="01_simulated_time_series.html" title="Simulated time series"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="01_simulated_time_series.html"
+                        title="previous chapter">Simulated time series</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../continuous/simulated_time_series.html"
+                        title="next chapter">Simulated continuous time series</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 9ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+</style>
+<div class="section" id="Direct-information-from-a-multiple-sequence-alignment">
+<h1>Direct information from a multiple sequence alignment<a class="headerlink" href="#Direct-information-from-a-multiple-sequence-alignment" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://mybinder.org/v2/gh/joepatmckenna/fem/master?filepath=doc%2Fnotebooks%2Fdiscrete%2F03_direct_info_from_msa.ipynb"><img alt="Binder" src="https://mybinder.org/badge.svg" /></a></p>
+<p>In this example, we compute coupling strengths between residues of the
+CRISPR-Cas9 protein amino acid sequence from multiple sequence alignment
+data. We demonstrate that a statistic called <em>direct information</em>
+computed from these couplings is predictive of contacts in observed 3D
+conformations of the sequence.</p>
+<p>We start by loading the necessary packages and functions. We collect and
+parse MSA data from the <a class="reference external" href="https://pfam.xfam.org/">Pfam database</a> using
+the <code class="docutils literal"><span class="pre">parse_pfam</span></code> function in <a class="reference external" href="../../static/parse_pfam.py">this
+script</a>. The function downloads the full
+current release of the Pfam database, creates a local directory
+structure with the MSA data for each family and any cross-references
+from sequences in each family to structures in the <a class="reference external" href="https://www.rcsb.org/">Protein Data
+Bank</a>, then returns pandas DataFrames that
+detail information about the MSAs and PDB cross-references.</p>
+<p>The MSA and PDB cross-reference (if it exists) data for the protein
+family/MSA with Pfam accession code PFXXXXX are stored in files
+<code class="docutils literal"><span class="pre">msa.npy</span></code> and <code class="docutils literal"><span class="pre">pdb_refs.npy</span></code> in the <code class="docutils literal"><span class="pre">Pfam-A.full/PFXXXXX</span></code>
+subdirectory of <code class="docutils literal"><span class="pre">data_dir</span></code> defined below.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">patches</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">distance_matrix</span>
+<span class="kn">import</span> <span class="nn">fem</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">time</span><span class="o">,</span> <span class="nn">Bio.PDB</span><span class="o">,</span> <span class="nn">nglview</span><span class="o">,</span> <span class="nn">warnings</span>
+<span class="n">pdb_list</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">PDB</span><span class="o">.</span><span class="n">PDBList</span><span class="p">()</span>
+<span class="n">pdb_parser</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">PDB</span><span class="o">.</span><span class="n">PDBParser</span><span class="p">()</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="s1">&#39;../../../data/msa&#39;</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">parse_pfam</span> <span class="kn">import</span> <span class="n">parse_pfam</span>
+<span class="kn">from</span> <span class="nn">Bio</span> <span class="kn">import</span> <span class="n">BiopythonWarning</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">BiopythonWarning</span><span class="p">)</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+<p>Next, we get pandas DataFrames <code class="docutils literal"><span class="pre">pfam</span></code> and <code class="docutils literal"><span class="pre">pdb_refs</span></code> detailing
+information for all protein families in the Pfam database and references
+from MSA sequences to PDB structures.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">pfam</span><span class="p">,</span> <span class="n">pdb_refs</span> <span class="o">=</span> <span class="n">parse_pfam</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;total MSAs: </span><span class="si">%i</span><span class="s1">, total PDB refs: </span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pfam</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pdb_refs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+total MSAs: 16479, total PDB refs: 207746
+</pre></div></div>
+</div>
+<p>Each row in <code class="docutils literal"><span class="pre">pfam</span></code> contains information about a single MSA. The
+columns of <code class="docutils literal"><span class="pre">pfam</span></code> are <code class="docutils literal"><span class="pre">res</span></code>: the number of residues in each sequence
+of the alignment, <code class="docutils literal"><span class="pre">seq</span></code>: the number of sequences in the alignment. Now
+let’s add a column <code class="docutils literal"><span class="pre">size=res*seq</span></code> and sort by that column to see which
+families contain the most data.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">pfam</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pfam</span><span class="p">[</span><span class="s1">&#39;res&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">pfam</span><span class="p">[</span><span class="s1">&#39;seq&#39;</span><span class="p">]</span>
+<span class="n">pfam</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;size&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">pfam</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>res</th>
+      <th>seq</th>
+      <th>pdb_refs</th>
+      <th>size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>PF00005</th>
+      <td>2386</td>
+      <td>369723</td>
+      <td>407</td>
+      <td>882159078</td>
+    </tr>
+    <tr>
+      <th>PF00069</th>
+      <td>3194</td>
+      <td>236455</td>
+      <td>3910</td>
+      <td>755237270</td>
+    </tr>
+    <tr>
+      <th>PF07690</th>
+      <td>3427</td>
+      <td>214283</td>
+      <td>23</td>
+      <td>734347841</td>
+    </tr>
+    <tr>
+      <th>PF00067</th>
+      <td>4853</td>
+      <td>85020</td>
+      <td>768</td>
+      <td>412602060</td>
+    </tr>
+    <tr>
+      <th>PF00501</th>
+      <td>3767</td>
+      <td>87704</td>
+      <td>145</td>
+      <td>330380968</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Each row in the PDB references table <code class="docutils literal"><span class="pre">pdb_refs</span></code> contains information
+about a cross-reference between a protein family sequence in the Pfam
+database and a protein structure in the PDB database. The columns of the
+table are <code class="docutils literal"><span class="pre">seq</span></code>: the index (starting at 0) of a sequence in the
+protein family, <code class="docutils literal"><span class="pre">uniprot_id</span></code>: the ID of the sequence in the
+<a class="reference external" href="https://www.uniprot.org/help/uniprotkb">UniProtKB</a> database,
+<code class="docutils literal"><span class="pre">uniprot_start</span></code>/<code class="docutils literal"><span class="pre">uniprot_end</span></code>: the start and end residue positions
+of the UniProtKB sequence that appears in the MSA, <code class="docutils literal"><span class="pre">pdb_id</span></code>: the PDB
+ID, <code class="docutils literal"><span class="pre">chain</span></code>: the PDB protein structure chain,
+<code class="docutils literal"><span class="pre">pdb_start</span></code>/<code class="docutils literal"><span class="pre">pdb_end</span></code>: the start and end residue positions of the
+PDB sequence that appears in the MSA. Let’s create a column <code class="docutils literal"><span class="pre">res</span></code> that
+contains the length of the sequence and sort by that column.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">pdb_refs</span><span class="p">[</span><span class="s1">&#39;res&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pdb_refs</span><span class="p">[</span><span class="s1">&#39;pdb_end&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">pdb_refs</span><span class="p">[</span><span class="s1">&#39;pdb_start&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">pdb_refs</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;res&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">pdb_refs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>seq</th>
+      <th>uniprot_id</th>
+      <th>uniprot_start</th>
+      <th>uniprot_end</th>
+      <th>pdb_id</th>
+      <th>chain</th>
+      <th>pdb_start</th>
+      <th>pdb_end</th>
+      <th>res</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>PF11894</th>
+      <td>578</td>
+      <td>NU205_HUMAN</td>
+      <td>14</td>
+      <td>1684</td>
+      <td>5IJN</td>
+      <td>J</td>
+      <td>14</td>
+      <td>1684</td>
+      <td>1671</td>
+    </tr>
+    <tr>
+      <th>PF11894</th>
+      <td>578</td>
+      <td>NU205_HUMAN</td>
+      <td>14</td>
+      <td>1684</td>
+      <td>5IJN</td>
+      <td>P</td>
+      <td>14</td>
+      <td>1684</td>
+      <td>1671</td>
+    </tr>
+    <tr>
+      <th>PF11894</th>
+      <td>578</td>
+      <td>NU205_HUMAN</td>
+      <td>14</td>
+      <td>1684</td>
+      <td>5IJN</td>
+      <td>D</td>
+      <td>14</td>
+      <td>1684</td>
+      <td>1671</td>
+    </tr>
+    <tr>
+      <th>PF11894</th>
+      <td>578</td>
+      <td>NU205_HUMAN</td>
+      <td>14</td>
+      <td>1684</td>
+      <td>5IJN</td>
+      <td>V</td>
+      <td>14</td>
+      <td>1684</td>
+      <td>1671</td>
+    </tr>
+    <tr>
+      <th>PF02463</th>
+      <td>2434</td>
+      <td>SMC1_YEAST</td>
+      <td>3</td>
+      <td>1213</td>
+      <td>1W1W</td>
+      <td>C</td>
+      <td>3</td>
+      <td>1213</td>
+      <td>1211</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>We’ll examine the particular protein family with Pfam accesion code
+PF16592. This protein family corresponds to the REC lobe of
+CRISPR-associated endonuclease Cas9. The REC lobe and the NUC lobe of
+Cas9 fold to present a positively charged groove at their interface
+which accommodates the negatively charged sgRNA: target DNA
+heteroduplex. <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pubmed/24529477">[1]</a>
+We’ll isolate the family of interest from the <code class="docutils literal"><span class="pre">pfam</span></code> DataFrame in the
+<code class="docutils literal"><span class="pre">fam</span></code> variable.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="c1"># Cas 9 family accesion code</span>
+<span class="n">ac</span> <span class="o">=</span> <span class="s1">&#39;PF16592&#39;</span>
+<span class="c1"># store the family of interest in the &#39;fam&#39; variable</span>
+<span class="n">fam</span> <span class="o">=</span> <span class="n">pfam</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ac</span><span class="p">]</span>
+<span class="k">print</span> <span class="s1">&#39;size rank: </span><span class="si">%i</span><span class="s1"> of </span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pfam</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)[</span><span class="n">fam</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span> <span class="n">pfam</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># local directory containing data for this MSA</span>
+<span class="n">fam_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;Pfam-A.full&#39;</span><span class="p">,</span> <span class="n">fam</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="c1"># the residue symbols array that is the MSA</span>
+<span class="n">msa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fam_dir</span><span class="p">,</span> <span class="s1">&#39;msa.npy&#39;</span><span class="p">))</span>
+
+<span class="c1"># determine which residues are the same across all sequences, excluding gaps</span>
+<span class="n">aa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">msa</span><span class="p">])</span>
+<span class="n">one_aa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">aa</span><span class="p">])</span>
+<span class="n">two_aa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">aa</span><span class="p">])</span>
+<span class="n">missing_aa_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;-&#39;</span> <span class="ow">in</span> <span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">aa</span><span class="p">])</span>
+<span class="n">conserved_residues</span> <span class="o">=</span> <span class="n">one_aa</span> <span class="o">|</span> <span class="p">(</span><span class="n">two_aa</span> <span class="o">&amp;</span> <span class="n">missing_aa_res</span><span class="p">)</span>
+
+<span class="c1"># the number of unique amino acids (or gap symbol) that appear at each residue</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">aa</span><span class="p">])</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">]</span>
+<span class="n">n_residues</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">pfam</span><span class="p">[</span><span class="n">pfam</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="n">ac</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+size rank: 7142 of 16479
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>res</th>
+      <th>seq</th>
+      <th>pdb_refs</th>
+      <th>size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>PF16592</th>
+      <td>1079</td>
+      <td>146</td>
+      <td>21</td>
+      <td>157534</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>One can classify a residue from the perspective of the MSA as a
+conserved residue, meaning that in every sequence of the MSA, either a
+gap or the same amino acid is observed. One can also classify a residue
+from the perspective of the sequence as a gap, i.e. an insertion that
+Pfam’s aligning algorithm made in the sequence in order to compare like
+residues across sequences. Therefore, each sequence-residue symbol is in
+one of four classes according to whether it is a conserved or not and
+where it is a gap or not. We color code each sequence-residue symbol for
+the MSA of interest.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">code</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">msa</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">code</span><span class="p">[</span><span class="n">conserved_residues</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">msa</span><span class="o">.</span><span class="n">T</span><span class="p">):</span>
+    <span class="n">code</span><span class="p">[</span><span class="n">s</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;sequence&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;residue&#39;</span><span class="p">)</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;plasma&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">code</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;active&#39;</span><span class="p">,</span> <span class="s1">&#39;alignment gap&#39;</span><span class="p">,</span> <span class="s1">&#39;conserved residue&#39;</span><span class="p">,</span> <span class="s1">&#39;alignment gap and conserved residue&#39;</span><span class="p">]</span>
+<span class="n">handles</span> <span class="o">=</span> <span class="p">[</span><span class="n">patches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">handles</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_03_direct_info_from_msa_12_0.png" src="../../_images/notebooks_discrete_03_direct_info_from_msa_12_0.png" />
+</div>
+</div>
+<p>Now, we compute the residue coupling strengths and the direct
+information from the MSA. The MSA is a set of sequences
+<span class="math">\(MSA=\{s_1,\ldots,s_n\}\)</span> and each nonconserved residue
+<span class="math">\(r_i\)</span>, <span class="math">\(i=1,\ldots,m\)</span>, in the alignment takes</p>
+<div class="math">
+\[m_i = \left|\{a : r_i=a\text{ for some sequence }s=(r_1,\ldots,r_m)\in\text{MSA}\}\right|\]</div>
+<p>unique empircal values in the alignment. In the following, let
+<span class="math">\(M_i=\sum_{\tilde{i}&lt;i}m_{\tilde{i}}\)</span> for <span class="math">\(i=1,\ldots,m\)</span>.</p>
+<p>We use FEM to infer the couplings <span class="math">\(W\)</span> given that the probability
+of residue <span class="math">\(r_i\)</span> having amino acid <span class="math">\(a_k\)</span> for any sequence
+with one-hot encoding <span class="math">\(\sigma\)</span> is given by</p>
+<div class="math">
+\[p(r_i=a_k~|~\{r_1,\ldots,r_n\}\setminus \{r_i\})={\exp e_{M_i+k}^TW\sigma\over\sum_{j=1}^{m_i}\exp e_{M_i+j}^TW\sigma},\quad i=1,\ldots,m,~k=1,\ldots,m_i.\]</div>
+<p>Specifically, we call <code class="docutils literal"><span class="pre">fem.discrete.fit.fit(msa[~conserved_residues])</span></code>
+where <code class="docutils literal"><span class="pre">msa</span></code> is an array of symbols with each row storing residue data
+and each column storing sequence data to return <span class="math">\(W\)</span> and the
+running discrepancies from the fit.</p>
+<p>After computing <span class="math">\(W\)</span>, we compute the <em>direct information</em> for each
+pair of nonconserved residues. The direct information of residues
+<span class="math">\(r_i\)</span> and <span class="math">\(r_j\)</span> is</p>
+<div class="math">
+\[DI(r_i, r_j)=\sum_{k_1=1}^{m_{i_1}}\sum_{k_2=1}^{m_{i_2}} p(r_{i_1}=a_{k_1}, r_{i_2}=a_{k_2}) \ln {p(r_{i_1}=a_{k_1}, r_{i_2}=a_{k_2}) \over p(r_{i_1}=a_{k_1})~p(r_{i_2}=a_{k_2})}\]</div>
+<p>where the joint and marginal probablities are computed over subsequences
+containing only residues <span class="math">\(r_i\)</span> and <span class="math">\(r_j\)</span>:</p>
+<div class="math">
+\[p(r_{i_1}=a_{k_1}, r_{i_2}=a_{k_2})={\exp e_{M_{i_1}+k_1}^TWe_{M_{i_2}+k_2} \over
+\sum_{j_1=1}^{m_{i_1}}\sum_{j_2=1}^{m_{i_2}}\exp e_{M_{i_1}+j_1}^TWe_{M_{i_2}+j_2}},\]</div>
+<div class="math">
+\[p(r_{i_1}=a_{k_1})={\sum_{k_2=1}^{m_{i_2}} p(r_{i_1}=a_{k_1}, r_{i_2}=a_{k_2}) \over \sum_{k_1=1}^{m_{i_1}}\sum_{k_2=1}^{m_{i_2}}p(r_{i_1}=a_{k_1}, r_{i_2}=a_{k_2})},\]</div>
+<p>and <span class="math">\(p(r_{i_2}=a_{k_2})\)</span> is defined similarly.</p>
+<p>We plot the running discrepancies from the fit and heat maps of
+<span class="math">\(W\)</span> and the direct information below.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">direct_information</span><span class="p">(</span><span class="n">msa</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+
+    <span class="n">w_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fam_dir</span><span class="p">,</span> <span class="s1">&#39;w.npy&#39;</span><span class="p">)</span>
+    <span class="n">d_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fam_dir</span><span class="p">,</span> <span class="s1">&#39;d.npy&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cache</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">w_file</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">d_file</span><span class="p">):</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">w_file</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">d_file</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">w</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">fit</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">msa</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">],</span> <span class="n">iters</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s1">&#39;fit time: </span><span class="si">%.02f</span><span class="s1"> sec&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">,)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">w_file</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">d_file</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+
+    <span class="n">direct_info_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fam_dir</span><span class="p">,</span> <span class="s1">&#39;direct_info.npy&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cache</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">direct_info_file</span><span class="p">):</span>
+        <span class="n">direct_info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">direct_info_file</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">w_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">mm</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">mm</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">direct_info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_residues</span><span class="p">,</span> <span class="n">n_residues</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">w_idx</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">w_idx</span><span class="p">):</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">ii</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">ii</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">jj</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">jj</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+                <span class="n">pi</span><span class="p">,</span> <span class="n">pj</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">p</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">p</span> <span class="o">/=</span> <span class="n">p</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                <span class="n">pi</span> <span class="o">/=</span> <span class="n">pi</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                <span class="n">pj</span> <span class="o">/=</span> <span class="n">pj</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                <span class="n">direct_info</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">p</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span> <span class="n">pj</span><span class="p">)))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">direct_info_file</span><span class="p">,</span> <span class="n">direct_info</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">direct_info</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">d</span>
+
+<span class="n">direct_info</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">direct_information</span><span class="p">(</span><span class="n">msa</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">di</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">di</span><span class="p">,</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;iteration&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;discrepancy&#39;</span><span class="p">)</span>
+<span class="n">scale</span> <span class="o">=</span> <span class="mf">1e-1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;seismic&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="n">scale</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Pfam: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fam</span><span class="o">.</span><span class="n">name</span><span class="p">,))</span>
+<span class="n">scale</span> <span class="o">=</span> <span class="mf">1e-1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">direct_info</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">direct_info</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;seismic&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;direct info&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+fit time: 17.10 sec
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_03_direct_info_from_msa_14_1.png" src="../../_images/notebooks_discrete_03_direct_info_from_msa_14_1.png" />
+</div>
+</div>
+<p>Next, we examine the extent to which large values of direct information
+are predictive of contacts in 3D conformations of sequences in the MSA.
+Several sequences in this family contain cross-references to PDB
+structures. We’ll isolate these references from the <code class="docutils literal"><span class="pre">pdb_refs</span></code>
+DataFrame in the <code class="docutils literal"><span class="pre">refs</span></code> variable.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">refs</span> <span class="o">=</span> <span class="n">pdb_refs</span><span class="p">[</span><span class="n">pdb_refs</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">fam</span><span class="o">.</span><span class="n">name</span><span class="p">)]</span>
+<span class="n">refs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>seq</th>
+      <th>uniprot_id</th>
+      <th>uniprot_start</th>
+      <th>uniprot_end</th>
+      <th>pdb_id</th>
+      <th>chain</th>
+      <th>pdb_start</th>
+      <th>pdb_end</th>
+      <th>res</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>4OO8</td>
+      <td>A</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>4CMQ</td>
+      <td>A</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>4OO8</td>
+      <td>D</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>4ZT0</td>
+      <td>A</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <th>PF16592</th>
+      <td>70</td>
+      <td>CAS9_STRP1</td>
+      <td>181</td>
+      <td>712</td>
+      <td>5F9R</td>
+      <td>B</td>
+      <td>181</td>
+      <td>712</td>
+      <td>532</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Next, we overlay the greatest direct information pairs on the contact
+maps of the PDB structures cross-referenced from sequences in the MSA.
+We indicate the percentage of the greatest direct information pairs that
+are contacts of the PDB in the title of each subplot. A PDB contact map
+is a binary image where a pixel value is 1 if the corresponding pair of
+residues is less than a distance threshold (we use 8 angstroms below)
+and 0 otherwise.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">contact_map</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">dist_thresh</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="n">msa</span><span class="p">[:,</span><span class="n">ref</span><span class="o">.</span><span class="n">seq</span><span class="p">]</span>
+    <span class="n">pdb_file</span> <span class="o">=</span> <span class="n">pdb_list</span><span class="o">.</span><span class="n">retrieve_pdb_file</span><span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">pdir</span><span class="o">=</span><span class="n">fam_dir</span><span class="p">,</span> <span class="n">file_format</span><span class="o">=</span><span class="s1">&#39;pdb&#39;</span><span class="p">)</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">pdb_parser</span><span class="o">.</span><span class="n">get_structure</span><span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">pdb_file</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="n">ref</span><span class="o">.</span><span class="n">chain</span><span class="p">]</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">a</span><span class="o">.</span><span class="n">get_coord</span><span class="p">()</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">chain</span><span class="o">.</span><span class="n">get_atoms</span><span class="p">()])</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_start</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_end</span><span class="p">]</span>
+    <span class="n">missing_aa_seq</span> <span class="o">=</span> <span class="n">seq</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">[</span><span class="o">~</span><span class="n">missing_aa_seq</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">distance_matrix</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">coords</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">dist_thresh</span>
+
+<span class="k">def</span> <span class="nf">predict_contacts</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">direct_info</span><span class="p">,</span> <span class="n">top</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">missing_aa_seq</span> <span class="o">=</span> <span class="n">seq</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span>
+    <span class="n">di_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">((</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+    <span class="n">di_idx</span> <span class="o">=</span> <span class="n">di_idx</span><span class="p">[</span><span class="o">~</span><span class="n">missing_aa_seq</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">]]</span>
+    <span class="n">di</span> <span class="o">=</span> <span class="n">direct_info</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">di_idx</span><span class="p">,</span> <span class="n">di_idx</span><span class="p">)]</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">di</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">thresh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">di</span><span class="p">)[</span><span class="n">mask</span><span class="p">])[</span><span class="o">-</span><span class="n">top</span><span class="p">]</span>
+    <span class="n">di</span><span class="p">[</span><span class="o">~</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">predicted_contacts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">di</span> <span class="o">&gt;=</span> <span class="n">thresh</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">predicted_contacts</span>
+
+<span class="n">top</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">max_tp</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">best_ref</span> <span class="o">=</span> <span class="n">refs</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">n_refs</span> <span class="o">=</span> <span class="n">refs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="n">n_refs</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mf">4.</span><span class="p">),</span> <span class="mi">4</span>
+<span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="n">r</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">refs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="n">ref</span> <span class="o">=</span> <span class="n">refs</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="n">msa</span><span class="p">[:,</span> <span class="n">ref</span><span class="o">.</span><span class="n">seq</span><span class="p">]</span>
+    <span class="n">contacts</span> <span class="o">=</span> <span class="n">contact_map</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
+    <span class="n">predicted_contacts</span> <span class="o">=</span> <span class="n">predict_contacts</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">direct_info</span><span class="p">,</span> <span class="n">top</span><span class="p">)</span>
+    <span class="n">tp</span> <span class="o">=</span> <span class="n">contacts</span><span class="p">[</span><span class="n">predicted_contacts</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">tp</span> <span class="o">&gt;</span> <span class="n">max_tp</span><span class="p">:</span>
+        <span class="n">max_tp</span> <span class="o">=</span> <span class="n">tp</span>
+        <span class="n">best_ref</span> <span class="o">=</span> <span class="n">ref</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">contacts</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys&#39;</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">predicted_contacts</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s%s</span><span class="s1">, </span><span class="si">%i</span><span class="s1">-</span><span class="si">%i</span><span class="s1"> (</span><span class="si">%02.0f%%</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">chain</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">pdb_start</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">pdb_end</span><span class="p">,</span> <span class="mf">100.</span><span class="o">*</span><span class="n">tp</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">top</span><span class="p">)))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;top </span><span class="si">%i</span><span class="s1"> contact predictions&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">top</span><span class="p">,))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmq.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt0.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5f9r.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4un4.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt0.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fw2.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5b2t.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4un5.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmp.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmq.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fw3.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fq5.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmp.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt9.ent&#39;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_03_direct_info_from_msa_18_1.png" src="../../_images/notebooks_discrete_03_direct_info_from_msa_18_1.png" />
+</div>
+</div>
+<p>For the PDB with the most correct predicted contacts, we visualize the
+greatest direct information pairs on the 3D structure of the protein.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">ref</span> <span class="o">=</span> <span class="n">best_ref</span>
+<span class="n">seq</span> <span class="o">=</span> <span class="n">msa</span><span class="p">[:,</span> <span class="n">ref</span><span class="o">.</span><span class="n">seq</span><span class="p">]</span>
+<span class="n">predicted_contacts</span> <span class="o">=</span> <span class="n">predict_contacts</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">direct_info</span><span class="p">,</span> <span class="n">top</span><span class="p">)</span>
+
+<span class="n">missing_aa_seq</span> <span class="o">=</span> <span class="n">seq</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_start</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">pdb_end</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">[</span><span class="o">~</span><span class="n">missing_aa_seq</span><span class="p">]]</span>
+<span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">predicted_contacts</span><span class="p">]</span>
+
+<span class="n">pdb_file</span> <span class="o">=</span> <span class="n">pdb_list</span><span class="o">.</span><span class="n">retrieve_pdb_file</span><span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">pdir</span><span class="o">=</span><span class="n">fam_dir</span><span class="p">,</span> <span class="n">file_format</span><span class="o">=</span><span class="s1">&#39;pdb&#39;</span><span class="p">)</span>
+<span class="n">chain</span> <span class="o">=</span> <span class="n">pdb_parser</span><span class="o">.</span><span class="n">get_structure</span><span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">pdb_file</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="n">ref</span><span class="o">.</span><span class="n">chain</span><span class="p">]</span>
+<span class="n">pdb_res</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">get_id</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">chain</span><span class="o">.</span><span class="n">get_residues</span><span class="p">()]</span>
+
+<span class="n">view</span> <span class="o">=</span> <span class="n">nglview</span><span class="o">.</span><span class="n">show_biopython</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;0xFFFFFF&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">chain</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pdb_res</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;0xFF0000&#39;</span>
+    <span class="k">elif</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;0x00FF00&#39;</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+<span class="n">view</span><span class="o">.</span><span class="n">_set_color_by_residue</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+<span class="n">view</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="n">view</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fq5.ent&#39;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "287612f8794a446dae71be272fafa626", "version_minor": 0, "version_major": 2}</script></div>
+</div>
+<p>To further assess the extent to which direct information is predictive
+of protein contacts, we compute the receiver operating characteristic
+(ROC) curve that results from varying the number of predicted contacts.
+The ROC curve is the true positive rate, i.e. the number of correctly
+predicted contacts divided by the total number of contacts, versus the
+false positive rate, i.e. the number of incorrectly predicted contacts
+divided by the total number of noncontacting residue pairs. A perfect
+binary classifier has an area under the ROC curve equal to 1.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">roc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">di</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">c_flat</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">tp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">c_flat</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="o">~</span><span class="n">c_flat</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">tp</span> <span class="o">/=</span> <span class="n">tp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">fp</span> <span class="o">/=</span> <span class="n">fp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">fp</span><span class="p">,</span> <span class="n">tp</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">refs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="n">ref</span> <span class="o">=</span> <span class="n">refs</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="n">msa</span><span class="p">[:,</span> <span class="n">ref</span><span class="o">.</span><span class="n">seq</span><span class="p">]</span>
+    <span class="n">missing_aa_seq</span> <span class="o">=</span> <span class="n">seq</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span>
+    <span class="n">di_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">((</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+    <span class="n">di_idx</span> <span class="o">=</span> <span class="n">di_idx</span><span class="p">[</span><span class="o">~</span><span class="n">missing_aa_seq</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">]]</span>
+    <span class="n">di</span> <span class="o">=</span> <span class="n">direct_info</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">di_idx</span><span class="p">,</span> <span class="n">di_idx</span><span class="p">)]</span>
+    <span class="n">contacts</span> <span class="o">=</span> <span class="n">contact_map</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
+    <span class="n">fp</span><span class="p">,</span> <span class="n">tp</span> <span class="o">=</span> <span class="n">roc</span><span class="p">(</span><span class="n">di</span><span class="p">,</span> <span class="n">contacts</span><span class="p">)</span>
+    <span class="n">auc</span> <span class="o">=</span> <span class="n">tp</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">tp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s%s</span><span class="s1">, </span><span class="si">%i</span><span class="s1">-</span><span class="si">%i</span><span class="s1">, AUC: </span><span class="si">%.02f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">chain</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">pdb_start</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">pdb_end</span><span class="p">,</span> <span class="n">auc</span><span class="p">))</span>
+
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;false positive rate&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;true positive rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmq.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt0.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5f9r.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4un4.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt0.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fw2.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5b2t.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4un5.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmp.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmq.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fw3.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fq5.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmp.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt9.ent&#39;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_03_direct_info_from_msa_22_1.png" src="../../_images/notebooks_discrete_03_direct_info_from_msa_22_1.png" />
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2018, Joe McKenna.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.6.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -4,6 +4,19 @@ from .. import fortran_module
 
 
 def model_parameters(n, m, degs=[1], dist=None, dist_par=None):
+    """Draw random model parameters
+
+    Args:
+        n (int):
+        m (int):
+        degs (list):
+        dist (callable)
+        dist_par (tuple):
+
+    Returns:
+        dict: keys `degs`
+
+    """
 
     try:
         len(m)
@@ -39,6 +52,19 @@ def model_parameters(n, m, degs=[1], dist=None, dist_par=None):
 
 
 def time_series(w, n, m, l=None, o=1.0):
+    """Simulate discrete time series data
+
+    Args:
+        w (dict):
+        n (int):
+        m (int):
+        l (int):
+        o (float)
+
+    Returns:
+        ndarray: time series data
+
+    """
 
     try:
         len(m)

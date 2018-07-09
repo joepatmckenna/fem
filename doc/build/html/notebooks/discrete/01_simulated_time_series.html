@@ -29,7 +29,7 @@
     <link rel="search" title="Search" href="../../search.html" >
     <link rel="top" title="fem  documentation" href="../../index.html" >
     <link rel="up" title="Discrete data examples" href="../../examples.html" >
-    <link rel="next" title="Multiple sequence alignment" href="multiple_sequence_alignments.html" >
+    <link rel="next" title="Direct information from a multiple sequence alignment" href="03_direct_info_from_msa.html" >
     <link rel="prev" title="Discrete data examples" href="../../examples.html" > 
   </head>
   <body>
@@ -71,7 +71,7 @@
            >modules</a>
       </li>
       <li class="active">
-        <a href="multiple_sequence_alignments.html" title="Multiple sequence alignment"
+        <a href="03_direct_info_from_msa.html" title="Direct information from a multiple sequence alignment"
            accesskey="N">next</a>
       </li>
       <li class="active">
@@ -92,8 +92,8 @@
   <p class="topless"><a href="../../examples.html"
                         title="previous chapter">Discrete data examples</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="multiple_sequence_alignments.html"
-                        title="next chapter">Multiple sequence alignment</a></p>
+  <p class="topless"><a href="03_direct_info_from_msa.html"
+                        title="next chapter">Direct information from a multiple sequence alignment</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
@@ -280,63 +280,76 @@ div.nboutput div.output_area.stderr {
 <div class="section" id="Simulated-time-series">
 <h1>Simulated time series<a class="headerlink" href="#Simulated-time-series" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="https://mybinder.org/v2/gh/joepatmckenna/fem/master?filepath=doc%2Fnotebooks%2Fdiscrete%2F01_simulated_time_series.ipynb"><img alt="Binder" src="https://mybinder.org/badge.svg" /></a></p>
-<p>In this example, we generate discrete time series data from a model with
-known parameters <span class="math">\(W\)</span>. The <code class="docutils literal"><span class="pre">FEM</span></code> package provides functions for
-generating models and data. After generating the data, we demonstrate
-how to use <code class="docutils literal"><span class="pre">FEM</span></code> to infer the model. In this simulated data scenario,
-we can compare our inferred model to the known true model.</p>
-<p>We start by importing the necessary packages and ensuring that Pyplot
-places its output in the notebook:</p>
+<p>In this example, we generate discrete time series data from a stochastic
+model with known parameters. After generating the data, we demonstrate
+how to use <code class="docutils literal"><span class="pre">FEM</span></code> to infer the model parameters.</p>
+<p>We start by importing the necessary packages and ensuring that
+matplotlib places its output in the notebook:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
-<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">fem</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
 </div>
 </div>
-<p>Next, we generate model parameters for discrete data using the
-<code class="docutils literal"><span class="pre">fem.discrete.model_parameters</span></code> helper function. As in the <a class="reference internal" href="../../discrete.html"><span class="doc">FEM for
-discrete data</span></a> section, <span class="math">\(n\)</span> denotes the
-number of variables, and <span class="math">\(m\)</span> denotes the number of states that
-each variable takes. In this case, we restrict each variable to taking
-the same number <span class="math">\(m\)</span> states as all the other variables by passing
-an integer <code class="docutils literal"><span class="pre">m</span></code> to the function, though the function supports <code class="docutils literal"><span class="pre">m</span></code> an
+<p>We consider a system of <span class="math">\(n\)</span> variables <span class="math">\(x_i(t)\)</span> that each
+take on values from the first <span class="math">\(m\)</span> nonnegative integers over time,
+i.e. <span class="math">\(x_i(t)\in\{0,\ldots,m-1\}\)</span> for all <span class="math">\(i=1,\ldots,n\)</span> and
+<span class="math">\(t=1,\ldots,\ell\)</span>. The state of variable <span class="math">\(i\)</span> at time
+<span class="math">\(t\)</span>, <span class="math">\(x_i(t)\)</span>, is represented by the one-hot encoding
+<span class="math">\(\sigma_i(t)\in\{0,1\}^m\)</span> with components</p>
+<div class="math">
+\[\begin{split}e_j^T\sigma_i(t)=\begin{cases}1&amp;\text{ if }x_i(t)=j-1\\0&amp;\text{ otherwise}\end{cases},\quad j=1,\ldots,m\end{split}\]</div>
+<p>while the state of the system at time <span class="math">\(t\)</span> is represented by their
+concatenation
+<span class="math">\(\sigma(t)=\begin{pmatrix}\sigma_1(t)&amp;\cdots&amp;\sigma_n(t)\end{pmatrix}^T\)</span>.</p>
+<p>In the model that we consider, the probability of <span class="math">\(x_i(t+1)=j\)</span>
+depends on <span class="math">\(\sigma(t)\)</span> and the model parameters
+<span class="math">\(W\in\mathbb{R}^{mn\times mn}\)</span></p>
+<div class="math">
+\[p_W(x_{i}(t+1)=j~|~\sigma(t)) = {\exp e_{(i-1)m + j}^TW\sigma(t) \over \sum_{k=1}^m\exp e_{(i-1)m+k}^TW\sigma(t)},\quad j=1,\ldots,m\]</div>
+<p>according to the Boltzmann distribution.</p>
+<p>The <code class="docutils literal"><span class="pre">FEM</span></code> package implements a helper function
+<code class="docutils literal"><span class="pre">fem.discrete.model_parameters</span></code> for generating random model parameters
+for the above model. In this case, we restrict each variable to taking
+the same number of states as all the other variables by passing an
+integer <code class="docutils literal"><span class="pre">m</span></code> to the function, though the function supports <code class="docutils literal"><span class="pre">m</span></code> an
 iterable of length <code class="docutils literal"><span class="pre">n</span></code> that specifies the number of states per
-variable. We also specify the degrees of <span class="math">\(W\)</span> desired with the
-<code class="docutils literal"><span class="pre">degs</span></code> list.</p>
+variable. By default, the parameters in <code class="docutils literal"><span class="pre">w</span></code> are sampled from a normal
+distribution with mean 0 and variance <span class="math">\(1/\sqrt{mn}\)</span> (using
+optional arguments <code class="docutils literal"><span class="pre">dist=np.random.normal</span></code> and
+<code class="docutils literal"><span class="pre">dist_par=(0,</span> <span class="pre">1/np.sqrt(m*n))</span></code>). The model parameters <code class="docutils literal"><span class="pre">w</span></code> are
+returned as a dictionary with keys corresponding to degrees of the model
+(<code class="docutils literal"><span class="pre">degs=[1]</span></code> by default, see <a class="reference internal" href="../../discrete.html"><span class="doc">FEM for discrete
+data</span></a> for more information).</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
-<span></span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">degs</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">w</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">simulate</span><span class="o">.</span><span class="n">model_parameters</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">degs</span><span class="p">)</span>
+<span></span><span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">simulate</span><span class="o">.</span><span class="n">model_parameters</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>The model parameters <code class="docutils literal"><span class="pre">w</span></code> are returned as a dictionary with <code class="docutils literal"><span class="pre">degs</span></code> as
-keys. By default the parameters in <code class="docutils literal"><span class="pre">w</span></code> are sampled from a normal
-distribution with mean 0 and variance <span class="math">\(1/\sqrt{mn}\)</span> (using
-optional arguments <code class="docutils literal"><span class="pre">dist=np.random.normal</span></code> and
-<code class="docutils literal"><span class="pre">dist_par=(0,</span> <span class="pre">1/np.sqrt(m*n))</span></code>). We plot <code class="docutils literal"><span class="pre">w</span></code> as an image and flatten
-out <code class="docutils literal"><span class="pre">w</span></code> to a 1D array and plot the distribution:</p>
+<p>We plot <code class="docutils literal"><span class="pre">w</span></code> as an image and flatten out <code class="docutils literal"><span class="pre">w</span></code> to a 1D array and plot
+the distribution:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
-<span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
 <span class="n">w_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">wi</span> <span class="k">for</span> <span class="n">wi</span> <span class="ow">in</span> <span class="n">w</span><span class="o">.</span><span class="n">itervalues</span><span class="p">()])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 <span class="n">hist</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">w_flat</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
@@ -349,25 +362,22 @@ out <code class="docutils literal"><span class="pre">w</span></code> to a 1D arr
 <img alt="../../_images/notebooks_discrete_01_simulated_time_series_6_0.png" src="../../_images/notebooks_discrete_01_simulated_time_series_6_0.png" />
 </div>
 </div>
-<p>Now that we have a model represented by <code class="docutils literal"><span class="pre">w</span></code>, we generate time series
-data using the <code class="docutils literal"><span class="pre">fem.discrete.simulate.time_series</span></code> function. We
-specify with the parameter <code class="docutils literal"><span class="pre">o</span></code> that the number of time points to be
-returned is <span class="math">\(o\)</span> times the number of model parameters
-(<span class="math">\((mn)^2\)</span> in this case). We could instead specify a number of time
-points with the optional argument <code class="docutils literal"><span class="pre">l</span></code>. For time series data, the
-probability that a variable <span class="math">\(x_i\)</span> is in state <span class="math">\(j\)</span> at time
-<span class="math">\(t+1\)</span> depends on the one hot encoding <span class="math">\(\sigma(t)\)</span> of all the
-<span class="math">\(x_i\)</span> at <span class="math">\(t\)</span>:</p>
-<div class="math">
-\[p(x_{i}(t+1)=j~|~\sigma(t)) = {\exp{(h_{(i-1)m + j})} \over \sum_{k=1}^m\exp{(h_{(i-1)m + k}})}\]</div>
-<p>where <span class="math">\(h = W \sigma(t).\)</span></p>
+<p>Next, we generate time series data given the model parameters <code class="docutils literal"><span class="pre">w</span></code>. The
+<code class="docutils literal"><span class="pre">FEM</span></code> package implements a helper function
+<code class="docutils literal"><span class="pre">fem.discrete.simulate.time_series</span></code> for generating time series data
+according to the model above. We specify with the parameter <code class="docutils literal"><span class="pre">o</span></code> that
+the number of time points to be returned is <span class="math">\(o\)</span> times the number
+of model parameters (<span class="math">\((mn)^2\)</span> in this case). We could instead
+specify a number of time points with the optional argument <code class="docutils literal"><span class="pre">l</span></code>. The
+columns of the returned array store the values of the system at
+different times <span class="math">\(t\)</span>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
-<span></span><span class="n">x</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">simulate</span><span class="o">.</span><span class="n">time_series</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">o</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<span></span><span class="n">x</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">simulate</span><span class="o">.</span><span class="n">time_series</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">o</span><span class="o">=</span><span class="mf">4.0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -383,7 +393,9 @@ nonnegative integers. The average of each variable is approximately 1.</p>
 <span></span><span class="n">tab</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="n">tab</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()])</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tab</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;states&#39;</span><span class="p">,</span> <span class="s1">&#39;average&#39;</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tab</span><span class="p">,</span>
+             <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;states&#39;</span><span class="p">,</span> <span class="s1">&#39;average&#39;</span><span class="p">],</span>
+             <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;$x_{</span><span class="si">%i</span><span class="s1">}$&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)])</span>
 </pre></div>
 </div>
 </div>
@@ -394,17 +406,17 @@ nonnegative integers. The average of each variable is approximately 1.</p>
 </div>
 <div class="output_area docutils container">
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -417,61 +429,61 @@ nonnegative integers. The average of each variable is approximately 1.</p>
   </thead>
   <tbody>
     <tr>
-      <th>1</th>
+      <th>$x_{1}$</th>
       <td>[0, 1, 2]</td>
-      <td>1.026222</td>
+      <td>1.021389</td>
     </tr>
     <tr>
-      <th>2</th>
+      <th>$x_{2}$</th>
       <td>[0, 1, 2]</td>
-      <td>1.005111</td>
+      <td>0.991944</td>
     </tr>
     <tr>
-      <th>3</th>
+      <th>$x_{3}$</th>
       <td>[0, 1, 2]</td>
-      <td>0.992667</td>
+      <td>0.996667</td>
     </tr>
     <tr>
-      <th>4</th>
+      <th>$x_{4}$</th>
       <td>[0, 1, 2]</td>
-      <td>1.025111</td>
+      <td>0.994722</td>
     </tr>
     <tr>
-      <th>5</th>
+      <th>$x_{5}$</th>
       <td>[0, 1, 2]</td>
-      <td>0.988444</td>
+      <td>1.007222</td>
     </tr>
     <tr>
-      <th>6</th>
+      <th>$x_{6}$</th>
       <td>[0, 1, 2]</td>
-      <td>1.017778</td>
+      <td>1.009444</td>
     </tr>
     <tr>
-      <th>7</th>
+      <th>$x_{7}$</th>
       <td>[0, 1, 2]</td>
-      <td>0.967556</td>
+      <td>0.951944</td>
     </tr>
     <tr>
-      <th>8</th>
+      <th>$x_{8}$</th>
       <td>[0, 1, 2]</td>
-      <td>0.990000</td>
+      <td>0.981667</td>
     </tr>
     <tr>
-      <th>9</th>
+      <th>$x_{9}$</th>
       <td>[0, 1, 2]</td>
-      <td>0.989333</td>
+      <td>1.006389</td>
     </tr>
     <tr>
-      <th>10</th>
+      <th>$x_{10}$</th>
       <td>[0, 1, 2]</td>
-      <td>0.985111</td>
+      <td>0.994167</td>
     </tr>
   </tbody>
 </table>
 </div></div>
 </div>
-<p>Plotting the first 100 time points of each variable, there is no
-discernable pattern to the naked eye:</p>
+<p>Plotting the first 100 time points, there is no obvious pattern to the
+naked eye:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [6]:
@@ -493,12 +505,20 @@ discernable pattern to the naked eye:</p>
 </div>
 </div>
 <p>We can however determine the model that generated the above data using
-FEM. We start by splitting the data into two sets <code class="docutils literal"><span class="pre">x1</span></code>, which contains
-all but the last time point, and <code class="docutils literal"><span class="pre">x2</span></code>, which contains all but the
-first time point. Next, we use the <code class="docutils literal"><span class="pre">fem.discrete.fit.fit</span></code> function to
-infer the <code class="docutils literal"><span class="pre">w</span></code> that is used to map <code class="docutils literal"><span class="pre">x1</span></code> to <code class="docutils literal"><span class="pre">x2</span></code>. In this case, we
-require a fixed number of iterations of the method with the <code class="docutils literal"><span class="pre">iters</span></code>
-argument.</p>
+<code class="docutils literal"><span class="pre">FEM</span></code>. We start by splitting the data <code class="docutils literal"><span class="pre">x</span></code> into two sets <code class="docutils literal"><span class="pre">x1</span></code>,
+which contains all but the last time point, and <code class="docutils literal"><span class="pre">x2</span></code>, which contains
+all but the first time point. Next, we use the <code class="docutils literal"><span class="pre">fem.discrete.fit.fit</span></code>
+function to infer the <code class="docutils literal"><span class="pre">w</span></code> that is used to map <code class="docutils literal"><span class="pre">x1</span></code> to <code class="docutils literal"><span class="pre">x2</span></code>. In
+this case, we require a fixed number of iterations of the method with
+the <code class="docutils literal"><span class="pre">iters</span></code> argument.</p>
+<p>The fit function returns the inferred parameters (<code class="docutils literal"><span class="pre">w_fit</span></code> below) as a
+dictionary with keys <code class="docutils literal"><span class="pre">degs</span></code> (<code class="docutils literal"><span class="pre">degs=[1]</span></code> by default). It also returns
+the discrepancy (<code class="docutils literal"><span class="pre">disc</span></code> below) for each variable defined by</p>
+<div class="math">
+\[d_i={1\over\ell-1}\sum_{t=1}^{\ell-1}\sqrt{\sum_{j=1}^m(1-e_j^T\sigma_i(t+1))~p_W(x_i(t+1)=j~|~\sigma(t))^2}\]</div>
+<p>.</p>
+<p>The lists in <code class="docutils literal"><span class="pre">disc</span></code> are running values of <span class="math">\(d_i\)</span> as <span class="math">\(W\)</span> is
+updated by the iteration.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [7]:
@@ -506,17 +526,14 @@ argument.</p>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
 <span></span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
-<span class="n">w_fit</span><span class="p">,</span> <span class="n">disc</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">fit</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">degs</span><span class="p">,</span> <span class="n">iters</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">w_fit</span><span class="p">,</span> <span class="n">disc</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">fit</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">iters</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>The fit function returns the inferred parameters (<code class="docutils literal"><span class="pre">w_fit</span></code> above) as a
-dictionary with keys <code class="docutils literal"><span class="pre">degs</span></code> and it returns the running discrepancy for
-each variable in the model (<code class="docutils literal"><span class="pre">disc</span></code> above). Below we make a scatter
-plot of the inferred <code class="docutils literal"><span class="pre">w_fit</span></code> model parameters versus the true <code class="docutils literal"><span class="pre">w</span></code>
-model parameters. Since, the points are scattered around the line
-<span class="math">\(y=x\)</span>, we confirm that the algorithm accurately recovers the true
-model parameters.</p>
+<p>We make a scatter plot of the inferred <code class="docutils literal"><span class="pre">w_fit</span></code> model parameters versus
+the true <code class="docutils literal"><span class="pre">w</span></code> model parameters. Since, the points are scattered around
+the line with slope 1 that passes through the origin, we confirm that
+the algorithm accurately recovers the true model parameters.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [8]:
@@ -525,7 +542,7 @@ model parameters.</p>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
 <span></span><span class="n">w_fit_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">wi</span> <span class="k">for</span> <span class="n">wi</span> <span class="ow">in</span> <span class="n">w_fit</span><span class="o">.</span><span class="n">itervalues</span><span class="p">()])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
 
 <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">w_flat</span><span class="p">,</span> <span class="n">w_fit_flat</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
@@ -570,7 +587,7 @@ model parameters.</p>
         &copy; Copyright 2018, Joe McKenna.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.6.
       </li>
     </ul>
     </div>
