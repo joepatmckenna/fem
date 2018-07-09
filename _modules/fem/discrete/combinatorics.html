@@ -100,6 +100,23 @@
 
 
 <div class="viewcode-block" id="binomial_coefficients"><a class="viewcode-back" href="../../../fem.discrete.html#fem.discrete.combinatorics.binomial_coefficients">[docs]</a><span class="k">def</span> <span class="nf">binomial_coefficients</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a list of binomial coefficients.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n (int): the first argument to the *choose* operation</span>
+<span class="sd">        k (int): the maximum second argument to the *choose* operation</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ndarray: a list of binomial coefficients</span>
+
+<span class="sd">    Examples:</span>
+
+<span class="sd">        Compute the binomial coefficients :math:`{4\choose 0}`, :math:`{4\choose 1}`, and :math:`{4\choose 2}`</span>
+
+<span class="sd">        &gt;&gt;&gt; from fem.discrete.combinatorics import binomial_coefficients</span>
+<span class="sd">        &gt;&gt;&gt; binomial_coefficients(4, 2)</span>
+<span class="sd">        array([1, 4, 6])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">seq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
     <span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
@@ -107,39 +124,77 @@
     <span class="k">return</span> <span class="n">seq</span></div>
 
 
-<div class="viewcode-block" id="mixed_radix_to_base_10"><a class="viewcode-back" href="../../../fem.discrete.html#fem.discrete.combinatorics.mixed_radix_to_base_10">[docs]</a><span class="k">def</span> <span class="nf">mixed_radix_to_base_10</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;x: digits, m: bases&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="mixed_radix_to_base_10"><a class="viewcode-back" href="../../../fem.discrete.html#fem.discrete.combinatorics.mixed_radix_to_base_10">[docs]</a><span class="k">def</span> <span class="nf">mixed_radix_to_base_10</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert the `mixed radix`_ integer with digits `x` and bases `b` to base 10.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (list): a list of digits ordered by increasing place values</span>
+<span class="sd">        b (list): a list of bases corresponding to the digits</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        Generally, the base 10 representation of the mixed radix number :math:`x_n\ldots x_1` where :math:`x_i` is a digit in place value :math:`i` with base :math:`b_i` is</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            \sum_{i=1}^nx_i\prod_{j=i+1}^nb_j = x_n + b_nx_{n-1} + b_nb_{n-1}x_{n-2} + \cdots + b_n\cdots b_2x_1</span>
+
+<span class="sd">        Convert 111 with bases :math:`(b_1,b_2,b_3)=(2,3,4)` to base 10:</span>
+
+<span class="sd">        &gt;&gt;&gt; from fem.discrete.combinatorics import mixed_radix_to_base_10</span>
+<span class="sd">        &gt;&gt;&gt; mixed_radix_to_base_10([1,1,1], [2,3,4])</span>
+<span class="sd">        17</span>
+
+<span class="sd">    .. _mixed radix:</span>
+<span class="sd">        https://en.wikipedia.org/wiki/Mixed_radix</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)):</span>
-        <span class="n">res</span> <span class="o">*=</span> <span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">res</span> <span class="o">*=</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="n">res</span> <span class="o">+=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="multiindices"><a class="viewcode-back" href="../../../fem.discrete.html#fem.discrete.combinatorics.multiindices">[docs]</a><span class="k">def</span> <span class="nf">multiindices</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">deg</span><span class="p">):</span>
+<div class="viewcode-block" id="multiindices"><a class="viewcode-back" href="../../../fem.discrete.html#fem.discrete.combinatorics.multiindices">[docs]</a><span class="k">def</span> <span class="nf">multiindices</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return an ordered list of distinct tuples of the first :math:`n` nonnegative integers.</span>
 
-    <span class="k">if</span> <span class="n">deg</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">:</span>
+<span class="sd">    Args:</span>
+<span class="sd">        n (int): The least integer not included in the list of distinct tuples</span>
+<span class="sd">        k (int): The length of each tuple</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ndarray: a list of distinct tupes of shape :math:`{n\choose k}` by :math:`k`</span>
+
+<span class="sd">    Examples:</span>
+
+<span class="sd">        &gt;&gt;&gt; from fem.discrete.combinatorics import multiindices</span>
+<span class="sd">        &gt;&gt;&gt; multiindices(4, 2)</span>
+<span class="sd">        array([[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]])</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
 
-    <span class="n">p</span> <span class="o">=</span> <span class="n">binomial_coefficients</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">deg</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">binomial_coefficients</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-    <span class="nb">vars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">deg</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-    <span class="n">var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">deg</span><span class="p">)</span>
-    <span class="nb">vars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">var</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
 
-        <span class="n">idx</span> <span class="o">=</span> <span class="n">deg</span> <span class="o">-</span> <span class="mi">1</span>
-        <span class="n">var</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">while</span> <span class="n">var</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+</span> <span class="n">deg</span> <span class="o">-</span> <span class="n">idx</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">v</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+</span> <span class="n">k</span> <span class="o">-</span> <span class="n">idx</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">:</span>
             <span class="n">idx</span> <span class="o">-=</span> <span class="mi">1</span>
-            <span class="n">var</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">deg</span><span class="p">):</span>
-            <span class="n">var</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">v</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+            <span class="n">v</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
 
-        <span class="nb">vars</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">var</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-    <span class="k">return</span> <span class="nb">vars</span></div>
+    <span class="k">return</span> <span class="n">var</span></div>
 </pre></div>
 
           </div>
@@ -162,7 +217,7 @@
         &copy; Copyright 2018, Joe McKenna.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.6.
       </li>
     </ul>
     </div>

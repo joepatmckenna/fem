@@ -104,6 +104,16 @@
 
 
 <div class="viewcode-block" id="one_hot"><a class="viewcode-back" href="../../../fem.discrete.html#fem.discrete.fit.one_hot">[docs]</a><span class="k">def</span> <span class="nf">one_hot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">degs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;One hot encoding of `x`</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (ndarray):</span>
+<span class="sd">        degs (list):</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">        (csc_matrix, ndarray): the one hot encoding and the multiindices</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
@@ -142,6 +152,15 @@
 
 
 <div class="viewcode-block" id="categorize"><a class="viewcode-back" href="../../../fem.discrete.html#fem.discrete.fit.categorize">[docs]</a><span class="k">def</span> <span class="nf">categorize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert x to integer data</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (list):</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (list, dict): The integer data and the map from symbols to integers</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span> <span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span>
@@ -165,6 +184,21 @@
 
 
 <div class="viewcode-block" id="fit"><a class="viewcode-back" href="../../../fem.discrete.html#fem.discrete.fit.fit">[docs]</a><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">degs</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">iters</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">overfit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">impute</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fit the Potts model to the data</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (ndarray):</span>
+<span class="sd">        y (ndarray):</span>
+<span class="sd">        degs (list):</span>
+<span class="sd">        iters (int):</span>
+<span class="sd">        overfit (bool):</span>
+<span class="sd">        impute (bool):</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (dict, list): The fitted model parameters and the running discrepancies</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="c1"># x: sum(p) by l</span>
     <span class="c1"># ------------------------------------</span>
     <span class="c1"># x1: x[i_x[0]:i_x[1], :] -- p[0] by l</span>
@@ -197,7 +231,11 @@
     <span class="n">x_oh_svd</span> <span class="o">=</span> <span class="n">svds</span><span class="p">(</span><span class="n">x_oh</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">x_oh_rank</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">x_oh</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
     <span class="c1"># x_oh_svd = svds(x_oh, k=x_oh_rank)</span>
 
-    <span class="n">x_oh_pinv</span> <span class="o">=</span> <span class="p">[</span><span class="n">x_oh_svd</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">x_oh_svd</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x_oh_svd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
+    <span class="n">sv_pinv</span> <span class="o">=</span> <span class="n">x_oh_svd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">zero_sv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">sv_pinv</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">sv_pinv</span><span class="p">[</span><span class="o">~</span><span class="n">zero_sv</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">sv_pinv</span><span class="p">[</span><span class="o">~</span><span class="n">zero_sv</span><span class="p">]</span>
+    <span class="n">sv_pinv</span><span class="p">[</span><span class="n">zero_sv</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">x_oh_pinv</span> <span class="o">=</span> <span class="p">[</span><span class="n">x_oh_svd</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">sv_pinv</span><span class="p">,</span> <span class="n">x_oh_svd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
 
     <span class="n">w</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">it</span> <span class="o">=</span> <span class="n">fortran_module</span><span class="o">.</span><span class="n">fortran_module</span><span class="o">.</span><span class="n">discrete_fit</span><span class="p">(</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">m_x</span><span class="p">,</span> <span class="n">m_y</span><span class="p">,</span>
@@ -236,7 +274,7 @@
         &copy; Copyright 2018, Joe McKenna.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.6.
       </li>
     </ul>
     </div>

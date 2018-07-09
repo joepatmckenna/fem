@@ -121,18 +121,91 @@
 <dl class="function">
 <dt id="fem.discrete.combinatorics.binomial_coefficients">
 <code class="descclassname">fem.discrete.combinatorics.</code><code class="descname">binomial_coefficients</code><span class="sig-paren">(</span><em>n</em>, <em>k</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fem/discrete/combinatorics.html#binomial_coefficients"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fem.discrete.combinatorics.binomial_coefficients" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return a list of binomial coefficients.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>n</strong> (<em>int</em>) – the first argument to the <em>choose</em> operation</li>
+<li><strong>k</strong> (<em>int</em>) – the maximum second argument to the <em>choose</em> operation</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a list of binomial coefficients</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Compute the binomial coefficients <span class="math">\({4\choose 0}\)</span>, <span class="math">\({4\choose 1}\)</span>, and <span class="math">\({4\choose 2}\)</span></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">fem.discrete.combinatorics</span> <span class="k">import</span> <span class="n">binomial_coefficients</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">binomial_coefficients</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">array([1, 4, 6])</span>
+</pre></div>
+</div>
+</dd></dl>
 
 <dl class="function">
 <dt id="fem.discrete.combinatorics.mixed_radix_to_base_10">
-<code class="descclassname">fem.discrete.combinatorics.</code><code class="descname">mixed_radix_to_base_10</code><span class="sig-paren">(</span><em>x</em>, <em>m</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fem/discrete/combinatorics.html#mixed_radix_to_base_10"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fem.discrete.combinatorics.mixed_radix_to_base_10" title="Permalink to this definition">¶</a></dt>
-<dd><p>x: digits, m: bases</p>
+<code class="descclassname">fem.discrete.combinatorics.</code><code class="descname">mixed_radix_to_base_10</code><span class="sig-paren">(</span><em>x</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fem/discrete/combinatorics.html#mixed_radix_to_base_10"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fem.discrete.combinatorics.mixed_radix_to_base_10" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the <a class="reference external" href="https://en.wikipedia.org/wiki/Mixed_radix">mixed radix</a> integer with digits <cite>x</cite> and bases <cite>b</cite> to base 10.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> (<em>list</em>) – a list of digits ordered by increasing place values</li>
+<li><strong>b</strong> (<em>list</em>) – a list of bases corresponding to the digits</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Generally, the base 10 representation of the mixed radix number <span class="math">\(x_n\ldots x_1\)</span> where <span class="math">\(x_i\)</span> is a digit in place value <span class="math">\(i\)</span> with base <span class="math">\(b_i\)</span> is</p>
+<div class="math">
+\[\sum_{i=1}^nx_i\prod_{j=i+1}^nb_j = x_n + b_nx_{n-1} + b_nb_{n-1}x_{n-2} + \cdots + b_n\cdots b_2x_1\]</div>
+<p>Convert 111 with bases <span class="math">\((b_1,b_2,b_3)=(2,3,4)\)</span> to base 10:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">fem.discrete.combinatorics</span> <span class="k">import</span> <span class="n">mixed_radix_to_base_10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mixed_radix_to_base_10</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+<span class="go">17</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="fem.discrete.combinatorics.multiindices">
-<code class="descclassname">fem.discrete.combinatorics.</code><code class="descname">multiindices</code><span class="sig-paren">(</span><em>n</em>, <em>deg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fem/discrete/combinatorics.html#multiindices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fem.discrete.combinatorics.multiindices" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">fem.discrete.combinatorics.</code><code class="descname">multiindices</code><span class="sig-paren">(</span><em>n</em>, <em>k</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fem/discrete/combinatorics.html#multiindices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fem.discrete.combinatorics.multiindices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an ordered list of distinct tuples of the first <span class="math">\(n\)</span> nonnegative integers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>n</strong> (<em>int</em>) – The least integer not included in the list of distinct tuples</li>
+<li><strong>k</strong> (<em>int</em>) – The length of each tuple</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a list of distinct tupes of shape <span class="math">\({n\choose k}\)</span> by <span class="math">\(k\)</span></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">fem.discrete.combinatorics</span> <span class="k">import</span> <span class="n">multiindices</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">multiindices</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">array([[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]])</span>
+</pre></div>
+</div>
+</dd></dl>
 
 </div>
 <div class="section" id="module-fem.discrete.fit">
@@ -140,17 +213,70 @@
 <dl class="function">
 <dt id="fem.discrete.fit.categorize">
 <code class="descclassname">fem.discrete.fit.</code><code class="descname">categorize</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fem/discrete/fit.html#categorize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fem.discrete.fit.categorize" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Convert x to integer data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> (<em>list</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The integer data and the map from symbols to integers</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">(list, dict)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="fem.discrete.fit.fit">
 <code class="descclassname">fem.discrete.fit.</code><code class="descname">fit</code><span class="sig-paren">(</span><em>x, y=None, degs=[1], iters=100, overfit=True, impute=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fem/discrete/fit.html#fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fem.discrete.fit.fit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Fit the Potts model to the data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>ndarray</em>) – </li>
+<li><strong>y</strong> (<em>ndarray</em>) – </li>
+<li><strong>degs</strong> (<em>list</em>) – </li>
+<li><strong>iters</strong> (<em>int</em>) – </li>
+<li><strong>overfit</strong> (<em>bool</em>) – </li>
+<li><strong>impute</strong> (<em>bool</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The fitted model parameters and the running discrepancies</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">(dict, list)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="fem.discrete.fit.one_hot">
 <code class="descclassname">fem.discrete.fit.</code><code class="descname">one_hot</code><span class="sig-paren">(</span><em>x</em>, <em>degs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fem/discrete/fit.html#one_hot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fem.discrete.fit.one_hot" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>One hot encoding of <cite>x</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> (<em>ndarray</em>) – </li>
+<li><strong>degs</strong> (<em>list</em>) – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns</dt>
+<dd>(csc_matrix, ndarray): the one hot encoding and the multiindices</dd>
+</dl>
+</dd></dl>
 
 </div>
 <div class="section" id="module-fem.discrete.simulate">
@@ -158,7 +284,29 @@
 <dl class="function">
 <dt id="fem.discrete.simulate.model_parameters">
 <code class="descclassname">fem.discrete.simulate.</code><code class="descname">model_parameters</code><span class="sig-paren">(</span><em>n, m, degs=[1], dist=None, dist_par=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fem/discrete/simulate.html#model_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fem.discrete.simulate.model_parameters" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Draw random model parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>n</strong> (<em>int</em>) – </li>
+<li><strong>m</strong> (<em>int</em>) – </li>
+<li><strong>degs</strong> (<em>list</em>) – </li>
+<li><strong>dist</strong> (<em>callable</em>) – </li>
+<li><strong>dist_par</strong> (<em>tuple</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">keys <cite>degs</cite></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dict</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="fem.discrete.simulate.mutations">
@@ -168,7 +316,29 @@
 <dl class="function">
 <dt id="fem.discrete.simulate.time_series">
 <code class="descclassname">fem.discrete.simulate.</code><code class="descname">time_series</code><span class="sig-paren">(</span><em>w</em>, <em>n</em>, <em>m</em>, <em>l=None</em>, <em>o=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fem/discrete/simulate.html#time_series"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fem.discrete.simulate.time_series" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Simulate discrete time series data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>w</strong> (<em>dict</em>) – </li>
+<li><strong>n</strong> (<em>int</em>) – </li>
+<li><strong>m</strong> (<em>int</em>) – </li>
+<li><strong>l</strong> (<em>int</em>) – </li>
+<li><strong>o</strong> (<em>float</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">time series data</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 <div class="section" id="module-fem.discrete">
@@ -197,7 +367,7 @@
         &copy; Copyright 2018, Joe McKenna.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.6.
       </li>
     </ul>
     </div>
