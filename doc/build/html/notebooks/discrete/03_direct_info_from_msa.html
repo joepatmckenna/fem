@@ -283,8 +283,9 @@ div.nboutput div.output_area.stderr {
 <p>In this example, we compute coupling strengths between residues of the
 CRISPR-Cas9 protein amino acid sequence from multiple sequence alignment
 data. We demonstrate that a statistic called <em>direct information</em>
-computed from these couplings is predictive of contacts in observed 3D
-conformations of the sequence.</p>
+<a class="reference external" href="https://doi.org/10.1073/pnas.1111471108">[1]</a> computed from these
+couplings is predictive of contacts in observed 3D conformations of the
+sequence.</p>
 <p>We start by loading the necessary packages and functions. We collect and
 parse MSA data from the <a class="reference external" href="https://pfam.xfam.org/">Pfam database</a> using
 the <code class="docutils literal"><span class="pre">parse_pfam</span></code> function in <a class="reference external" href="../../static/parse_pfam.py">this
@@ -294,10 +295,10 @@ structure with the MSA data for each family and any cross-references
 from sequences in each family to structures in the <a class="reference external" href="https://www.rcsb.org/">Protein Data
 Bank</a>, then returns pandas DataFrames that
 detail information about the MSAs and PDB cross-references.</p>
-<p>The MSA and PDB cross-reference (if it exists) data for the protein
-family/MSA with Pfam accession code PFXXXXX are stored in files
-<code class="docutils literal"><span class="pre">msa.npy</span></code> and <code class="docutils literal"><span class="pre">pdb_refs.npy</span></code> in the <code class="docutils literal"><span class="pre">Pfam-A.full/PFXXXXX</span></code>
-subdirectory of <code class="docutils literal"><span class="pre">data_dir</span></code> defined below.</p>
+<p>The MSA and PDB cross-reference data for the protein family/MSA with
+Pfam accession code PFXXXXX are stored in files <code class="docutils literal"><span class="pre">msa.npy</span></code> and
+<code class="docutils literal"><span class="pre">pdb_refs.npy</span></code> (if cross-references are found) in the
+<code class="docutils literal"><span class="pre">Pfam-A.full/PFXXXXX</span></code> subdirectory of <code class="docutils literal"><span class="pre">data_dir</span></code> defined below.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [1]:
@@ -367,17 +368,17 @@ families contain the most data.</p>
 </div>
 <div class="output_area docutils container">
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -461,17 +462,17 @@ contains the length of the sequence and sort by that column.</p>
 </div>
 <div class="output_area docutils container">
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -559,7 +560,7 @@ PF16592. This protein family corresponds to the REC lobe of
 CRISPR-associated endonuclease Cas9. The REC lobe and the NUC lobe of
 Cas9 fold to present a positively charged groove at their interface
 which accommodates the negatively charged sgRNA: target DNA
-heteroduplex. <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pubmed/24529477">[1]</a>
+heteroduplex. <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pubmed/24529477">[2]</a>
 We’ll isolate the family of interest from the <code class="docutils literal"><span class="pre">pfam</span></code> DataFrame in the
 <code class="docutils literal"><span class="pre">fam</span></code> variable.</p>
 <div class="nbinput docutils container">
@@ -610,17 +611,17 @@ size rank: 7142 of 16479
 </div>
 <div class="output_area docutils container">
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -686,21 +687,23 @@ the MSA of interest.</p>
 </div>
 <p>Now, we compute the residue coupling strengths and the direct
 information from the MSA. The MSA is a set of sequences
-<span class="math">\(MSA=\{s_1,\ldots,s_n\}\)</span> and each nonconserved residue
+<span class="math">\(\text{MSA}=\{s_1,\ldots,s_n\}\)</span> and each nonconserved residue
 <span class="math">\(r_i\)</span>, <span class="math">\(i=1,\ldots,m\)</span>, in the alignment takes</p>
 <div class="math">
 \[m_i = \left|\{a : r_i=a\text{ for some sequence }s=(r_1,\ldots,r_m)\in\text{MSA}\}\right|\]</div>
-<p>unique empircal values in the alignment. In the following, let
-<span class="math">\(M_i=\sum_{\tilde{i}&lt;i}m_{\tilde{i}}\)</span> for <span class="math">\(i=1,\ldots,m\)</span>.</p>
-<p>We use FEM to infer the couplings <span class="math">\(W\)</span> given that the probability
-of residue <span class="math">\(r_i\)</span> having amino acid <span class="math">\(a_k\)</span> for any sequence
-with one-hot encoding <span class="math">\(\sigma\)</span> is given by</p>
+<p>unique empircal values in the alignment. In the following,
+<span class="math">\(M_i=\sum_{\tilde{i}&lt;i}m_{\tilde{i}}\)</span> for <span class="math">\(i=1,\ldots,m\)</span> and
+<span class="math">\(e_i\)</span> represents the <span class="math">\(i^{th}\)</span> canonical basis vector of the
+shape implied by context.</p>
+<p>We use FEM to infer the couplings <span class="math">\(W\)</span> assuming that the
+probability of residue <span class="math">\(r_i\)</span> being amino acid <span class="math">\(a_k\)</span> for any
+sequence with one-hot encoding <span class="math">\(\sigma\)</span> is given by</p>
 <div class="math">
 \[p(r_i=a_k~|~\{r_1,\ldots,r_n\}\setminus \{r_i\})={\exp e_{M_i+k}^TW\sigma\over\sum_{j=1}^{m_i}\exp e_{M_i+j}^TW\sigma},\quad i=1,\ldots,m,~k=1,\ldots,m_i.\]</div>
 <p>Specifically, we call <code class="docutils literal"><span class="pre">fem.discrete.fit.fit(msa[~conserved_residues])</span></code>
-where <code class="docutils literal"><span class="pre">msa</span></code> is an array of symbols with each row storing residue data
-and each column storing sequence data to return <span class="math">\(W\)</span> and the
-running discrepancies from the fit.</p>
+below, where <code class="docutils literal"><span class="pre">msa</span></code> is an array of symbols with each row storing
+residue data and each column storing sequence data, to return <span class="math">\(W\)</span>
+and the running discrepancies from the fit.</p>
 <p>After computing <span class="math">\(W\)</span>, we compute the <em>direct information</em> for each
 pair of nonconserved residues. The direct information of residues
 <span class="math">\(r_i\)</span> and <span class="math">\(r_j\)</span> is</p>
@@ -781,7 +784,7 @@ containing only residues <span class="math">\(r_i\)</span> and <span class="math
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-fit time: 17.10 sec
+fit time: 5.91 sec
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -791,8 +794,8 @@ fit time: 17.10 sec
 <img alt="../../_images/notebooks_discrete_03_direct_info_from_msa_14_1.png" src="../../_images/notebooks_discrete_03_direct_info_from_msa_14_1.png" />
 </div>
 </div>
-<p>Next, we examine the extent to which large values of direct information
-are predictive of contacts in 3D conformations of sequences in the MSA.
+<p>Next, we examine the extent to direct information is predictive of
+residue contacts of the 3D conformations of sequences in the MSA.
 Several sequences in this family contain cross-references to PDB
 structures. We’ll isolate these references from the <code class="docutils literal"><span class="pre">pdb_refs</span></code>
 DataFrame in the <code class="docutils literal"><span class="pre">refs</span></code> variable.</p>
@@ -814,17 +817,17 @@ DataFrame in the <code class="docutils literal"><span class="pre">refs</span></c
 </div>
 <div class="output_area docutils container">
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -930,7 +933,7 @@ and 0 otherwise.</p>
     <span class="n">coords</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">[</span><span class="o">~</span><span class="n">missing_aa_seq</span><span class="p">]]</span>
     <span class="k">return</span> <span class="n">distance_matrix</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">coords</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">dist_thresh</span>
 
-<span class="k">def</span> <span class="nf">predict_contacts</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">direct_info</span><span class="p">,</span> <span class="n">top</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">predict_contacts</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">direct_info</span><span class="p">,</span> <span class="n">top</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
     <span class="n">missing_aa_seq</span> <span class="o">=</span> <span class="n">seq</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span>
     <span class="n">di_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">((</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
     <span class="n">di_idx</span> <span class="o">=</span> <span class="n">di_idx</span><span class="p">[</span><span class="o">~</span><span class="n">missing_aa_seq</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">]]</span>
@@ -1000,11 +1003,11 @@ Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt9.ent&#39;
 <img alt="../../_images/notebooks_discrete_03_direct_info_from_msa_18_1.png" src="../../_images/notebooks_discrete_03_direct_info_from_msa_18_1.png" />
 </div>
 </div>
-<p>For the PDB with the most correct predicted contacts, we visualize the
-greatest direct information pairs on the 3D structure of the protein.</p>
+<p>For the PDB with the most correctly predicted contacts, we visualize the
+greatest direct information pairs on the PDB structure.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [27]:
+<span></span>In [10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -1040,14 +1043,14 @@ greatest direct information pairs on the 3D structure of the protein.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fq5.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5b2t.ent&#39;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "287612f8794a446dae71be272fafa626", "version_minor": 0, "version_major": 2}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "18bb05dd016b41ff976b8d7ac94d0595", "version_minor": 0, "version_major": 2}</script></div>
 </div>
 <p>To further assess the extent to which direct information is predictive
 of protein contacts, we compute the receiver operating characteristic
