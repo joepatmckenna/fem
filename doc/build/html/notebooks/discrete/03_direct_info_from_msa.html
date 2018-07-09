@@ -657,7 +657,7 @@ where it is a gap or not. We color code each sequence-residue symbol for
 the MSA of interest.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [6]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -721,7 +721,7 @@ containing only residues <span class="math">\(r_i\)</span> and <span class="math
 <span class="math">\(W\)</span> and the direct information below.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [7]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -779,7 +779,7 @@ containing only residues <span class="math">\(r_i\)</span> and <span class="math
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
@@ -787,21 +787,14 @@ containing only residues <span class="math">\(r_i\)</span> and <span class="math
 fit time: 5.91 sec
 </pre></div></div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/notebooks_discrete_03_direct_info_from_msa_14_1.png" src="../../_images/notebooks_discrete_03_direct_info_from_msa_14_1.png" />
-</div>
-</div>
 <p>Next, we examine the extent to direct information is predictive of
 residue contacts of the 3D conformations of sequences in the MSA.
 Several sequences in this family contain cross-references to PDB
 structures. We’ll isolate these references from the <code class="docutils literal"><span class="pre">pdb_refs</span></code>
 DataFrame in the <code class="docutils literal"><span class="pre">refs</span></code> variable.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [8]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -810,106 +803,6 @@ DataFrame in the <code class="docutils literal"><span class="pre">refs</span></c
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[8]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>seq</th>
-      <th>uniprot_id</th>
-      <th>uniprot_start</th>
-      <th>uniprot_end</th>
-      <th>pdb_id</th>
-      <th>chain</th>
-      <th>pdb_start</th>
-      <th>pdb_end</th>
-      <th>res</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>PF16592</th>
-      <td>70</td>
-      <td>CAS9_STRP1</td>
-      <td>181</td>
-      <td>712</td>
-      <td>4OO8</td>
-      <td>A</td>
-      <td>181</td>
-      <td>712</td>
-      <td>532</td>
-    </tr>
-    <tr>
-      <th>PF16592</th>
-      <td>70</td>
-      <td>CAS9_STRP1</td>
-      <td>181</td>
-      <td>712</td>
-      <td>4CMQ</td>
-      <td>A</td>
-      <td>181</td>
-      <td>712</td>
-      <td>532</td>
-    </tr>
-    <tr>
-      <th>PF16592</th>
-      <td>70</td>
-      <td>CAS9_STRP1</td>
-      <td>181</td>
-      <td>712</td>
-      <td>4OO8</td>
-      <td>D</td>
-      <td>181</td>
-      <td>712</td>
-      <td>532</td>
-    </tr>
-    <tr>
-      <th>PF16592</th>
-      <td>70</td>
-      <td>CAS9_STRP1</td>
-      <td>181</td>
-      <td>712</td>
-      <td>4ZT0</td>
-      <td>A</td>
-      <td>181</td>
-      <td>712</td>
-      <td>532</td>
-    </tr>
-    <tr>
-      <th>PF16592</th>
-      <td>70</td>
-      <td>CAS9_STRP1</td>
-      <td>181</td>
-      <td>712</td>
-      <td>5F9R</td>
-      <td>B</td>
-      <td>181</td>
-      <td>712</td>
-      <td>532</td>
-    </tr>
-  </tbody>
-</table>
-</div></div>
-</div>
 <p>Next, we overlay the greatest direct information pairs on the contact
 maps of the PDB structures cross-referenced from sequences in the MSA.
 We indicate the percentage of the greatest direct information pairs that
@@ -917,13 +810,13 @@ are contacts of the PDB in the title of each subplot. A PDB contact map
 is a binary image where a pixel value is 1 if the corresponding pair of
 residues is less than a distance threshold (we use 8 angstroms below)
 and 0 otherwise.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [9]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">contact_map</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">dist_thresh</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+<span></span><span class="k">def</span> <span class="nf">contact_map</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">dist_thresh</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
     <span class="n">seq</span> <span class="o">=</span> <span class="n">msa</span><span class="p">[:,</span><span class="n">ref</span><span class="o">.</span><span class="n">seq</span><span class="p">]</span>
     <span class="n">pdb_file</span> <span class="o">=</span> <span class="n">pdb_list</span><span class="o">.</span><span class="n">retrieve_pdb_file</span><span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">pdir</span><span class="o">=</span><span class="n">fam_dir</span><span class="p">,</span> <span class="n">file_format</span><span class="o">=</span><span class="s1">&#39;pdb&#39;</span><span class="p">)</span>
     <span class="n">chain</span> <span class="o">=</span> <span class="n">pdb_parser</span><span class="o">.</span><span class="n">get_structure</span><span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span><span class="p">,</span> <span class="n">pdb_file</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="n">ref</span><span class="o">.</span><span class="n">chain</span><span class="p">]</span>
@@ -933,7 +826,7 @@ and 0 otherwise.</p>
     <span class="n">coords</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">[</span><span class="o">~</span><span class="n">missing_aa_seq</span><span class="p">]]</span>
     <span class="k">return</span> <span class="n">distance_matrix</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">coords</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">dist_thresh</span>
 
-<span class="k">def</span> <span class="nf">predict_contacts</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">direct_info</span><span class="p">,</span> <span class="n">top</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">predict_contacts</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">direct_info</span><span class="p">,</span> <span class="n">top</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
     <span class="n">missing_aa_seq</span> <span class="o">=</span> <span class="n">seq</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span>
     <span class="n">di_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">((</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
     <span class="n">di_idx</span> <span class="o">=</span> <span class="n">di_idx</span><span class="p">[</span><span class="o">~</span><span class="n">missing_aa_seq</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">]]</span>
@@ -973,41 +866,11 @@ and 0 otherwise.</p>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmq.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt0.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5f9r.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4un4.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt0.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fw2.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5b2t.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4un5.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmp.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmq.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fw3.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fq5.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmp.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt9.ent&#39;
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/notebooks_discrete_03_direct_info_from_msa_18_1.png" src="../../_images/notebooks_discrete_03_direct_info_from_msa_18_1.png" />
-</div>
-</div>
 <p>For the PDB with the most correctly predicted contacts, we visualize the
 greatest direct information pairs on the PDB structure.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [10]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -1038,20 +901,6 @@ greatest direct information pairs on the PDB structure.</p>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5b2t.ent&#39;
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "18bb05dd016b41ff976b8d7ac94d0595", "version_minor": 0, "version_major": 2}</script></div>
-</div>
 <p>To further assess the extent to which direct information is predictive
 of protein contacts, we compute the receiver operating characteristic
 (ROC) curve that results from varying the number of predicted contacts.
@@ -1060,14 +909,14 @@ predicted contacts divided by the total number of contacts, versus the
 false positive rate, i.e. the number of incorrectly predicted contacts
 divided by the total number of noncontacting residue pairs. A perfect
 binary classifier has an area under the ROC curve equal to 1.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [11]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">roc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">di</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">di</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">order</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">c_flat</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">order</span><span class="p">]</span>
     <span class="n">tp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">c_flat</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
@@ -1096,36 +945,6 @@ binary classifier has an area under the ROC curve equal to 1.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmq.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt0.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5f9r.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4un4.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt0.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fw2.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5b2t.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4un5.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmp.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmq.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fw3.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fq5.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmp.ent&#39;
-Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt9.ent&#39;
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/notebooks_discrete_03_direct_info_from_msa_22_1.png" src="../../_images/notebooks_discrete_03_direct_info_from_msa_22_1.png" />
 </div>
 </div>
 </div>
