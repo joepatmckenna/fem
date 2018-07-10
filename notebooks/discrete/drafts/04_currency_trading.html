@@ -6,31 +6,28 @@
     
     <title>Comparing currency trading strategies &mdash; fem  documentation</title>
     
-    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
-    <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
+        URL_ROOT:    '../../../',
         VERSION:     '',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" >
-    <link rel="search" title="Search" href="../../search.html" >
-    <link rel="top" title="fem  documentation" href="../../index.html" >
-    <link rel="up" title="Discrete data examples" href="../../examples.html" >
-    <link rel="next" title="Simulated continuous time series" href="../continuous/simulated_time_series.html" >
-    <link rel="prev" title="Direct information from a multiple sequence alignment" href="03_direct_info_from_msa.html" > 
+    <script type="text/javascript" src="../../../_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" >
+    <link rel="search" title="Search" href="../../../search.html" >
+    <link rel="top" title="fem  documentation" href="../../../index.html" > 
   </head>
   <body>
 
@@ -51,32 +48,23 @@
         <li class="active"><a href="https://www.niddk.nih.gov/research-funding/at-niddk/labs-branches/LBM">LBM</a></li>
         <li class="active"><a href="https://pypi.python.org/pypi/fem">fem</a></li>
 	
-        <li class="active"><a href="../../index.html">fem  documentation</a></li>
-	
-          <li class="active"><a href="../../examples.html" accesskey="U">Discrete data examples</a></li> 
+        <li class="active"><a href="../../../index.html">fem  documentation</a></li>
+	 
     </ul>
               
               
     <ul class="nav nav-pills pull-right">
       <li class="active">
-        <a href="../../genindex.html" title="General Index"
+        <a href="../../../genindex.html" title="General Index"
            accesskey="I">index</a>
       </li>
       <li class="active">
-        <a href="../../f-modindex.html" title="Fortran Module Index"
+        <a href="../../../f-modindex.html" title="Fortran Module Index"
            >fortran modules</a>
       </li>
       <li class="active">
-        <a href="../../py-modindex.html" title="Python Module Index"
+        <a href="../../../py-modindex.html" title="Python Module Index"
            >modules</a>
-      </li>
-      <li class="active">
-        <a href="../continuous/simulated_time_series.html" title="Simulated continuous time series"
-           accesskey="N">next</a>
-      </li>
-      <li class="active">
-        <a href="03_direct_info_from_msa.html" title="Direct information from a multiple sequence alignment"
-           accesskey="P">previous</a>
       </li>
     </ul>
               
@@ -88,15 +76,9 @@
 	<div class="row-fluid">
       <div class="spc-rightsidebar span3">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="03_direct_info_from_msa.html"
-                        title="previous chapter">Direct information from a multiple sequence alignment</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="../continuous/simulated_time_series.html"
-                        title="next chapter">Simulated continuous time series</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
-    <form class="search" action="../../search.html" method="get">
+    <form class="search" action="../../../search.html" method="get">
       <div><input type="text" name="q" /></div>
       <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
@@ -297,7 +279,7 @@ in which the higher degree model outperforms the lower degree model.</p>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">fem</span><span class="o">,</span> <span class="nn">time</span>
 <span class="n">data_dir</span> <span class="o">=</span> <span class="s1">&#39;../../../data/currency&#39;</span>
-<span class="n">cache</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">cache</span> <span class="o">=</span> <span class="bp">False</span>
 <span class="k">print</span> <span class="s1">&#39;number of processors: </span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fem</span><span class="o">.</span><span class="n">fortran_module</span><span class="o">.</span><span class="n">fortran_module</span><span class="o">.</span><span class="n">num_threads</span><span class="p">(),)</span>
 </pre></div>
 </div>
@@ -349,14 +331,14 @@ SEK, AUD, JPY, KRW, and SGD) plotted below.</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_discrete_04_currency_trading_4_0.png" src="../../_images/notebooks_discrete_04_currency_trading_4_0.png" />
+<img alt="../../../_images/notebooks_discrete_drafts_04_currency_trading_4_0.png" src="../../../_images/notebooks_discrete_drafts_04_currency_trading_4_0.png" />
 </div>
 </div>
 <p>We discretize each currency exchange rate sequence
 <span class="math">\(\{x_i(t)\}_{t=t_1}^{t_{\ell}}\)</span>, where
-<span class="math">\(\Delta t=t_{k+1}-t_k=1\)</span> day, by recording the sign of the daily
-movement <span class="math">\(\{s_i(t))\}_{t=t_2}^{t_{\ell}}\)</span> with stagnation settled
-by the sign of the mean change:</p>
+<span class="math">\(\Delta t=t_{k+1}-t_k=1\)</span> day, by recording the sign of the
+day-to-day change <span class="math">\(\{s_i(t)\}_{t=t_2}^{t_{\ell}}\)</span> with stagnation
+settled by the sign of the mean change:</p>
 <div class="math">
 \[\begin{split}s_i(t_{k+1}) = \begin{cases}1&amp;\text{ if }x_i(t_{k+1})-x_i(t_k)&gt;0\\-1&amp;\text{ if }x_i(t_{k+1})-x_i(t_k)&lt;0\\\text{sign}\left({1\over\ell-1}\sum_{k=1}^{\ell-1}(x_i(t_{k+1})-x_i(t_k))\right)&amp;\text{ if }x_i(t_{k+1})-x_i(t_k)=0 \end{cases}.\end{split}\]</div>
 <p>The first 200 fluctuations for each currency are plotted below.</p>
@@ -397,7 +379,7 @@ by the sign of the mean change:</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_discrete_04_currency_trading_6_0.png" src="../../_images/notebooks_discrete_04_currency_trading_6_0.png" />
+<img alt="../../../_images/notebooks_discrete_drafts_04_currency_trading_6_0.png" src="../../../_images/notebooks_discrete_drafts_04_currency_trading_6_0.png" />
 </div>
 </div>
 <p>We fit two different models to the one-hot encodings of the binary data
@@ -416,8 +398,8 @@ model, <span class="math">\(h(\sigma(t_k)) = W_1\sigma(t_k)\)</span>, but in the
 <span class="math">\(h(\sigma(t_k)) = W_1\sigma(t_k) + W_2\sigma^2(t_k)\)</span>. The
 quadratic term <span class="math">\(\sigma^2\)</span> consists of distinct nonzero products of
 the form <span class="math">\(\sigma_{j_2}\sigma_{j_1}\)</span>, <span class="math">\(1\leq j_1, j_2\leq 2n\)</span>
-(see <a class="reference external" href="../../discrete.html">FEM for discrete data</a> for more
-information on degrees of <span class="math">\(\sigma\)</span>).</p>
+(see <a class="reference external" href="../../../discrete">FEM for discrete data</a> for more
+information).</p>
 <p>For demonstration, we instantiate two models, one with <code class="docutils literal"><span class="pre">degs=[1]</span></code> and
 one with <code class="docutils literal"><span class="pre">degs=[1,2]</span></code>, and fit them to the whole currency data set. We
 plot the heat maps of the fitted model parameters and the running
@@ -461,15 +443,15 @@ discrepancies during the fit for both models below.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-model 1 fit time: 0.13 seconds
-model 2 fit time: 0.84 seconds
+model 1 fit time: 0.14 seconds
+model 2 fit time: 0.60 seconds
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_discrete_04_currency_trading_8_1.png" src="../../_images/notebooks_discrete_04_currency_trading_8_1.png" />
+<img alt="../../../_images/notebooks_discrete_drafts_04_currency_trading_8_1.png" src="../../../_images/notebooks_discrete_drafts_04_currency_trading_8_1.png" />
 </div>
 </div>
 <p>Next, we devise two simple trading strategies that train the models on a
@@ -490,7 +472,7 @@ probabilities leveraged by a constant factor <code class="docutils literal"><spa
 are retrained every <code class="docutils literal"><span class="pre">dt</span></code> days.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [5]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -529,8 +511,8 @@ are retrained every <code class="docutils literal"><span class="pre">dt</span></
         <span class="c1"># todays price</span>
         <span class="n">price</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">t2</span><span class="p">]</span>
         <span class="c1"># tomorrows change</span>
-        <span class="n">realized_s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:,</span> <span class="n">t2</span><span class="p">]</span>
         <span class="n">realized_dx</span> <span class="o">=</span> <span class="n">dx</span><span class="p">[:,</span> <span class="n">t2</span><span class="p">]</span>
+        <span class="n">realized_s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:,</span> <span class="n">t2</span><span class="p">]</span>
         <span class="n">percent_change</span> <span class="o">=</span> <span class="n">realized_dx</span> <span class="o">/</span> <span class="n">price</span>
 
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">models</span><span class="p">):</span>
@@ -544,15 +526,15 @@ are retrained every <code class="docutils literal"><span class="pre">dt</span></
                 <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">s_train</span><span class="p">[:,:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">s_train</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">overfit</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
             <span class="c1"># predict which currencies will increase</span>
-            <span class="n">prediction</span><span class="p">,</span> <span class="n">probability</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">s_train</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">pred</span><span class="p">,</span> <span class="n">prob</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">s_train</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
             <span class="c1"># trade if probability above threshold</span>
-            <span class="n">portfolio</span> <span class="o">=</span> <span class="n">probability</span> <span class="o">&gt;</span> <span class="n">threshold</span>
+            <span class="n">portfolio</span> <span class="o">=</span> <span class="n">prob</span> <span class="o">&gt;</span> <span class="n">threshold</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">portfolio</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
                 <span class="k">continue</span>
 
             <span class="c1"># position weights proportional to probability of prediction</span>
-            <span class="n">weights</span> <span class="o">=</span> <span class="p">(</span><span class="n">prediction</span> <span class="o">*</span> <span class="n">probability</span><span class="p">)[</span><span class="n">portfolio</span><span class="p">]</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="p">(</span><span class="n">prob</span> <span class="o">*</span> <span class="n">pred</span><span class="p">)[</span><span class="n">portfolio</span><span class="p">]</span>
             <span class="n">weights</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
             <span class="n">weights</span><span class="p">[</span><span class="n">weights</span> <span class="o">&gt;</span> <span class="n">max_weight</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_weight</span>
 
@@ -561,7 +543,7 @@ are retrained every <code class="docutils literal"><span class="pre">dt</span></
 
             <span class="c1"># calculuate returns and accuracy</span>
             <span class="n">account</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">t2</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">position</span> <span class="o">*</span> <span class="n">percent_change</span><span class="p">[</span><span class="n">portfolio</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-            <span class="n">accuracy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">t2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">prediction</span> <span class="o">==</span> <span class="n">realized_s</span><span class="p">)[</span><span class="n">portfolio</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+            <span class="n">accuracy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">t2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">pred</span> <span class="o">==</span> <span class="n">realized_s</span><span class="p">)[</span><span class="n">portfolio</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
         <span class="n">t1</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="n">t2</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -578,15 +560,12 @@ are retrained every <code class="docutils literal"><span class="pre">dt</span></
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-backtest time: 10.01 minutes
+backtest time: 14.06 minutes
 </pre></div></div>
 </div>
-<p>Finally, we examine which model performed better by plotting the account
-balance and rolling mean of the prediction accuracy. The model with the
-quadratic term performed better in by return and prediction accuracy.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [6]:
+<span></span>In [9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -609,14 +588,14 @@ quadratic term performed better in by return and prediction accuracy.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-accuracy: model 1: 0.18, model 2: 0.47
+accuracy: model 1: 0.01, model 2: 0.35
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_discrete_04_currency_trading_12_1.png" src="../../_images/notebooks_discrete_04_currency_trading_12_1.png" />
+<img alt="../../../_images/notebooks_discrete_drafts_04_currency_trading_11_1.png" src="../../../_images/notebooks_discrete_drafts_04_currency_trading_11_1.png" />
 </div>
 </div>
 </div>
