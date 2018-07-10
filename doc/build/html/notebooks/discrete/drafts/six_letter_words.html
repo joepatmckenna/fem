@@ -282,12 +282,12 @@ div.nboutput div.output_area.stderr {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-number of threads: 8
+number of threads: 32
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [2]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -307,9 +307,9 @@ number of threads: 8
 word length: 10, number of words: 1000000
 </pre></div></div>
 </div>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [3]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -323,23 +323,15 @@ word length: 10, number of words: 1000000
     <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">overfit</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">svd</span><span class="o">=</span><span class="s1">&#39;exact&#39;</span><span class="p">)</span>
     <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-    <span class="k">print</span> <span class="s1">&#39;fit time: </span><span class="si">%.02f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">,)</span>
+    <span class="k">print</span> <span class="s1">&#39;fit time: </span><span class="si">%.02f</span><span class="s1"> minutes&#39;</span> <span class="o">%</span> <span class="p">((</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">)</span><span class="o">/</span><span class="mf">60.</span><span class="p">,)</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">model_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-fit time: 562.51
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [4]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -355,16 +347,9 @@ fit time: 562.51
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../../_images/notebooks_discrete_drafts_six_letter_words_4_0.png" src="../../../_images/notebooks_discrete_drafts_six_letter_words_4_0.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [5]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -376,18 +361,6 @@ fit time: 562.51
 <span class="k">print</span> <span class="n">prob</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-contacting
-True
-conrecting
-[0.60231505 0.37125922 0.24551645 0.09985574 0.12887763 0.07613363
- 0.30459756 0.70670611 0.75881732 0.4393357 ]
-</pre></div></div>
 </div>
 </div>
 
