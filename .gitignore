@@ -5,6 +5,5 @@ uninstall.sh
 *.so
 README
 /build/
-/data/
 fem.egg-info/
 .trash
