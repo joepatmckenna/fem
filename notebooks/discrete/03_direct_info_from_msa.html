@@ -29,7 +29,7 @@
     <link rel="search" title="Search" href="../../search.html" >
     <link rel="top" title="fem  documentation" href="../../index.html" >
     <link rel="up" title="Discrete data examples" href="../../examples.html" >
-    <link rel="next" title="Multiple sequence alignment" href="multiple_sequence_alignments.html" >
+    <link rel="next" title="Comparing currency trading strategies" href="04_currency_trading.html" >
     <link rel="prev" title="Simulated time series" href="01_simulated_time_series.html" > 
   </head>
   <body>
@@ -71,7 +71,7 @@
            >modules</a>
       </li>
       <li class="active">
-        <a href="multiple_sequence_alignments.html" title="Multiple sequence alignment"
+        <a href="04_currency_trading.html" title="Comparing currency trading strategies"
            accesskey="N">next</a>
       </li>
       <li class="active">
@@ -92,8 +92,8 @@
   <p class="topless"><a href="01_simulated_time_series.html"
                         title="previous chapter">Simulated time series</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="multiple_sequence_alignments.html"
-                        title="next chapter">Multiple sequence alignment</a></p>
+  <p class="topless"><a href="04_currency_trading.html"
+                        title="next chapter">Comparing currency trading strategies</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
@@ -368,17 +368,17 @@ families contain the most data.</p>
 </div>
 <div class="output_area docutils container">
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -462,17 +462,17 @@ contains the length of the sequence and sort by that column.</p>
 </div>
 <div class="output_area docutils container">
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -611,17 +611,17 @@ size rank: 7142 of 16479
 </div>
 <div class="output_area docutils container">
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -652,9 +652,9 @@ gap or the same amino acid is observed. One can also classify a residue
 from the perspective of the sequence as a gap, i.e. an insertion that
 Pfam’s aligning algorithm made in the sequence in order to compare like
 residues across sequences. Therefore, each sequence-residue symbol is in
-one of four classes according to whether it is a conserved or not and
-where it is a gap or not. We color code each sequence-residue symbol for
-the MSA of interest.</p>
+one of four classes according to whether it is a conserved residue or
+not and where it is a gap or not. We color code each sequence-residue
+symbol for the MSA of interest.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [6]:
@@ -691,19 +691,20 @@ information from the MSA. The MSA is a set of sequences
 <span class="math">\(r_i\)</span>, <span class="math">\(i=1,\ldots,m\)</span>, in the alignment takes</p>
 <div class="math">
 \[m_i = \left|\{a : r_i=a\text{ for some sequence }s=(r_1,\ldots,r_m)\in\text{MSA}\}\right|\]</div>
-<p>unique empircal values in the alignment. In the following,
+<p>unique empircal values in the alignment. In the following, let
 <span class="math">\(M_i=\sum_{\tilde{i}&lt;i}m_{\tilde{i}}\)</span> for <span class="math">\(i=1,\ldots,m\)</span> and
-<span class="math">\(e_i\)</span> represents the <span class="math">\(i^{th}\)</span> canonical basis vector of the
+let <span class="math">\(e_i\)</span> denote the <span class="math">\(i^{th}\)</span> canonical basis vector of the
 shape implied by context.</p>
 <p>We use FEM to infer the couplings <span class="math">\(W\)</span> assuming that the
 probability of residue <span class="math">\(r_i\)</span> being amino acid <span class="math">\(a_k\)</span> for any
 sequence with one-hot encoding <span class="math">\(\sigma\)</span> is given by</p>
 <div class="math">
 \[p(r_i=a_k~|~\{r_1,\ldots,r_n\}\setminus \{r_i\})={\exp e_{M_i+k}^TW\sigma\over\sum_{j=1}^{m_i}\exp e_{M_i+j}^TW\sigma},\quad i=1,\ldots,m,~k=1,\ldots,m_i.\]</div>
-<p>Specifically, we call <code class="docutils literal"><span class="pre">fem.discrete.fit.fit(msa[~conserved_residues])</span></code>
-below, where <code class="docutils literal"><span class="pre">msa</span></code> is an array of symbols with each row storing
-residue data and each column storing sequence data, to return <span class="math">\(W\)</span>
-and the running discrepancies from the fit.</p>
+<p>Specifically, we call
+<code class="docutils literal"><span class="pre">fem.discrete.fit.model.fit(msa[~conserved_residues])</span></code> below, where
+<code class="docutils literal"><span class="pre">msa</span></code> is an array of symbols with each row storing residue data and
+each column storing sequence data, to return <span class="math">\(W\)</span> and the running
+discrepancies from the fit.</p>
 <p>After computing <span class="math">\(W\)</span>, we compute the <em>direct information</em> for each
 pair of nonconserved residues. The direct information of residues
 <span class="math">\(r_i\)</span> and <span class="math">\(r_j\)</span> is</p>
@@ -733,11 +734,13 @@ containing only residues <span class="math">\(r_i\)</span> and <span class="math
         <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">w_file</span><span class="p">)</span>
         <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">d_file</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">fit</span><span class="o">.</span><span class="n">model</span><span class="p">()</span>
         <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-        <span class="n">w</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">fit</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">msa</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">],</span> <span class="n">iters</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">msa</span><span class="p">[</span><span class="o">~</span><span class="n">conserved_residues</span><span class="p">],</span> <span class="n">iters</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
         <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="k">print</span> <span class="s1">&#39;fit time: </span><span class="si">%.02f</span><span class="s1"> sec&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">,)</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">d</span>
         <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">w_file</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
         <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">d_file</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
 
@@ -784,7 +787,7 @@ containing only residues <span class="math">\(r_i\)</span> and <span class="math
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-fit time: 5.79 sec
+fit time: 17.04 sec
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -817,17 +820,17 @@ DataFrame in the <code class="docutils literal"><span class="pre">refs</span></c
 </div>
 <div class="output_area docutils container">
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -915,11 +918,11 @@ maps of the PDB structures cross-referenced from sequences in the MSA.
 We indicate the percentage of the greatest direct information pairs that
 are contacts of the PDB in the title of each subplot. A PDB contact map
 is a binary image where a pixel value is 1 if the corresponding pair of
-residues is less than a distance threshold (we use 8 angstroms below)
+residues is less than a distance threshold (we use 10 angstroms below)
 and 0 otherwise.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [16]:
+<span></span>In [9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -957,11 +960,6 @@ and 0 otherwise.</p>
     <span class="n">seq</span> <span class="o">=</span> <span class="n">msa</span><span class="p">[:,</span> <span class="n">ref</span><span class="o">.</span><span class="n">seq</span><span class="p">]</span>
     <span class="n">contacts</span> <span class="o">=</span> <span class="n">contact_map</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
     <span class="n">predicted_contacts</span> <span class="o">=</span> <span class="n">predict_contacts</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">direct_info</span><span class="p">,</span> <span class="n">top</span><span class="p">)</span>
-    <span class="k">print</span> <span class="n">ref</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">pdb_id</span>
-    <span class="k">print</span> <span class="s1">&#39;correct?&#39;</span><span class="p">,</span> <span class="n">contacts</span><span class="p">[</span><span class="n">predicted_contacts</span><span class="p">]</span>
-    <span class="k">print</span> <span class="s1">&#39;res 1&#39;</span><span class="p">,</span> <span class="n">predicted_contacts</span><span class="p">[:</span><span class="n">top</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">print</span> <span class="s1">&#39;res 2&#39;</span><span class="p">,</span> <span class="n">predicted_contacts</span><span class="p">[:</span><span class="n">top</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">print</span>
     <span class="n">tp</span> <span class="o">=</span> <span class="n">contacts</span><span class="p">[</span><span class="n">predicted_contacts</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">tp</span> <span class="o">&gt;</span> <span class="n">max_tp</span><span class="p">:</span>
         <span class="n">max_tp</span> <span class="o">=</span> <span class="n">tp</span>
@@ -984,149 +982,21 @@ and 0 otherwise.</p>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
-PF16592 4OO8
-correct? [False False  True False  True  True  True  True  True  True False False
-  True  True  True  True  True  True  True  True]
-res 1 [238 239 241 241 282 292 292 312 327 346 413 449 462 470 475 495 496 497
- 520 522]
-res 2 [299 335 258 335 299 294 299 329 335 357 473 499 499 499 499 499 499 499
- 524 524]
-
 Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmq.ent&#39;
-PF16592 4CMQ
-correct? [False False  True False  True  True  True  True  True  True  True False
- False  True  True  True  True  True  True  True]
-res 1 [238 239 241 241 282 292 292 312 327 346 413 449 462 470 475 495 496 497
- 520 522]
-res 2 [299 335 258 335 299 294 299 329 335 357 473 499 499 499 499 499 499 499
- 524 524]
-
 Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
-PF16592 4OO8
-correct? [ True False  True False  True  True  True  True  True  True False False
- False  True  True  True  True  True  True  True]
-res 1 [238 239 241 241 282 292 292 312 327 346 413 449 462 470 475 495 496 497
- 520 522]
-res 2 [299 335 258 335 299 294 299 329 335 357 473 499 499 499 499 499 499 499
- 524 524]
-
 Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt0.ent&#39;
-PF16592 4ZT0
-correct? [False False  True False False  True False  True  True  True False False
-  True  True  True  True  True  True  True  True]
-res 1 [238 239 241 241 282 292 292 312 327 346 413 449 462 470 475 495 496 497
- 520 522]
-res 2 [299 335 258 335 299 294 299 329 335 357 473 499 499 499 499 499 499 499
- 524 524]
-
 Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5f9r.ent&#39;
-PF16592 5F9R
-correct? [False False False False  True  True  True  True  True False False  True
- False  True  True  True  True  True  True  True]
-res 1 [238 239 241 241 282 292 292 312 327 346 413 449 462 470 475 495 496 497
- 520 522]
-res 2 [299 335 258 335 299 294 299 329 335 357 473 499 499 499 499 499 499 499
- 524 524]
-
 Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4un4.ent&#39;
-PF16592 4UN4
-correct? [False False  True False  True  True False  True  True  True False False
-  True False  True  True  True  True  True  True]
-res 1 [238 239 241 241 282 292 292 312 327 346 413 449 462 470 475 495 496 497
- 520 522]
-res 2 [299 335 258 335 299 294 299 329 335 357 473 499 499 499 499 499 499 499
- 524 524]
-
 Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt0.ent&#39;
-PF16592 4ZT0
-correct? [False False  True False  True  True  True  True  True  True False False
-  True False  True  True  True  True  True  True]
-res 1 [238 239 241 241 282 292 292 312 327 346 413 449 462 470 475 495 496 497
- 520 522]
-res 2 [299 335 258 335 299 294 299 329 335 357 473 499 499 499 499 499 499 499
- 524 524]
-
 Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fw2.ent&#39;
-PF16592 5FW2
-correct? [False False  True False False  True  True  True  True  True False  True
-  True  True  True  True  True  True  True  True]
-res 1 [238 239 241 241 282 292 292 312 327 346 413 449 462 470 475 495 496 497
- 520 522]
-res 2 [299 335 258 335 299 294 299 329 335 357 473 499 499 499 499 499 499 499
- 524 524]
-
 Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5b2t.ent&#39;
-PF16592 5B2T
-correct? [False False  True False  True  True  True  True  True  True  True False
-  True  True  True  True  True  True  True  True]
-res 1 [238 239 241 241 282 292 292 312 327 346 413 449 462 470 475 495 496 497
- 520 522]
-res 2 [299 335 258 335 299 294 299 329 335 357 473 499 499 499 499 499 499 499
- 524 524]
-
 Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4un5.ent&#39;
-PF16592 4UN5
-correct? [False False  True False  True  True False  True  True  True False False
-  True False  True  True  True  True  True  True]
-res 1 [238 239 241 241 282 292 292 312 327 346 413 449 462 470 475 495 496 497
- 520 522]
-res 2 [299 335 258 335 299 294 299 329 335 357 473 499 499 499 499 499 499 499
- 524 524]
-
 Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmp.ent&#39;
-PF16592 4CMP
-correct? [False False  True False  True  True  True  True  True  True False False
-  True  True  True  True  True  True  True  True]
-res 1 [238 239 241 241 282 292 292 312 327 346 413 449 462 470 475 495 496 497
- 520 522]
-res 2 [299 335 258 335 299 294 299 329 335 357 473 499 499 499 499 499 499 499
- 524 524]
-
 Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmq.ent&#39;
-PF16592 4CMQ
-correct? [False False  True False  True  True  True  True  True  True  True False
- False  True  True  True  True  True  True  True]
-res 1 [238 239 241 241 282 292 292 312 327 346 413 449 462 470 475 495 496 497
- 520 522]
-res 2 [299 335 258 335 299 294 299 329 335 357 473 499 499 499 499 499 499 499
- 524 524]
-
 Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fw3.ent&#39;
-PF16592 5FW3
-correct? [False False  True False False  True False  True  True  True False  True
-  True  True  True  True  True  True  True  True]
-res 1 [238 239 241 241 282 292 292 312 327 346 413 449 462 470 475 495 496 497
- 520 522]
-res 2 [299 335 258 335 299 294 299 329 335 357 473 499 499 499 499 499 499 499
- 524 524]
-
 Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fq5.ent&#39;
-PF16592 5FQ5
-correct? [False False  True False  True  True  True  True  True  True False  True
-  True  True  True  True  True  True  True  True]
-res 1 [238 239 241 241 282 292 292 312 327 346 413 449 462 470 475 495 496 497
- 520 522]
-res 2 [299 335 258 335 299 294 299 329 335 357 473 499 499 499 499 499 499 499
- 524 524]
-
 Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmp.ent&#39;
-PF16592 4CMP
-correct? [False False  True False  True  True  True  True  True  True False  True
-  True False  True  True  True  True  True  True]
-res 1 [238 239 241 241 282 292 292 312 327 346 413 449 462 470 475 495 496 497
- 520 522]
-res 2 [299 335 258 335 299 294 299 329 335 357 473 499 499 499 499 499 499 499
- 524 524]
-
 Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt9.ent&#39;
-PF16592 4ZT9
-correct? [False False  True False False  True False  True  True  True False False
-  True  True  True  True  True  True  True  True]
-res 1 [238 239 241 241 282 292 292 312 327 346 413 449 462 470 475 495 496 497
- 520 522]
-res 2 [299 335 258 335 299 294 299 329 335 357 473 499 499 499 499 499 499 499
- 524 524]
-
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1138,9 +1008,9 @@ res 2 [299 335 258 335 299 294 299 329 335 357 473 499 499 499 499 499 499 499
 </div>
 <p>For the PDB with the most correctly predicted contacts, we visualize the
 greatest direct information pairs on the PDB structure.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -1171,6 +1041,20 @@ greatest direct information pairs on the PDB structure.</p>
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5b2t.ent&#39;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "6bcd700f28774f22b2dc3db905af14e4", "version_minor": 0, "version_major": 2}</script></div>
+</div>
 <p>To further assess the extent to which direct information is predictive
 of protein contacts, we compute the receiver operating characteristic
 (ROC) curve that results from varying the number of predicted contacts.
@@ -1179,9 +1063,9 @@ predicted contacts divided by the total number of contacts, versus the
 false positive rate, i.e. the number of incorrectly predicted contacts
 divided by the total number of noncontacting residue pairs. A perfect
 binary classifier has an area under the ROC curve equal to 1.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
@@ -1215,6 +1099,36 @@ binary classifier has an area under the ROC curve equal to 1.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmq.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4oo8.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt0.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5f9r.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4un4.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt0.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fw2.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5b2t.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4un5.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmp.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmq.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fw3.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb5fq5.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4cmp.ent&#39;
+Structure exists: &#39;../../../data/msa/Pfam-A.full/PF16592/pdb4zt9.ent&#39;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_03_direct_info_from_msa_22_1.png" src="../../_images/notebooks_discrete_03_direct_info_from_msa_22_1.png" />
 </div>
 </div>
 </div>

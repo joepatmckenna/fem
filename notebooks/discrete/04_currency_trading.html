@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Comparing currency trading strategies &mdash; fem  documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" >
+    <link rel="search" title="Search" href="../../search.html" >
+    <link rel="top" title="fem  documentation" href="../../index.html" >
+    <link rel="up" title="Discrete data examples" href="../../examples.html" >
+    <link rel="next" title="Simulated continuous time series" href="../continuous/simulated_time_series.html" >
+    <link rel="prev" title="Direct information from a multiple sequence alignment" href="03_direct_info_from_msa.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://www.niddk.nih.gov/research-funding/at-niddk/labs-branches/LBM">LBM</a></li>
+        <li class="active"><a href="https://pypi.python.org/pypi/fem">fem</a></li>
+	
+        <li class="active"><a href="../../index.html">fem  documentation</a></li>
+	
+          <li class="active"><a href="../../examples.html" accesskey="U">Discrete data examples</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../f-modindex.html" title="Fortran Module Index"
+           >fortran modules</a>
+      </li>
+      <li class="active">
+        <a href="../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="../continuous/simulated_time_series.html" title="Simulated continuous time series"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="03_direct_info_from_msa.html" title="Direct information from a multiple sequence alignment"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="03_direct_info_from_msa.html"
+                        title="previous chapter">Direct information from a multiple sequence alignment</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../continuous/simulated_time_series.html"
+                        title="next chapter">Simulated continuous time series</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 9ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+</style>
+<div class="section" id="Comparing-currency-trading-strategies">
+<h1>Comparing currency trading strategies<a class="headerlink" href="#Comparing-currency-trading-strategies" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://mybinder.org/v2/gh/joepatmckenna/fem/master?filepath=doc%2Fnotebooks%2Fdiscrete%2F04_currency_trading.ipynb"><img alt="Binder" src="https://mybinder.org/badge.svg" /></a></p>
+<p>In this example, we compare two strategies for trading currencies that
+differ only in the degree of the underlying model. We present an example
+in which the higher degree model outperforms the lower degree model.</p>
+<p>We start by loading the necessary modules and functions.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.dates</span> <span class="kn">as</span> <span class="nn">mdates</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">fem</span><span class="o">,</span> <span class="nn">time</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="s1">&#39;../../../data/currency&#39;</span>
+<span class="n">cache</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="k">print</span> <span class="s1">&#39;number of processors: </span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fem</span><span class="o">.</span><span class="n">fortran_module</span><span class="o">.</span><span class="n">fortran_module</span><span class="o">.</span><span class="n">num_threads</span><span class="p">(),)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+number of processors: 32
+</pre></div></div>
+</div>
+<p>We use data of the currency exchange rates relative to the Euro from
+2000 to 2018 for <span class="math">\(n=11\)</span> currencies (USD, CAD, MXN, GBP, NOK, CHF,
+SEK, AUD, JPY, KRW, and SGD) plotted below.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="c1"># load data</span>
+<span class="n">currency</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;currency.csv&#39;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">currency</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">T</span>
+
+<span class="c1"># plot data</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">date2num</span> <span class="o">=</span> <span class="n">mdates</span><span class="o">.</span><span class="n">strpdate2num</span><span class="p">(</span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">dates</span> <span class="o">=</span> <span class="p">[</span><span class="n">date2num</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">currency</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">xi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot_date</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">xi</span><span class="p">,</span> <span class="s1">&#39;k-&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">currency</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">spine</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="s1">&#39;bottom&#39;</span><span class="p">]:</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="n">spine</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">spine</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="s1">&#39;top&#39;</span><span class="p">]:</span>
+    <span class="n">ax</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="n">spine</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">YearLocator</span><span class="p">())</span>
+<span class="n">ax</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s1">&#39;%Y&#39;</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">MonthLocator</span><span class="p">())</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">autofmt_xdate</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_04_currency_trading_4_0.png" src="../../_images/notebooks_discrete_04_currency_trading_4_0.png" />
+</div>
+</div>
+<p>We discretize each currency exchange rate sequence
+<span class="math">\(\{x_i(t)\}_{t=t_1}^{t_{\ell}}\)</span>, where
+<span class="math">\(\Delta t=t_{k+1}-t_k=1\)</span> day, by recording the sign of the daily
+movement <span class="math">\(\{s_i(t))\}_{t=t_2}^{t_{\ell}}\)</span> with stagnation settled
+by the sign of the mean change:</p>
+<div class="math">
+\[\begin{split}s_i(t_{k+1}) = \begin{cases}1&amp;\text{ if }x_i(t_{k+1})-x_i(t_k)&gt;0\\-1&amp;\text{ if }x_i(t_{k+1})-x_i(t_k)&lt;0\\\text{sign}\left({1\over\ell-1}\sum_{k=1}^{\ell-1}(x_i(t_{k+1})-x_i(t_k))\right)&amp;\text{ if }x_i(t_{k+1})-x_i(t_k)=0 \end{cases}.\end{split}\]</div>
+<p>The first 200 fluctuations for each currency are plotted below.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="c1"># daily movement</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># sign of daily movement</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">si</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">si</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">dx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">si</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot_date</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">201</span><span class="p">],</span> <span class="n">si</span><span class="p">[:</span><span class="mi">200</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">currency</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">spine</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="s1">&#39;bottom&#39;</span><span class="p">]:</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="n">spine</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">spine</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="s1">&#39;top&#39;</span><span class="p">]:</span>
+    <span class="n">ax</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="n">spine</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">MonthLocator</span><span class="p">())</span>
+<span class="n">ax</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s1">&#39;%B %Y&#39;</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">DayLocator</span><span class="p">())</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">autofmt_xdate</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_04_currency_trading_6_0.png" src="../../_images/notebooks_discrete_04_currency_trading_6_0.png" />
+</div>
+</div>
+<p>We fit two different models to the one-hot encodings of the binary data
+<span class="math">\(\{s_i(t)\}_{t=t_2}^{t_{\ell}}\)</span>. The one-hot encoding of
+<span class="math">\(s(t_k)=(s_1(t_k),\ldots,s_{n}(t_k))^T\in\{-1,1\}^n\)</span> is a binary
+vector
+<span class="math">\(\sigma(t_k)=(\sigma_1(t_k),\ldots,\sigma_n(t_k))^T\in\{0,1\}^{2n}\)</span>
+where <span class="math">\(\sigma_i(t_k)=(1,0)^T\)</span> if <span class="math">\(s_i(t_k)=1\)</span> and
+<span class="math">\(\sigma_i(t_k)=(0,1)^T\)</span> if <span class="math">\(s_i(t_k)=-1\)</span>. In either model,
+the probability that <span class="math">\(x_i\)</span> increases from <span class="math">\(t_k\)</span> to
+<span class="math">\(t_{k+1}\)</span> is assumed to be</p>
+<div class="math">
+\[p(s_i(t_{k+1})~|~s(t_k)) = {\exp e_{2i}^T h(\sigma(t_k))\over\sum_{i=1}^n\exp e_{2i}^Th(\sigma(t_k))}.\]</div>
+<p>The two models differ in their definition of <span class="math">\(h\)</span>; in the first
+model, <span class="math">\(h(\sigma(t_k)) = W_1\sigma(t_k)\)</span>, but in the second model,
+<span class="math">\(h(\sigma(t_k)) = W_1\sigma(t_k) + W_2\sigma^2(t_k)\)</span>. The
+quadratic term <span class="math">\(\sigma^2\)</span> consists of distinct nonzero products of
+the form <span class="math">\(\sigma_{j_2}\sigma_{j_1}\)</span>, <span class="math">\(1\leq j_1, j_2\leq 2n\)</span>
+(see <a class="reference external" href="../../../discrete">FEM for discrete data</a> for more
+information).</p>
+<p>For demonstration, we instantiate two models, one with <code class="docutils literal"><span class="pre">degs=[1]</span></code> and
+one with <code class="docutils literal"><span class="pre">degs=[1,2]</span></code>, and fit them to the whole currency data set. We
+plot the heat maps of the fitted model parameters and the running
+discrepancies during the fit for both models below.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="c1"># create two models</span>
+<span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">fit</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">degs</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">fem</span><span class="o">.</span><span class="n">discrete</span><span class="o">.</span><span class="n">fit</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">degs</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])]</span>
+
+<span class="c1"># fit model to whole currency data set</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">models</span><span class="p">):</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">s</span><span class="p">[:,:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">overfit</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">print</span> <span class="s1">&#39;model </span><span class="si">%i</span><span class="s1"> fit time: </span><span class="si">%.02f</span><span class="s1"> seconds&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">)</span>
+
+<span class="c1"># plot model parameter heat maps and running discrepancies</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">models</span><span class="p">):</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">itervalues</span><span class="p">())</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;seismic&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="n">scale</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">d</span><span class="p">:</span>
+        <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)),</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;iteration&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;discrepancy&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;model 1 $W_1$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;model 2 $[W_1, W_2]$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+model 1 fit time: 0.12 seconds
+model 2 fit time: 0.55 seconds
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_discrete_04_currency_trading_8_1.png" src="../../_images/notebooks_discrete_04_currency_trading_8_1.png" />
+</div>
+</div>
+<p>Next, we devise two simple trading strategies that train the models on a
+moving time window then predict <span class="math">\(s\)</span> one day ahead of the window.
+We keep track of our account balances and prediction accuracies in the
+<code class="docutils literal"><span class="pre">acccount</span></code> and <code class="docutils literal"><span class="pre">accuracy</span></code> variables. The trading strategies work as
+follows. The models are trained on the data in the time window <span class="math">\([\)</span>
+<code class="docutils literal"><span class="pre">t1</span></code> <span class="math">\(,\)</span> <code class="docutils literal"><span class="pre">t1</span></code> <span class="math">\(+\)</span> <code class="docutils literal"><span class="pre">tw</span></code> <span class="math">\(-1]\)</span> to predict
+<span class="math">\(s(\)</span> <code class="docutils literal"><span class="pre">t1+tw</span></code> <span class="math">\()\)</span>. Initially, <code class="docutils literal"><span class="pre">t1</span></code> <span class="math">\(=\)</span> <code class="docutils literal"><span class="pre">t0</span></code>, the
+initial time of the data set, and <code class="docutils literal"><span class="pre">t1</span></code> is incremented by 1 while
+<code class="docutils literal"><span class="pre">t1+tw</span></code> is less than <code class="docutils literal"><span class="pre">tn</span></code>, the final time of the data set. On each
+day, we pass the data at <code class="docutils literal"><span class="pre">t1</span></code> <span class="math">\(+\)</span> <code class="docutils literal"><span class="pre">tw</span></code> to <code class="docutils literal"><span class="pre">model.predict</span></code>,
+which returns a prediction, 1 or -1, and probability greater than 0.5 of
+the price movement tomorrow. We select to trade only those currencies
+whose probabilities are greater than <code class="docutils literal"><span class="pre">threshold</span></code>, and we invest our
+whole account value weighted in the chosen currencies according the
+probabilities leveraged by a constant factor <code class="docutils literal"><span class="pre">leverage</span></code>. The models
+are retrained every <code class="docutils literal"><span class="pre">dt</span></code> days.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">account_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;account.npy&#39;</span><span class="p">)</span>
+<span class="n">accuracy_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;accuracy.npy&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">cache</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">account_file</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">accuracy_file</span><span class="p">):</span>
+    <span class="n">account</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">account_file</span><span class="p">)</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">accuracy_file</span><span class="p">)</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="c1"># t0, tn: initial and final time</span>
+    <span class="n">t0</span><span class="p">,</span> <span class="n">tn</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># daily balance</span>
+    <span class="n">account</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="n">tn</span><span class="p">))</span>
+    <span class="c1"># daily prediction accuracy</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="n">tn</span><span class="p">))</span>
+
+    <span class="c1"># tw: training time window width</span>
+    <span class="c1"># dt: retraining period</span>
+    <span class="n">tw</span><span class="p">,</span> <span class="n">dt</span> <span class="o">=</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="c1"># t1, t2: limits of moving training window</span>
+    <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t0</span><span class="o">+</span><span class="n">tw</span>
+
+    <span class="c1"># maximum position weight</span>
+    <span class="n">max_weight</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mf">3.0</span>
+    <span class="c1"># trade if probability above threshold</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.75</span>
+    <span class="c1"># percentage of account to bid</span>
+    <span class="n">leverage</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">while</span> <span class="n">t2</span> <span class="o">&lt;</span> <span class="n">tn</span><span class="p">:</span>
+
+        <span class="c1"># todays price</span>
+        <span class="n">price</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">t2</span><span class="p">]</span>
+        <span class="c1"># tomorrows change</span>
+        <span class="n">realized_dx</span> <span class="o">=</span> <span class="n">dx</span><span class="p">[:,</span> <span class="n">t2</span><span class="p">]</span>
+        <span class="n">realized_s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:,</span> <span class="n">t2</span><span class="p">]</span>
+        <span class="n">percent_change</span> <span class="o">=</span> <span class="n">realized_dx</span> <span class="o">/</span> <span class="n">price</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">models</span><span class="p">):</span>
+
+            <span class="c1"># start todays account with yesterdays balance</span>
+            <span class="n">account</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">t2</span><span class="p">]</span> <span class="o">=</span> <span class="n">account</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">t2</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="c1"># retrain the model</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">t1</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span> <span class="o">%</span> <span class="n">dt</span><span class="p">:</span>
+                <span class="n">s_train</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:,</span><span class="n">t1</span><span class="p">:</span><span class="n">t2</span><span class="p">]</span>
+                <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">s_train</span><span class="p">[:,:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">s_train</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">overfit</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+            <span class="c1"># predict which currencies will increase</span>
+            <span class="n">pred</span><span class="p">,</span> <span class="n">prob</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">s_train</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="c1"># trade if probability above threshold</span>
+            <span class="n">portfolio</span> <span class="o">=</span> <span class="n">prob</span> <span class="o">&gt;</span> <span class="n">threshold</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">portfolio</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># position weights proportional to probability of prediction</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="p">(</span><span class="n">prob</span> <span class="o">*</span> <span class="n">pred</span><span class="p">)[</span><span class="n">portfolio</span><span class="p">]</span>
+            <span class="n">weights</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">weights</span><span class="p">[</span><span class="n">weights</span> <span class="o">&gt;</span> <span class="n">max_weight</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_weight</span>
+
+            <span class="c1"># take trading positions</span>
+            <span class="n">position</span> <span class="o">=</span> <span class="n">leverage</span> <span class="o">*</span> <span class="n">account</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">t2</span><span class="p">]</span> <span class="o">*</span> <span class="n">weights</span>
+
+            <span class="c1"># calculuate returns and accuracy</span>
+            <span class="n">account</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">t2</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">position</span> <span class="o">*</span> <span class="n">percent_change</span><span class="p">[</span><span class="n">portfolio</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">accuracy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">t2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">pred</span> <span class="o">==</span> <span class="n">realized_s</span><span class="p">)[</span><span class="n">portfolio</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="n">t1</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">t2</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">print</span> <span class="s1">&#39;backtest time: </span><span class="si">%.02f</span><span class="s1"> minutes&#39;</span> <span class="o">%</span> <span class="p">((</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">)</span><span class="o">/</span><span class="mf">60.</span><span class="p">,)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">account_file</span><span class="p">,</span> <span class="n">account</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">accuracy_file</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Finally, we examine which model performed better by plotting the account
+balance and rolling mean of the prediction accuracy. The model with the
+quadratic term performed better in terms of return and prediction
+accuracy.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">accuracy_rolling_mean</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">accuracy</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">T</span>
+<span class="k">print</span> <span class="s1">&#39;accuracy: model 1: </span><span class="si">%.02f</span><span class="s1">, model 2: </span><span class="si">%.02f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">accuracy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">accuracy</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot_date</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">account</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot_date</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">account</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;quadratic&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot_date</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">accuracy_rolling_mean</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot_date</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">accuracy_rolling_mean</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;account </span><span class="si">%%</span><span class="s1"> change&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2018, Joe McKenna.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>
