@@ -259,11 +259,44 @@
 <dl class="class">
 <dt id="fem.discrete.fit.model">
 <em class="property">class </em><code class="descclassname">fem.discrete.fit.</code><code class="descname">model</code><span class="sig-paren">(</span><em>degs=[1]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fem/discrete/fit.html#model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fem.discrete.fit.model" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="fem.discrete.fit.model.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>x</em>, <em>y=None</em>, <em>iters=100</em>, <em>overfit=True</em>, <em>impute=None</em>, <em>svd='approx'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fem/discrete/fit.html#model.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fem.discrete.fit.model.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the Potts model to the data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>ndarray</em>) – </li>
+<li><strong>y</strong> (<em>ndarray</em>) – </li>
+<li><strong>degs</strong> (<em>list</em>) – </li>
+<li><strong>iters</strong> (<em>int</em>) – </li>
+<li><strong>overfit</strong> (<em>bool</em>) – </li>
+<li><strong>impute</strong> (<em>bool</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The fitted model parameters and the running discrepancies</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">(dict, list)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="fem.discrete.fit.model.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fem/discrete/fit.html#model.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fem.discrete.fit.model.predict" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+</dd></dl>
 
 <dl class="function">
 <dt id="fem.discrete.fit.one_hot">
-<code class="descclassname">fem.discrete.fit.</code><code class="descname">one_hot</code><span class="sig-paren">(</span><em>x</em>, <em>degs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fem/discrete/fit.html#one_hot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fem.discrete.fit.one_hot" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fem.discrete.fit.</code><code class="descname">one_hot</code><span class="sig-paren">(</span><em>x</em>, <em>m</em>, <em>degs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fem/discrete/fit.html#one_hot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fem.discrete.fit.one_hot" title="Permalink to this definition">¶</a></dt>
 <dd><p>One hot encoding of <cite>x</cite></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -284,8 +317,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="fem.discrete.fit.predict">
-<code class="descclassname">fem.discrete.fit.</code><code class="descname">predict</code><span class="sig-paren">(</span><em>w</em>, <em>x</em>, <em>cat_x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fem/discrete/fit.html#predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fem.discrete.fit.predict" title="Permalink to this definition">¶</a></dt>
+<dt id="fem.discrete.fit.svd_pinv">
+<code class="descclassname">fem.discrete.fit.</code><code class="descname">svd_pinv</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fem/discrete/fit.html#svd_pinv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fem.discrete.fit.svd_pinv" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>

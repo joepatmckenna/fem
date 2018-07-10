@@ -4,6 +4,7 @@ uninstall.sh
 *.ipynb_checkpoints
 *.so
 README
+/data/
 /build/
 fem.egg-info/
 .trash
