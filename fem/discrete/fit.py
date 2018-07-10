@@ -1,3 +1,4 @@
+import time
 import numpy as np
 from scipy.sparse.linalg import svds
 from scipy.sparse import csc_matrix
@@ -5,7 +6,7 @@ import combinatorics
 from .. import fortran_module
 
 
-def one_hot(x, degs):
+def one_hot(x, m, degs):
     """One hot encoding of `x`
 
     Args:
@@ -21,11 +22,9 @@ def one_hot(x, degs):
 
     if x.ndim == 1:
         n = 1
-        m = np.array([np.unique(x).shape[0]])
         l = x.shape[0]
     elif x.ndim == 2:
         n = x.shape[0]
-        m = np.array([np.unique(xi).shape[0] for xi in x])
         l = x.shape[1]
 
     degs = np.array(degs)
@@ -40,6 +39,7 @@ def one_hot(x, degs):
             idx.append(i)
 
     mi = np.array([np.prod(m[i]) for i in idx])
+    m_sum = mi.sum()
 
     s = np.vstack(
         [combinatorics.mixed_radix_to_base_10(x[i], m[i]) for i in idx])
@@ -50,7 +50,7 @@ def one_hot(x, degs):
     indices = (s + stratifier[:, np.newaxis]).T.flatten()
     indptr = idx_len * np.arange(l + 1)
 
-    return csc_matrix((data, indices, indptr)), idx
+    return csc_matrix((data, indices, indptr), shape=(m_sum, l)), idx
 
 
 def categorize(x):
@@ -67,40 +67,21 @@ def categorize(x):
     n = len(x)
     l = [len(xi) for xi in x]
 
-    # cat_x = np.empty(shape=x.shape, dtype=int)
-    cat_x = [np.empty(shape=l[i], dtype=int) for i in range(n)]
+    x_int = [np.empty(shape=l[i], dtype=int) for i in range(n)]
 
-    cat = []
+    cat_x = []
     for i in range(n):
         unique_states = np.sort(np.unique(x[i]))
         m = len(unique_states)
         num = dict(zip(unique_states, np.arange(m)))
         for j in range(l[i]):
-            cat_x[i][j] = num[x[i][j]]
-        cat.append(num)
+            x_int[i][j] = num[x[i][j]]
+        cat_x.append(num)
 
     if np.allclose(l, l[0]):
-        cat_x = np.array(cat_x)
+        x_int = np.array(x_int)
 
-    return cat_x, cat
-
-
-def predict(w, x, cat_x):
-
-    degs = np.sort(w.keys())
-
-    w = np.hstack(w.values())
-
-    x_oh, idx = fem.discrete.fit.one_hot(x, degs=degs)
-    x_oh = x_oh.toarray()
-    m = np.cumsum([len(cat) for cat in cat_x[:-1]])
-    p = np.split(w.dot(x_oh), m, axis=0)
-
-    # y = np.array([pi.argmax(axis=0) for pi in p])
-    # i = np.arange(x.shape[1])
-    # p = np.array([pi[xi, i] for xi, pi in zip(x, p)])
-    # return x, p
-    return p
+    return x_int, cat_x
 
 
 def fit(x, y=None, iters=100, degs=[1], overfit=True, impute=None):
@@ -145,7 +126,7 @@ def fit(x, y=None, iters=100, degs=[1], overfit=True, impute=None):
 
     n_x, n_y = x.shape[0], y.shape[0]
 
-    x_oh, idx_x = one_hot(x, degs)
+    x_oh, idx_x = one_hot(x, m_x, degs)
 
     x_oh_rank = np.linalg.matrix_rank(x_oh.todense())
     x_oh_svd = svds(x_oh, k=min(x_oh_rank, min(x_oh.shape) - 1))
@@ -180,15 +161,177 @@ class model:
         # x, y, n_x, n_y, m_x, m_y, cat_x, cat_y, x_oh_pinv
         # w, d, degs, impute
 
-        # self.x = x
-        # self.m_x = m_x
-        # self.impute = True
-        # self.y = y
-        # self.m_y = m_y
-        # self.n_x = n_x
-        # self.n_y = n_y
-        # self.x_oh = x_oh
-        # self.x_oh_pinv = x_oh_pinv
-        # self.mm_x = mm_x
-        # self.d = d
-        # self.w = w
+    def fit(self,
+            x,
+            y=None,
+            iters=100,
+            overfit=True,
+            impute=None,
+            svd='approx'):
+        """Fit the Potts model to the data
+
+        Args:
+            x (ndarray):
+            y (ndarray):
+            degs (list):
+            iters (int):
+            overfit (bool):
+            impute (bool):
+
+        Returns:
+            (dict, list): The fitted model parameters and the running discrepancies
+        """
+
+        degs = self.degs
+
+        x = np.array(x)
+        x_int, cat_x = categorize(x)
+
+        m_x = np.array([len(c) for c in cat_x])
+        n_x = x_int.shape[0]
+
+        if y is None:
+            impute = True
+            y = x
+            y_int, cat_y = x_int, cat_x
+            m_y = m_x
+            n_y = n_x
+        else:
+            impute = False
+            y = np.array(y)
+            y_int, cat_y = categorize(y)
+            m_y = np.array([len(c) for c in cat_y])
+            n_y = y_int.shape[0]
+
+        cat_x_inv = [{v: k for k, v in cat.iteritems()} for cat in cat_x]
+        cat_y_inv = [{v: k for k, v in cat.iteritems()} for cat in cat_y]
+
+        m_x_cumsum = np.insert(m_x.cumsum(), 0, 0)
+        m_y_cumsum = np.insert(m_y.cumsum(), 0, 0)
+
+        idx_x_by_deg = [combinatorics.multiindices(n_x, deg) for deg in degs]
+        mm_x = np.array(
+            [np.sum([np.prod(m_x[i]) for i in idx]) for idx in idx_x_by_deg])
+        mm_x_cumsum = np.insert(mm_x.cumsum(), 0, 0)
+
+        if (not impute) or (impute and svd == 'approx'):
+
+            x_oh = one_hot(x_int, m_x, degs)[0]
+            x_oh_pinv = svd_pinv(x_oh)
+
+            w, d, it = fortran_module.fortran_module.discrete_fit(
+                x_int, y_int, m_x, m_y,
+                m_y.sum(), degs, x_oh_pinv[0], x_oh_pinv[1], x_oh_pinv[2],
+                iters, overfit, impute)
+
+            d = [di[1:it[i]] for i, di in enumerate(d)]
+
+        elif impute and svd == 'exact':
+
+            w, d = np.zeros((mm_x_cumsum[-1], mm_x_cumsum[-1])), []
+
+            for i in range(n_x):
+
+                not_i = np.delete(range(n_x), i)
+                x_oh = one_hot(x_int[not_i], m_x[not_i], degs)[0]
+
+                x_oh_pinv = svd_pinv(x_oh)
+
+                wi, di, it = fortran_module.fortran_module.discrete_fit(
+                    x_int[not_i], y_int[[i]], m_x[not_i], m_y[[i]],
+                    m_y[i].sum(), degs, x_oh_pinv[0], x_oh_pinv[1],
+                    x_oh_pinv[2], iters, overfit, False)
+
+                end = time.time()
+
+                w[m_x_cumsum[i]:m_x_cumsum[i + 1], :m_x_cumsum[
+                    i]] = wi[:, :m_x_cumsum[i]]
+                w[m_x_cumsum[i]:m_x_cumsum[i + 1], m_x_cumsum[
+                    i + 1]:] = wi[:, m_x_cumsum[i]:]
+
+                d.append(di[0][1:it[0]])
+
+        w = {
+            deg: w[:, mm_x_cumsum[i]:mm_x_cumsum[i + 1]]
+            for i, deg in enumerate(degs)
+        }
+
+        self.impute = impute
+
+        self.x_int = x_int
+        self.cat_x = cat_x
+        self.m_x = m_x
+        self.n_x = n_x
+
+        self.cat_x_inv = cat_x_inv
+        self.cat_y_inv = cat_y_inv
+        self.m_x_cumsum = m_x_cumsum
+        self.m_y_cumsum = m_y_cumsum
+
+        self.y_int = y_int
+        self.cat_y = cat_y
+        self.m_y = m_y
+        self.n_y = n_y
+
+        self.d = d
+        self.w = w
+
+    def predict(self, x):
+
+        cat_x = self.cat_x
+        w = self.w
+        degs = self.degs
+        m_x = self.m_x
+        n_y = self.n_y
+        m_y_cumsum = self.m_y_cumsum
+        cat_y_inv = self.cat_y_inv
+
+        x = np.array(x)
+        if x.ndim == 1:
+            x = x[:, np.newaxis]
+
+        x_int = np.empty(x.shape, dtype=int)
+        for i in range(x.shape[0]):
+            for j in range(x.shape[1]):
+                x_int[i, j] = cat_x[i][x[i, j]]
+
+        x_oh, idx_x = one_hot(x_int, m_x, degs)
+        x_oh = x_oh.toarray()
+
+        w = np.hstack(w.values())
+
+        p = np.exp(w.dot(x_oh))
+        p = np.split(p, m_y_cumsum[1:-1], axis=0)
+        for i in range(n_y):
+            p[i] /= p[i].sum(0)
+
+        y_int = np.array([pi.argmax(axis=0) for pi in p])
+
+        j = np.arange(y_int.shape[1])
+        p = np.array([pi[yi, j] for yi, pi in zip(y_int, p)])
+
+        y = np.empty(y_int.shape, dtype=x.dtype)
+        for i in range(y.shape[0]):
+            for j in range(y.shape[1]):
+                y[i, j] = cat_y_inv[i][y_int[i, j]]
+
+        y = y.squeeze()
+        p = p.squeeze()
+
+        return y, p
+
+
+def svd_pinv(x):
+
+    x_rank = np.linalg.matrix_rank(x.todense())
+
+    x_svd = svds(x, k=min(x_rank, min(x.shape) - 1))
+    # x_oh_svd = svds(x_oh, k=x_oh_rank)
+
+    sv_pinv = x_svd[1]
+    zero_sv = np.isclose(sv_pinv, 0)
+    sv_pinv[~zero_sv] = 1.0 / sv_pinv[~zero_sv]
+    sv_pinv[zero_sv] = 0.0
+    x_pinv = [x_svd[2].T, sv_pinv, x_svd[0].T]
+
+    return x_pinv
